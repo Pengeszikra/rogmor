@@ -1,0 +1,59 @@
+$asset : "https://cdn.jsdelivr.net/gh/Pengeszikra/rogmor@master/assets/";
+
+h1, p {
+  font-family: Lato;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.wireframe {
+  background-image: url($asset + "img/pageback.jpg");
+  background-color: '#000';
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100vw;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  color: gold;
+
+  h1 { color: goldenrod; }
+
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero {
+  background-image: url($asset + "faces/face0022.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 10vmin;
+  height: 10vmin;
+  display: inline-block;   
+  position: relative;
+  margin-bottom: 2vmin;
+
+  span {
+    font-family: sans-serif;
+    color: whit;
+    position: absolute;
+    top: 10vmin;
+    width: 100%;
+    text-align: center;
+    
+  }  
+}
+
+.valami {
+  background-image: url($asset + "img/chatWindow.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 45vmin;
+  height: 75vmin;
+  padding: 5vmin;
+}
