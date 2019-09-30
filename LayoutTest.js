@@ -8,7 +8,7 @@ const [ModalWindow, Page] = divFactory('modal-window', 'page');
 export default props => (
   <Page>
     <ModalWindow>
-      9 slice grid test with modal window    
+      Simple modal window with couple of content
     </ModalWindow>
   </Page>
 );

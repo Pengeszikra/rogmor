@@ -87,3 +87,20 @@ filter: hue-rotate(190deg) grayscale(.4) brightness(.5);
 
 // http://snapbuilder.com/code_snippet_generator/border_image_generator/#%7B%22src%22%3A%22https%3A%2F%2Fcdn.jsdelivr.net%2Fgh%2FPengeszikra%2Frogmor%40master%2Fassets%2Fimg%2FtransPanelDark.png%22%2C%22linkBorder%22%3Atrue%2C%22borderWidth%22%3A%5B23%2C144%2C99%2C132%5D%2C%22imageOffset%22%3A%5B54%2C130%2C42%2C101%5D%2C%22fill%22%3Atrue%2C%22setRepat%22%3Afalse%2C%22repeat%22%3A%5B%22repeat%22%2C%22repeat%22%5D%2C%22scaleFactor%22%3A3%2C%22setRepeat%22%3Atrue%7D
 
+.button-b {
+  border-style: solid;
+  border-width: 15px 91px 11px 23px;
+  border-image: url($asset + "buttonb.png") 15 91 11 23 fill repeat;
+}
+
+.button-b2 {
+  border-style: solid;
+  border-width: 0px 51px 0px 47px;
+  border-image: url($asset + "buttonb2.png") 0 51 0 47 fill repeat;
+}
+
+.button-b3 {
+  border-style: solid;
+border-width: 0px 16px 0px 59px;
+border-image: url($asset + "buttonb3.png") 0 16 0 59 fill repeat;
+}
