@@ -36,7 +36,8 @@ body {
   height: 10vmin;
   display: inline-block;   
   position: relative;
-  margin-bottom: 2vmin;
+  margin-bottom: 3vmin;
+  margin-right: 2vmin;
 
   span {
     font-family: sans-serif;
@@ -45,7 +46,7 @@ body {
     top: 10vmin;
     width: 100%;
     text-align: center;
-    
+    color: black;
   }  
 }
 

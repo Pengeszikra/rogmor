@@ -16,18 +16,12 @@ const Fazon = ({face}) => (
 
 export default props => (
   <Wireframe>
-    <h1>Rogmor a demo RPG</h1>    
+    <h1>RPGA </h1>    
     <Valami>
       {Array.from({length:15}, (_, face) => <Fazon face={face} key={face} />)}
     </Valami>
     <pre>
     {`
-      Soha ne kezdjünk MMO-RPG-t fejleszteni!
-
-      De szerncsére ez csak egy egyszerű demo alkalmazás,
-      nem tervezzük jelenleg, hogy több játékos is játszon vele
-
-      ${JSON.stringify(heroStyle(22))}
     `}
     </pre>
   </Wireframe>
