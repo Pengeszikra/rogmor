@@ -102,3 +102,5 @@ filter: hue-rotate(190deg) grayscale(.4) brightness(.5);
 border-width: 0px 16px 0px 59px;
 border-image: url($asset + "buttonb3.png") 0 16 0 59 fill repeat;
 }
+
+@import "./faces"
