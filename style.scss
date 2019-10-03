@@ -103,4 +103,12 @@ border-width: 0px 16px 0px 59px;
 border-image: url($asset + "buttonb3.png") 0 16 0 59 fill repeat;
 }
 
-@import "./faces"
+@import "./faces";
+
+.face-gallery {
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+  align-items: center;  
+  flex-wrap: wrap;
+}
