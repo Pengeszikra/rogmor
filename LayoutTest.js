@@ -5,11 +5,20 @@ import asset from './asset';
 const [ModalWindow, Page, FaceSprite, FaceGallery, ItemSprite] = divFactory
       ('modal-window', 'page', 'face-sprite', 'face-gallery', 'item-sprite');
 
+const [LoginWindow, FaceWindow, ChatWindow, DarkPanel, InfoPanel] = divFactory
+      ('gui gui-loginw', 'gui gui-storyw', 'gui gui-chatWindow', 'gui gui-transPanelDark', 'gui gui-infow');
+
+
 export default props => (
-  <Page>
+  <Page>  
     <img src={asset + 'img/splashTop.png'} />
     <h1>the Roll Play Game sketch</h1>
     <p>Good question is why I would like to create this type of game?</p>
+    <LoginWindow />
+    <FaceWindow />
+    <ChatWindow />
+    <DarkPanel />
+    <InfoPanel />
     <ModalWindow>
       <h1>Hero faces ::</h1>
       <FaceGallery>
@@ -20,5 +29,7 @@ export default props => (
         {Array.from({length: 45}, (_, item) => <ItemSprite data-item={item} />)}
       </FaceGallery>
     </ModalWindow>
+    <img src={asset + 'img/norebo.jp'} />
+    <img src={asset + 'img/border.png'} />
   </Page>
 );

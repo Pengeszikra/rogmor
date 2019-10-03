@@ -80,6 +80,7 @@ pre { color: rgb(204, 186, 209); }
   border-image: url($asset + "buttonb3.png") 0 16 0 59 fill repeat;
 }
 
+@import "./gui";
 @import "./faces";
 @import "./items";
 
