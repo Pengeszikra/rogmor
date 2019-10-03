@@ -80,9 +80,9 @@ pre { color: rgb(204, 186, 209); }
   min-width: 40vmin;
   color: whitesmoke;
   border-style: solid;
-border-width: 54px 130px 42px 101px;
-border-image: url($asset + "/img/transPanelDark.png") 54 130 42 101 fill repeat;
-filter: hue-rotate(190deg) grayscale(.4) brightness(.5);
+  border-width: 54px 130px 42px 101px;
+  border-image: url($asset + "/img/transPanelDark.png") 54 130 42 101 fill repeat;
+  // filter: hue-rotate(190deg) grayscale(.4) brightness(.5);
 }
 
 .button-b {
@@ -99,11 +99,12 @@ filter: hue-rotate(190deg) grayscale(.4) brightness(.5);
 
 .button-b3 {
   border-style: solid;
-border-width: 0px 16px 0px 59px;
-border-image: url($asset + "buttonb3.png") 0 16 0 59 fill repeat;
+  border-width: 0px 16px 0px 59px;
+  border-image: url($asset + "buttonb3.png") 0 16 0 59 fill repeat;
 }
 
 @import "./faces";
+@import "./items";
 
 .face-gallery {
   display: flex;
