@@ -7,12 +7,15 @@ const [ModalWindow, Page, FaceSprite, FaceGallery, ItemSprite] = divFactory
 
 export default props => (
   <Page>
+    <img src={asset + 'img/splashTop.png'} />
+    <h1>the Roll Play Game sketch</h1>
+    <p>Good question is why I would like to create this type of game?</p>
     <ModalWindow>
-      <p>Hero faces ::</p>
+      <h1>Hero faces ::</h1>
       <FaceGallery>
         {Array.from({length: 100}, (_, face) => <FaceSprite data-face={face} />)}
       </FaceGallery>      
-      <p>Item sets ::</p>
+      <h1>Item sets ::</h1>
       <FaceGallery>
         {Array.from({length: 45}, (_, item) => <ItemSprite data-item={item} />)}
       </FaceGallery>

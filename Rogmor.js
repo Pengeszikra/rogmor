@@ -17,14 +17,5 @@ const Fazon = ({face}) => (
 export default props => (
   <Wireframe>
     <img src={asset + 'img/rogmor_198x63.png'} />
-    <pre>{`
-    Plan: rework my old MMO RPG by react
-    target platform : mobile
-
-    Used developer enviroment: stackblitz.com
-    `}</pre>
-    <Valami>
-      {Array.from({length:15}, (_, face) => <Fazon face={face} key={face} />)}
-    </Valami>
   </Wireframe>
 );

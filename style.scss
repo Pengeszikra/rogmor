@@ -5,9 +5,10 @@ $asset : "https://cdn.jsdelivr.net/gh/Pengeszikra/rogmor@master/assets/";
 h1, p {
   // font-family: Lato;
   font-family: 'Acme', sans-serif;
-  color: khaki;
-  font-size: 1.5em;
+  color: khaki;  
 }
+
+h1 { font-size: 1.5em; }
 
 body {
   margin: 0;
@@ -34,36 +35,6 @@ body {
   justify-content: center;
   align-items: center;
 }
-
-.hero {
-  background-image: url($asset + "faces/face0022.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  width: 10vmin;
-  height: 10vmin;
-  display: inline-block;   
-  position: relative;
-  margin-bottom: 3vmin;
-  margin-right: 2vmin;
-
-  span {    
-    position: absolute;
-    top: 10vmin;
-    width: 100%;
-    text-align: center;
-    color: black;
-  }  
-}
-
-.valami {
-  background-image: url($asset + "img/chatWindow.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  width: 45vmin;
-  height: 75vmin;
-  padding: 5vmin;
-}
-
 pre { color: rgb(204, 186, 209); }
 
 .page {
