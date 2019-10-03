@@ -8,13 +8,13 @@ const [ModalWindow, Page, FaceSprite, FaceGallery, ItemSprite] = divFactory
 export default props => (
   <Page>
     <ModalWindow>
-      Hero faces ::
+      <p>Hero faces ::</p>
       <FaceGallery>
         {Array.from({length: 100}, (_, face) => <FaceSprite data-face={face} />)}
       </FaceGallery>      
-      Item sets ::
+      <p>Item sets ::</p>
       <FaceGallery>
-        {Array.from({length: 4}, (_, item) => <ItemSprite data-item={item} />)}
+        {Array.from({length: 45}, (_, item) => <ItemSprite data-item={item} />)}
       </FaceGallery>
     </ModalWindow>
   </Page>
