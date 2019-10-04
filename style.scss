@@ -63,21 +63,30 @@ pre { color: rgb(204, 186, 209); }
 }
 
 .button-b {
+  height: 6px;
+  width: 100%;
+
   border-style: solid;
   border-width: 15px 91px 11px 23px;
-  border-image: url($asset + "buttonb.png") 15 91 11 23 fill repeat;
+  border-image: url($asset + "/img/buttonb.png") 15 91 11 23 fill repeat;
 }
 
 .button-b2 {
+  height: 27px;
+  width: 100%;
+
   border-style: solid;
   border-width: 0px 51px 0px 47px;
-  border-image: url($asset + "buttonb2.png") 0 51 0 47 fill repeat;
+  border-image: url($asset + "/img/buttonb2.png") 0 51 0 47 fill repeat;
 }
 
 .button-b3 {
+  height: 23px;
+  width: 100%;
+
   border-style: solid;
   border-width: 0px 16px 0px 59px;
-  border-image: url($asset + "buttonb3.png") 0 16 0 59 fill repeat;
+  border-image: url($asset + "/img/buttonb3.png") 0 16 0 59 fill repeat;
 }
 
 @import "./gui";
@@ -98,6 +107,7 @@ pre { color: rgb(204, 186, 209); }
 
 .gui.gui-storyw {
   position: relative;
+  
   .face-sprite {
     position: absolute;
     top: 23px;
