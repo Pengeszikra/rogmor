@@ -3,6 +3,10 @@ import divFactory from './divFactory';
 import asset from './asset';
 
 const [Wireframe, Hero, Valami] = divFactory('wireframe', 'hero', 'valami');
+const [ModalWindow, Page, FaceSprite, FaceGallery, ItemSprite] = divFactory
+      ('modal-window', 'page', 'face-sprite', 'face-gallery', 'item-sprite');
+const [LoginWindow, FaceWindow, ChatWindow, DarkPanel, InfoPanel] = divFactory
+      ('gui gui-loginw', 'gui gui-storyw', 'gui gui-chatWindow', 'gui gui-transPanelDark', 'gui gui-infow');      
 
 const heroStyle = face => ({
   backgroundImage : `url(${asset}faces/face${("0000" + face).slice(-4)}.png)`
@@ -15,7 +19,23 @@ const Fazon = ({face}) => (
 );
 
 export default props => (
-  <Wireframe>
-    <img src={asset + 'img/rogmor_198x63.png'} />
-  </Wireframe>
+  <Page>
+    <ModalWindow>
+      <FaceWindow>
+        <FaceSprite data-face={32}  />
+        <span>Vladimir Kazarow</span>
+        <pre>{`          
+          HP: 320
+          ATK: 150
+          DEF: 70
+          SKILL: <i>Avanger
+        `}</pre>
+      </FaceWindow>
+      <FaceWindow>
+        <FaceSprite data-face={45} />
+        <span>Odett Alborin</span>
+      </FaceWindow>
+
+    </ModalWindow>
+  </Page>
 );

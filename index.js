@@ -6,5 +6,5 @@ import DebugElements from './DebugElements';
 import LayoutTest from './LayoutTest';
 
 // render(<DebugElements />, document.getElementById('root'));
-// render(<Rogmor />, document.getElementById('root'));
-render(<LayoutTest />, document.getElementById('root'));
+render(<Rogmor />, document.getElementById('root'));
+//render(<LayoutTest />, document.getElementById('root'));

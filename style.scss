@@ -91,3 +91,31 @@ pre { color: rgb(204, 186, 209); }
   align-items: center;  
   flex-wrap: wrap;
 }
+
+.invert {
+  filter: invert(1) hue-rotate(210deg);
+}
+
+.gui.gui-storyw {
+  position: relative;
+  .face-sprite {
+    position: absolute;
+    top: 23px;
+    left: 20px;
+  }
+
+  span {
+    position: absolute;
+    top: 42px;
+    left: 70px;
+    color: black;
+  }
+
+  pre {
+    position: absolute;
+    font-family: 'Acme', sans-serif;
+    top: 53px;
+    left: 20px;
+    color: black;
+  }
+}
