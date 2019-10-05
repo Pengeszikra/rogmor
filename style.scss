@@ -129,3 +129,17 @@ pre { color: rgb(204, 186, 209); }
     color: black;
   }
 }
+
+.button-b {
+  position: relative;
+}
+
+.process-bar-indicator {
+  height: 18px;
+  width: 246px;
+  background: rgb(22, 100, 15);
+  position: absolute;
+  top: -7px;
+  left: -10px;
+}
+
