@@ -26,10 +26,10 @@ export default props => {
   useEffect(() => {
     const interval = setInterval( 
       () => {        
-        const improve = Math.min(process + 0.003, 1);
-        setProcess(improve);
-        if (improve === 1) clearInterval(interval);
-      }, 30
+        const pro = Math.min(process + 0.003, 1);
+        setProcess(pro);
+        if (pro === 1) clearInterval(interval);
+      }, 2
     );
 
     return () => clearInterval(interval);
