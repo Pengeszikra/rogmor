@@ -22,14 +22,16 @@ const ProcessBar = ({process = 1, ...props}) => (
 
 export default props => {
   const [process, setProcess] = useState(0);
-
   useEffect(() => {
     const interval = setInterval( 
       () => {        
-        const pro = Math.min(process + 0.003, 1);
-        setProcess(pro);
-        if (pro === 1) clearInterval(interval);
-      }, 2
+        setProcess(p => {
+          if (p >= 1) clearInterval(interval);
+          return Math.min(p + 0.01, 1);
+        });
+        //setProcess(pro);
+        //if (pro === 1) clearInterval(interval);
+      }, 200
     );
 
     return () => clearInterval(interval);
