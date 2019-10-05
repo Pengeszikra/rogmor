@@ -24,12 +24,15 @@ export default props => {
   const [process, setProcess] = useState(0);
 
   useEffect(() => {
-    const intervall = setIntervall( 
-      () => setProcess(p => p + 0.001),
-      200
+    const interval = setInterval( 
+      () => {        
+        const improve = Math.min(process + 0.003, 1);
+        setProcess(improve);
+        if (improve === 1) clearInterval(interval);
+      }, 30
     );
 
-    return () => clearInterval(intervall);
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -37,7 +40,7 @@ export default props => {
       <ModalWindow>
         <FaceWindow>
           <FaceSprite data-face={32}  />
-          <span>ladimir Kazarow</span>
+          <span>Adimir Kazarow</span>
           <pre>{`          
             LEVEL: 12
             HP: 320
