@@ -31,7 +31,7 @@ export default props => {
         });
         //setProcess(pro);
         //if (pro === 1) clearInterval(interval);
-      }, 200
+      }, 2
     );
 
     return () => clearInterval(interval);
