@@ -1,11 +1,15 @@
 import React, {useState, useEffect} from 'react';
 import divFactory from './divFactory';
 
+import { FaceWindow, FaceSprite, ProcessBarBg, ProcessBarIndicator  } from './divStore';
+
+/*
 const [ModalWindow, Page, FaceSprite, FaceGallery, ItemSprite] = divFactory
       ('modal-window', 'page', 'face-sprite', 'face-gallery', 'item-sprite');
 const [LoginWindow, FaceWindow, ChatWindow, DarkPanel, InfoPanel] = divFactory
       ('gui gui-loginw', 'gui gui-storyw', 'gui gui-chatWindow', 'gui gui-transPanelDark', 'gui gui-infow');      
 const [ProcessBarBg, ProcessBarIndicator] = divFactory('button-b', 'process-bar-indicator');
+*/
 
 const ProcessBar = ({process = 1, ...props}) => (
   <ProcessBarBg {...props}>
@@ -13,7 +17,8 @@ const ProcessBar = ({process = 1, ...props}) => (
   </ProcessBarBg>
 );
 
-export default ({heroId = 32}) => {
+export default ({hero}) => {
+  const {heroId} = hero;
   const [process, setProcess] = useState(0);
   const onProcess = () => {
     const interval = setInterval( 

@@ -13,9 +13,7 @@ export default props => {
   return (
     <Page>
       <ModalWindow>
-        <HeroCard heroId={35} />
-        <HeroCard heroId={45} />
-        <HeroCard heroId={23} />
+        {[33, 78].map(heroId => <HeroCard hero={{heroId}} />)}
       </ModalWindow>
     </Page>
   );
