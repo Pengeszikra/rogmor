@@ -1,11 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import divFactory from './divFactory';
+import styler from './styler';
 
-const [ModalWindow, Page, FaceSprite, FaceGallery, ItemSprite] = divFactory
-      ('modal-window', 'page', 'face-sprite', 'face-gallery', 'item-sprite');
-const [LoginWindow, FaceWindow, ChatWindow, DarkPanel, InfoPanel] = divFactory
-      ('gui gui-loginw', 'gui gui-storyw', 'gui gui-chatWindow', 'gui gui-transPanelDark', 'gui gui-infow');      
-const [ProcessBarBg, ProcessBarIndicator] = divFactory('button-b', 'process-bar-indicator');
+const [FaceSprite, FaceWindow, ProcessBarBg, ProcessBarIndicator] = styler
+      ('face-sprite', 'gui gui-storyw', 'button-b', 'process-bar-indicator');
 
 const ProcessBar = ({process = 1, ...props}) => (
   <ProcessBarBg {...props}>

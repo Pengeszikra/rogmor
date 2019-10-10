@@ -1,8 +1,8 @@
 import React from 'react';
-import divFactory from './divFactory';
+import styler from './styler';
 import asset from './asset';
 
-const [Wireframe, Hero, Valami] = divFactory('wireframe', 'hero', 'valami');
+const [Wireframe, Hero, Valami] = styler('wireframe', 'hero', 'valami');
 
 const heroStyle = face => ({
   backgroundImage : `url(${asset}faces/face${("0000" + face).slice(-4)}.png)`
