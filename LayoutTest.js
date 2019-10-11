@@ -1,11 +1,11 @@
 import React from 'react';
-import divFactory from './divFactory';
+import styler from './styler';
 import asset from './asset';
 
-const [ModalWindow, Page, FaceSprite, FaceGallery, ItemSprite] = divFactory
+const [ModalWindow, Page, FaceSprite, FaceGallery, ItemSprite] = styler
       ('modal-window', 'page', 'face-sprite', 'face-gallery', 'item-sprite');
 
-const [LoginWindow, FaceWindow, ChatWindow, DarkPanel, InfoPanel] = divFactory
+const [LoginWindow, FaceWindow, ChatWindow, DarkPanel, InfoPanel] = styler
       ('gui gui-loginw', 'gui gui-storyw', 'gui gui-chatWindow', 'gui gui-transPanelDark', 'gui gui-infow');
 
 

@@ -7,11 +7,17 @@ import HeroCard from './HeroCard';
 const [ModalWindow, Page, ModalWindowInner] = styler
       ('modal-window', 'page', 'modal-window-ModalWindowInner');
 
+const preStyle = {
+  color:'white', 
+  fontSize:18, 
+  background:'rgba(0,0,0,.2)',
+};
+
 export default props => {
   return (
     <Page>
       <ModalWindow><ModalWindowInner>        
-        <pre style={{color:'white', fontSize:18}}>{`
+        <pre style={preStyle}>{`
 Lightweight Retro RPG project for React coding.
 
 import React from 'react';
