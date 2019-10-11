@@ -1,11 +1,16 @@
 $asset : "https://cdn.jsdelivr.net/gh/Pengeszikra/rogmor@master/assets/";
 
 @import url('https://fonts.googleapis.com/css?family=Acme&display=swap');
+@import url('https://fonts.googleapis.com/css?family=VT323&display=swap');
 
 h1, p {
   // font-family: Lato;
   font-family: 'Acme', sans-serif;
   color: khaki;  
+}
+
+pre {
+  font-family: 'VT323', monospace;
 }
 
 h1 { font-size: 1.5em; }
@@ -123,7 +128,7 @@ pre { color: rgb(204, 186, 209); }
 
   pre {
     position: absolute;
-    font-family: 'Acme', sans-serif;
+    font-family: 'VT323', monospace;
     top: 53px;
     left: 20px;
     color: black;
