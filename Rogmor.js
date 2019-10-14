@@ -2,31 +2,30 @@ import React, {useState, useEffect} from 'react';
 import styler from './styler';
 import asset from './asset';
 import HeroCard from './HeroCard';
+import GothicWindow from './GothicWindow';
 
-
-const [ModalWindow, Page, ModalWindowInner, Slice9GridHolder, SliceWindow, SliceContent] = styler
-      ('modal-window', 'page', 'modal-window-ModalWindowInner', 'slice-9-grid-holder', 'modal-window slice-extra', 'slice-content');
+const [Page] = styler('page');
 
 const Heroes = () => (
-  <ModalWindow>
+  <GothicWindow>
     {[33, 78, 45, 14, 19].map(heroId => <HeroCard hero={{heroId}} />)}
-  </ModalWindow>
+  </GothicWindow>
 );
 
 export default props => {
   return (    
     <Page>
-      <Slice9GridHolder>
-        <SliceContent>
+      <GothicWindow>
           This is the exciting Retro RPG projext, based on my really old minimal fantasy graphic set<br/>
           But this solutain also <br/>
           <br/>
-          <br/>
-          Try to answer some question <br/>
-        </SliceContent>
-        <SliceWindow/>      
-
-    </Slice9GridHolder>
+          Try to answer some question<br/>
+          <ul>
+            <li>How to use detailed gothic border?</li>
+            <li>Which javascript library is the most helpfull for coordinating RPG game event handling</li>
+          </ul>
+      </GothicWindow>
+      <Heroes />
     </Page>
   );
 }
