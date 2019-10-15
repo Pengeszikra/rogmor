@@ -8,3 +8,47 @@
 - [slice 9 grid] (http://snapbuilder.com/code_snippet_generator/border_image_generator)
 - [sprite sheet](https://www.codeandweb.com/free-sprite-sheet-packer)
 - egyszerű játék a játékban megvalósítás minél letisztultabb kódolással
+
+
+## role play game rules:
+
+main abilities:
+  - Physique
+  - Reaction
+  - Soul
+
+main properities:
+  - stamina
+  - willpower
+
+profession
+  - level 
+  - type
+  - (option) combine multi profession
+
+## játék menet
+
+- Mennyi karaktert irányítson a játékos ?
+
+5 karakter / autó csata
+
+## hero dataset
+
+```jsx
+const hero = {
+  level: { base, boost, curse },
+  profession: { base, boost, curse },
+  physique: { base, boost, curse },
+  reaction: { base, boost, curse },
+  soul: { base, boost, curse },
+  stamina: { base, boost, curse },
+  willpoer: { base, boost, curse },
+}
+
+maxStamina = calculateStamina(hero) = {
+}
+
+
+
+maxWillpower = calculateWillpower(hero)
+```
