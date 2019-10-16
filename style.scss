@@ -180,3 +180,9 @@ pre { color: rgb(204, 186, 209); }
   z-index: 2;
   margin: 2.2em 2em 3.4em 2em;
 }
+
+.battle-team {
+  display: flex;  
+  justify-content: center;
+  flex-wrap: wrap
+}

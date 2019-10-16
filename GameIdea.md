@@ -59,3 +59,5 @@ Az anomália mint érték bizonyos határig megfelelő profizmusoknál előny le
 de hajlamosíthat a betegségekre, gyengíti az állóképességet és az akaraterőt,
 szóval egyszerre buff és debuff. 
 
+# Fight 6 vs 6 vagy 4 vs 4
+
