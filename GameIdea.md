@@ -52,3 +52,10 @@ maxStamina = calculateStamina(hero) = {
 
 maxWillpower = calculateWillpower(hero)
 ```
+
+# Anomaly the interesting parameter of character
+
+Az anomália mint érték bizonyos határig megfelelő profizmusoknál előny lehet, 
+de hajlamosíthat a betegségekre, gyengíti az állóképességet és az akaraterőt,
+szóval egyszerre buff és debuff. 
+
