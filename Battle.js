@@ -3,11 +3,23 @@ import styler from './styler';
 import HeroCard from './HeroCard';
 import GothicWindow from './GothicWindow';
 
-const [Page, FaceSprite, BattleTeam, CloseButton] = styler('page', 'face-sprite', 'battle-team', 'gui gui-xButton right-top');
+const [Page, FaceSprite, BattleTeam, CloseButton, SimpleButton] = styler('page', 'face-sprite', 'battle-team', 'gui gui-xButton right-top', 'gui simple-button');
 
 const north = [33, 78, 11, 22, 32, 25];
 const south = [34, 79, 12, 23, 33, 26];
 
+const NameGenerator = () => {
+  const [name, setName] = useState('');
+  const generateName = () => {    
+    setName('foo');
+  }
+  return (
+    <>
+      <SimpleButton onClick={generateName}>Generate Name</SimpleButton>
+      <h1>{name}</h1>
+    </>    
+  );
+}
 
 const Heroes = ({onChoose}) => (
   <GothicWindow>
@@ -35,6 +47,7 @@ export default props => {
           <CloseButton onClick={_=>chooseWho(null)} />
         </HeroCard>
       )}
+      <NameGenerator />
     </Page>
   );
 }

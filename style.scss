@@ -192,3 +192,16 @@ pre { color: rgb(204, 186, 209); }
   right: 1em;
   top: 1em;
 }
+
+.simple-button {
+  width: 155px;
+  height: 40px;
+  background-position: -1px -100px; //-188
+  
+  user-select: none;
+  &:hover { background-position: -1px -144px; }
+
+  line-height: 40px;
+  text-align: center;
+  color: whitesmoke;  
+}
