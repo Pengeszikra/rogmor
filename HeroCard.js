@@ -10,7 +10,7 @@ const ProcessBar = ({process = 1, ...props}) => (
   </ProcessBarBg>
 );
 
-export default ({hero}) => {
+export default ({hero, children}) => {
   const {heroId, name='no-name'} = hero;
   const [process, setProcess] = useState(0);
   const onProcess = () => {
@@ -37,6 +37,7 @@ export default ({hero}) => {
         <ProcessBar process={process} style={{width: 160, marginLeft: 15}} />
         <ProcessBar process={process} style={{width: 160, marginLeft: 15}} />  
       </pre>
+      {children}
     </FaceWindow>    
   );
 }

@@ -184,5 +184,11 @@ pre { color: rgb(204, 186, 209); }
 .battle-team {
   display: flex;  
   justify-content: center;
-  flex-wrap: wrap
+  flex-wrap: wrap;
+}
+
+.right-top {
+  position: absolute;
+  right: 1em;
+  top: 1em;
 }
