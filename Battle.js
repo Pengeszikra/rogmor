@@ -11,7 +11,10 @@ const south = [34, 79, 12, 23, 33, 26];
 const NameGenerator = () => {
   const [name, setName] = useState('');
   const generateName = () => {    
-    setName('foo');
+    const sour = 'proedmorainowerialaenderomanulnivosudanterill';
+    const name = Array.from({length:1+Math.random()*4|0}, (s=sour.length*Math.random()|0) => sour.slice(s, s + 2 + (3*Math.random()|0))).join('');
+    const [capital, ...rest] = name;
+    setName([capital.toUpperCase(),...rest].join(''));
   }
   return (
     <>
