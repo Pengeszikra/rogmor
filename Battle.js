@@ -10,7 +10,7 @@ const [Page, FaceSprite, BattleTeam, CloseButton, SimpleButton] = styler('page',
 const heroFactory = heroId => ({heroId, name: generateName(), ...profession()});
 
 const north = [33, 78, 11, 22, 32, 25].map(id => heroFactory(id));
-const south = [34, 79, 12, 23, 33, 26].map(id => heroFactory(id));
+const south = [34, 79, 12, 23, 72, 26].map(id => heroFactory(id));
 
 const NameGenerator = () => {
   const [name, setName] = useState('');

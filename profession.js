@@ -1,3 +1,5 @@
+import {rnd} from './rpg';
+
 export default () => {
   const professions = [
     { profession:'Fighter',     physique: 7, reaction: 4, soul: 2 },
@@ -16,5 +18,6 @@ export default () => {
     { profession:'Gladiator',   physique: 7, reaction: 5, soul: 1 },
   ];  
   const profession = professions[professions.length * Math.random() |0];
-  return ({...profession, level: 1});
+  const level = rnd(49) + 1;
+  return ({...profession, level});
 }
