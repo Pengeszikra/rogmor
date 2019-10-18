@@ -48,8 +48,6 @@ const hero = {
 maxStamina = calculateStamina(hero) = {
 }
 
-
-
 maxWillpower = calculateWillpower(hero)
 ```
 
@@ -61,3 +59,19 @@ szóval egyszerre buff és debuff.
 
 # Fight 6 vs 6 vagy 4 vs 4
 
+
+# leveling <http://howtomakeanrpg.com/a/how-to-make-an-rpg-levels.html>
+
+```jsx 
+lll = (range = 10, mod = 0.5, pow = 4, add) => {
+const leveling = (level, mod = 0.5, pow = 4, add = 2 * level) => Math.round(
+  mod * Math.pow(level, pow) + add
+);
+
+return Array.from({length:range}, (_, level) => add 
+   ?  disgeaLeveling(level, mod, pow, add).toLocaleString() 
+   :  disgeaLeveling(level, mod, pow).toLocaleString()
+).join('\n')
+
+}
+```
