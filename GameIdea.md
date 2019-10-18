@@ -63,14 +63,14 @@ szóval egyszerre buff és debuff.
 # leveling <http://howtomakeanrpg.com/a/how-to-make-an-rpg-levels.html>
 
 ```jsx 
-lll = (range = 10, mod = 0.5, pow = 4, add) => {
-const leveling = (level, mod = 0.5, pow = 4, add = 2 * level) => Math.round(
-  mod * Math.pow(level, pow) + add
+ll = (range = 10, mod = 0.5, pow = 4, add) => {
+const leveling = (level, mod, ppp, add = 2 * level) => Math.round(
+  mod * (level**ppp) + add
 );
 
 return Array.from({length:range}, (_, level) => add 
-   ?  disgeaLeveling(level, mod, pow, add).toLocaleString() 
-   :  disgeaLeveling(level, mod, pow).toLocaleString()
+   ?  leveling(level, mod, pow, add).toLocaleString() 
+   :  leveling(level, mod, pow).toLocaleString()
 ).join('\n')
 
 }
