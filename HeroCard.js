@@ -11,7 +11,7 @@ const ProcessBar = ({process = 1, ...props}) => (
 );
 
 export default ({hero, children}) => {
-  const {heroId, name='no-name'} = hero;
+  const {heroId, name='no-name', profession, level, physique, reaction, soul} = hero;
   const [process, setProcess] = useState(0);
   const onProcess = () => {
     const interval = setInterval( 
@@ -29,10 +29,8 @@ export default ({hero, children}) => {
       <FaceSprite data-face={heroId} onClick={onProcess} />
       <span>{name}</span>
       <pre>{`          
-     Physic: 5    Reaction: 3     Soul: 3
-     Profession: Hero      10, 
-                 Celebrity  5, 
-                 Fighter    4
+     Physique: ${physique}    Reaction: ${reaction}     Soul: ${soul}
+     Profession: ${profession} ${level}
         `}
         <ProcessBar process={process} style={{width: 160, marginLeft: 15}} />
         <ProcessBar process={process} style={{width: 160, marginLeft: 15}} />  

@@ -3,10 +3,11 @@ import styler from './styler';
 import HeroCard from './HeroCard';
 import GothicWindow from './GothicWindow';
 import generateName from './generateName';
+import profession from './profession';
 
 const [Page, FaceSprite, BattleTeam, CloseButton, SimpleButton] = styler('page', 'face-sprite', 'battle-team', 'gui gui-xButton right-top', 'gui simple-button');
 
-const heroFactory = heroId => ({heroId, name: generateName()});
+const heroFactory = heroId => ({heroId, name: generateName(), ...profession()});
 
 const north = [33, 78, 11, 22, 32, 25].map(id => heroFactory(id));
 const south = [34, 79, 12, 23, 33, 26].map(id => heroFactory(id));
@@ -43,7 +44,6 @@ export default props => {
     <Page>
         <h1>Battle simulation</h1>      
         <Heroes onChoose={onChoose} />
-        <NameGenerator />
         {who && (
           <HeroCard hero={who}>
             <CloseButton onClick={_=>chooseWho(null)} />
