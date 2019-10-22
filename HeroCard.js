@@ -29,8 +29,10 @@ export default ({hero, children}) => {
       <FaceSprite data-face={heroId} onClick={onProcess} />
       <span>{name}</span>
       <pre>{`          
-     Physique: ${physique}    Reaction: ${reaction}     Soul: ${soul}
-     Profession: ${profession} ${level}
+        Level: ${level} - ${profession} 
+     Physique: ${physique}
+     Reaction: ${reaction}
+         Soul: ${soul}     
         `}
         <ProcessBar process={process} style={{width: 160, marginLeft: 15}} />
         <ProcessBar process={process} style={{width: 160, marginLeft: 15}} />  
