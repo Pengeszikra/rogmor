@@ -20,7 +20,7 @@ export default (level) => {
     { profession:'Wizard',      physique: 1, reaction: 2, soul: 8 },
   ];  
   const profession = professions[professions.length * Math.random() |0];
-  level = level | rnd(49) + 1;
+  level = level | rnd(5) + 10; //rnd(49) + 1;
   profession.physique = leveling(level, profession.physique / 10, 2);
   profession.reaction = leveling(level, profession.reaction / 10, 2);
   profession.soul     = leveling(level, profession.soul     / 10, 2);
