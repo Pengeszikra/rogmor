@@ -42,7 +42,7 @@ const hero = {
   reaction: { base, boost, curse },
   soul: { base, boost, curse },
   stamina: { base, boost, curse },
-  willpoer: { base, boost, curse },
+  willpower: { base, boost, curse },
 }
 
 maxStamina = calculateStamina(hero) = {

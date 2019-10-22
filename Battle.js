@@ -44,7 +44,7 @@ export default props => {
   const onChuuse = hero => event => chooseWhu(hero);
 
   const letsFight = event => {
-
+    console.log(who, whu)
   }
 
   return (    
