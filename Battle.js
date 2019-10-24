@@ -4,6 +4,7 @@ import HeroCard from './HeroCard';
 import GothicWindow from './GothicWindow';
 import generateName from './generateName';
 import profession from './profession';
+// import { pipe, fromIter, forEach, intervall } from 'callbag';
 
 const  [Page, FaceSprite, BattleTeam, CloseButton, SimpleButton] = 
 styler ('page', 'face-sprite', 'battle-team', 'gui gui-xButton right-top', 'gui simple-button');
@@ -12,17 +13,6 @@ const heroFactory = heroId => ({heroId, name: generateName(), ...profession()});
 
 const north = [33, 78, 11, 22, 32, 25].map(id => heroFactory(id));
 const south = [34, 79, 12, 23, 72, 26].map(id => heroFactory(id));
-
-const NameGenerator = () => {
-  const [name, setName] = useState('');
-  const onGenerate = () => setName(generateName());
-  return (
-    <>
-      <SimpleButton onClick={onGenerate}>Generate Name</SimpleButton>
-      <h1>{name}</h1>
-    </>    
-  );
-}
 
 const Heroes = ({onChoose, onChuuse}) => (
   <GothicWindow>
@@ -39,12 +29,20 @@ const Heroes = ({onChoose, onChuuse}) => (
 export default props => {
   const [who, chooseWho] = useState(null);
   const [whu, chooseWhu] = useState(null);
+  const [fightLog, logFight] = useState('');
 
   const onChoose = hero => event => chooseWho(hero);
   const onChuuse = hero => event => chooseWhu(hero);
 
   const letsFight = event => {
-    console.log(who, whu)
+    /*
+    pipe (
+      fromIter([who, whu]),
+      forEach( 
+        mob =>  logFight(JSON.stringify(mob, null, 2))
+      )
+    );
+    *    
   }
 
   return (    
@@ -55,8 +53,9 @@ export default props => {
           <HeroCard hero={who}>
             <CloseButton onClick={_=>chooseWho(null)} />
           </HeroCard>
-        )}
+        )}        
         {who && whu && <SimpleButton onClick={letsFight}>Fight</SimpleButton>}
+        <pre>{fightLog}</pre>
         {whu && (
           <HeroCard hero={whu}>
             <CloseButton onClick={_=>chooseWhu(null)} />

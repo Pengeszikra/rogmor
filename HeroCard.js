@@ -11,7 +11,7 @@ const ProcessBar = ({process = 1, ...props}) => (
 );
 
 export default ({hero, children}) => {
-  const {heroId, name='no-name', profession, level, physique, reaction, soul, stamina, willpower} = hero;
+  const {heroId, name, profession, level, physique, reaction, soul, stamina, willpower, staminaState, willpowerState } = hero;
   const [process, setProcess] = useState(0);
   const onProcess = () => {
     const interval = setInterval( 
@@ -33,8 +33,8 @@ export default ({hero, children}) => {
      Physique: ${physique}
      Reaction: ${reaction}
          Soul: ${soul}     
-      Stamina: ${stamina}
-    Willpower: ${willpower}
+      Stamina: ${staminaState} / ${stamina}
+    Willpower: ${willpowerState} / ${willpower}
         `}
         <ProcessBar process={process} style={{width: 160, marginLeft: 15}} />
       </pre>

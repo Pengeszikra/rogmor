@@ -26,5 +26,7 @@ export default (level) => {
   profession.soul      = leveling(level, profession.soul      / 10, 2);
   profession.stamina   = leveling(level, profession.stamina   / 10, 2);
   profession.willpower = leveling(level, profession.willpower / 10, 2);
+  profession.staminaState = profession.stamina;
+  profession.willpowerState = profession.willpower;
   return ({...profession, level});
 }
