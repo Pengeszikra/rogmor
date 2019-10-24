@@ -4,7 +4,8 @@ import HeroCard from './HeroCard';
 import GothicWindow from './GothicWindow';
 import generateName from './generateName';
 import profession from './profession';
-import { pipe, fromIter, forEach, intervall } from 'callbag-basics';
+import { pipe, fromIter, forEach, interval } from 'callbag-basics';
+import  sample from 'callbag-sample';
 
 const  [Page, FaceSprite, BattleTeam, CloseButton, SimpleButton] = 
 styler ('page', 'face-sprite', 'battle-team', 'gui gui-xButton right-top', 'gui simple-button');
@@ -36,9 +37,10 @@ export default props => {
 
   const letsFight = event => {
     pipe (
-      fromIter([who, whu]),
+      interval(2000),
+      sample(fromIter([who, whu])),            
       forEach( 
-        mob =>  logFight( p => p + '\n' + JSON.stringify(mob, null, 2))
+        mob =>  logFight( JSON.stringify(mob, null, 2))
       )
     );
   }
