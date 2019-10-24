@@ -5,7 +5,7 @@ import GothicWindow from './GothicWindow';
 import generateName from './generateName';
 import profession from './profession';
 import { pipe, fromIter, forEach, interval } from 'callbag-basics';
-import  sample from 'callbag-sample';
+import sample from 'callbag-sample';
 
 const  [Page, FaceSprite, BattleTeam, CloseButton, SimpleButton] = 
 styler ('page', 'face-sprite', 'battle-team', 'gui gui-xButton right-top', 'gui simple-button');
@@ -32,15 +32,23 @@ export default props => {
   const [whu, chooseWhu] = useState(null);
   const [fightLog, logFight] = useState('');
 
+  const logf = log => logFight(logs => [logs, log].join('\n'));
+
   const onChoose = hero => event => chooseWho(hero);
   const onChuuse = hero => event => chooseWhu(hero);
 
+  function * fight(...mobs) {
+    const [a, b] = mobs;
+    yield a.name;
+    yield b.name;
+  }
+
   const letsFight = event => {
     pipe (
-      interval(2000),
-      sample(fromIter([who, whu])),            
+      interval(200),
+      sample(fromIter(fight(who, whu)),            
       forEach( 
-        mob =>  logFight( JSON.stringify(mob, null, 2))
+        mob =>  logf(mob)
       )
     );
   }
