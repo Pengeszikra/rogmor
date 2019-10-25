@@ -6,6 +6,7 @@ import generateName from './generateName';
 import profession from './profession';
 import { pipe, fromIter, forEach, interval } from 'callbag-basics';
 import sample from 'callbag-sample';
+import {improved} from './rpg';
 
 const  [Page, FaceSprite, BattleTeam, CloseButton, SimpleButton] = 
 styler ('page', 'face-sprite', 'battle-team', 'gui gui-xButton right-top', 'gui simple-button');
@@ -39,17 +40,27 @@ export default props => {
 
   function * fight(...mobs) {
     const [a, b] = mobs;
-    yield a.name;
-    yield b.name;
+    yield `\n`;
+    yield `${a.name} - ${a.profession} : ${a.level}`;
+    yield 'vs.';
+    yield `${b.name} - ${b.profession} : ${b.level}`;
+    yield '-'.repeat(20);
+    yield `${a.reaction} : ${b.reaction}`;
+    const astart = improved(a.reaction) 
+    const bstart = improved(b.reaction)
+    const [atk, def] = astart > bstart ? [a, b] : [b, a];
+    yield `Attacker is: ${atk.name} ${astart} vs ${bstart}`;
+    const dmg = improved(atk.physique / 10);
+    yield `strike ${dmg}`
+    def.staminaState -= Math.min(dmg, def.staminaState);
+    yield `${def.name} ${def.stamina}/${def.staminaState}`;
   }
-
+  
   const letsFight = event => {
     pipe (
       interval(200),
-      sample(fromIter(fight(who, whu)),            
-      forEach( 
-        mob =>  logf(mob)
-      )
+      sample(fromIter(fight(who, whu))),            
+      forEach( mob => logf(mob) )
     );
   }
 
@@ -57,13 +68,13 @@ export default props => {
     <Page>
         <h1>Battle simulation</h1>      
         <Heroes onChoose={onChoose} onChuuse={onChuuse} />
+        {who && whu && <SimpleButton onClick={letsFight}>Fight</SimpleButton>}
+        <pre>{fightLog}</pre>        
         {who && (
           <HeroCard hero={who}>
             <CloseButton onClick={_=>chooseWho(null)} />
           </HeroCard>
         )}        
-        {who && whu && <SimpleButton onClick={letsFight}>Fight</SimpleButton>}
-        <pre>{fightLog}</pre>
         {whu && (
           <HeroCard hero={whu}>
             <CloseButton onClick={_=>chooseWhu(null)} />
