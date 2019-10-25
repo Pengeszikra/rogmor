@@ -6,15 +6,17 @@ import generateName from './generateName';
 import profession from './profession';
 import { pipe, fromIter, forEach, interval } from 'callbag-basics';
 import sample from 'callbag-sample';
-import {improved} from './rpg';
+import {improved, shuffle} from './rpg';
 
 const  [Page, FaceSprite, BattleTeam, CloseButton, SimpleButton] = 
 styler ('page', 'face-sprite', 'battle-team', 'gui gui-xButton right-top', 'gui simple-button');
 
 const heroFactory = heroId => ({heroId, name: generateName(), ...profession()});
 
-const north = [33, 78, 11, 22, 32, 25].map(id => heroFactory(id));
-const south = [34, 79, 12, 23, 72, 26].map(id => heroFactory(id));
+const faces = Array.from({length:100}, (_, i) => i).sort(shuffle);
+
+const north = faces.slice(-5).map(id => heroFactory(id));
+const south = faces.slice(0, 5).map(id => heroFactory(id));
 
 const Heroes = ({onChoose, onChuuse}) => (
   <GothicWindow>
@@ -51,7 +53,7 @@ export default props => {
     const [atk, def] = astart > bstart ? [a, b] : [b, a];
     yield `Attacker is: ${atk.name} ${astart} vs ${bstart}`;
     const dmg = improved(atk.physique / 10);
-    yield `strike ${dmg}`
+    yield `strike ${dmg}`;
     def.staminaState -= Math.min(dmg, def.staminaState);
     yield `${def.name} ${def.stamina}/${def.staminaState}`;
   }
