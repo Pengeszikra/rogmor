@@ -43,19 +43,23 @@ export default props => {
   function * fight(...mobs) {
     const [a, b] = mobs;
     yield `\n`;
-    yield `${a.name} - ${a.profession} : ${a.level}`;
+    yield `${a.name} - ${a.profession} : ${a.level} : ${a.reaction}`;
     yield 'vs.';
-    yield `${b.name} - ${b.profession} : ${b.level}`;
+    yield `${b.name} - ${b.profession} : ${b.level} : ${b.reaction}`;
     yield '-'.repeat(20);
     yield `${a.reaction} : ${b.reaction}`;
     const astart = improved(a.reaction) 
     const bstart = improved(b.reaction)
     const [atk, def] = astart > bstart ? [a, b] : [b, a];
-    yield `Attacker is: ${atk.name} ${astart} vs ${bstart}`;
-    const dmg = improved(atk.physique / 10);
-    yield `strike ${dmg}`;
-    def.staminaState -= Math.min(dmg, def.staminaState);
-    yield `${def.name} ${def.stamina}/${def.staminaState}`;
+    yield `Attacker is: ${atk.name} ${astart} vs ${bstart}`;    
+    let round = 1;
+    while (def.staminaState > 0) {
+      let dmg = improved(atk.physique / 2);
+      yield `round: ${round} strike ${dmg}`;
+      round ++;      
+      def.staminaState -= Math.min(dmg, def.staminaState);
+      yield `${def.name} ${def.stamina}/${def.staminaState}`;
+    }
   }
   
   const letsFight = event => {
@@ -71,7 +75,6 @@ export default props => {
         <h1>Battle simulation</h1>      
         <Heroes onChoose={onChoose} onChuuse={onChuuse} />
         {who && whu && <SimpleButton onClick={letsFight}>Fight</SimpleButton>}
-        <pre>{fightLog}</pre>        
         {who && (
           <HeroCard hero={who}>
             <CloseButton onClick={_=>chooseWho(null)} />
@@ -82,6 +85,7 @@ export default props => {
             <CloseButton onClick={_=>chooseWhu(null)} />
           </HeroCard>
         )}         
+        <pre>{fightLog}</pre>
     </Page>
   );
 }
