@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import styler from './styler';
+import styler from './scss/styler';
 import HeroCard from './HeroCard';
 import GothicWindow from './GothicWindow';
-import generateName from './generateName';
-import profession from './profession';
+import generateName from '../rpg/generateName';
+import profession from '../rpg/profession';
 import { pipe, fromIter, forEach, interval } from 'callbag-basics';
 import sample from 'callbag-sample';
-import {improved, shuffle} from './rpg';
+import {improved, shuffle} from '../rpg/rpg';
 
 const  [Page, FaceSprite, BattleTeam, CloseButton, SimpleButton] = 
 styler ('page', 'face-sprite', 'battle-team', 'gui gui-xButton right-top', 'gui simple-button');
