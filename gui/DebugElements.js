@@ -1,6 +1,6 @@
 import React from 'react';
 import styler from './scss/styler';
-import asset from '../asset';
+import asset from './scss/asset';
 
 const [Wireframe, Hero, Valami] = styler('wireframe', 'hero', 'valami');
 

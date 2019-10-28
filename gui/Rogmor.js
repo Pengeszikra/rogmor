@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import styler from './styler';
-import asset from './asset';
+import styler from './scss/styler';
+import asset from './scss/asset';
 import HeroCard from './HeroCard';
 import GothicWindow from './GothicWindow';
 

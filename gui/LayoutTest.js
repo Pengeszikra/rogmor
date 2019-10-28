@@ -1,6 +1,6 @@
 import React from 'react';
-import styler from './styler';
-import asset from './asset';
+import styler from './scss/styler';
+import asset from './scss/asset';
 
 const [ModalWindow, Page, FaceSprite, FaceGallery, ItemSprite] = styler
       ('modal-window', 'page', 'face-sprite', 'face-gallery', 'item-sprite');

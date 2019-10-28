@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import styler from './styler';
+import styler from './scss/styler';
 
 const [FaceSprite, FaceWindow, ProcessBarBg, ProcessBarIndicator] = styler
       ('face-sprite', 'gui gui-storyw', 'button-b', 'process-bar-indicator');
