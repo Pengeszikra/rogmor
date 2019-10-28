@@ -67,7 +67,7 @@ export default props => {
   
   const letsFight = event => {
     pipe (
-      interval(200),
+      interval(30),
       sample(fromIter(fight(who, whu))),            
       forEach( mob => logf(mob) )
     );

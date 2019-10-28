@@ -13,20 +13,10 @@ const ProcessBar = ({process = 1, ...props}) => (
 export default ({hero, children}) => {
   const {heroId, name, profession, level, physique, reaction, soul, stamina, willpower, staminaState, willpowerState } = hero;
   const [process, setProcess] = useState(0);
-  const onProcess = () => {
-    const interval = setInterval( 
-      () => {        
-        setProcess(p => {
-          if (p >= 1) clearInterval(interval);
-          return Math.min(p + 0.01, 1);
-        });
-      }, 2
-    );    
-  };
 
   return (
     <FaceWindow>
-      <FaceSprite data-face={heroId} onClick={onProcess} />
+      <FaceSprite data-face={heroId} />
       <span>{name}</span>
       <pre>{`          
         Level: ${level} - ${profession} 
@@ -36,7 +26,7 @@ export default ({hero, children}) => {
       Stamina: ${staminaState} / ${stamina}
     Willpower: ${willpowerState} / ${willpower}
         `}
-        <ProcessBar process={process} style={{width: 160, marginLeft: 15}} />
+        <ProcessBar process={staminaState / stamina} style={{width: 160, marginLeft: 15}} />
       </pre>
       {children}
     </FaceWindow>    
