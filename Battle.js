@@ -53,13 +53,16 @@ export default props => {
     const [atk, def] = astart > bstart ? [a, b] : [b, a];
     yield `Attacker is: ${atk.name} ${astart} vs ${bstart}`;    
     let round = 1;
-    while (def.staminaState > 0) {
-      let dmg = improved(atk.physique / 2);
-      yield `round: ${round} strike ${dmg}`;
-      round ++;      
-      def.staminaState -= Math.min(dmg, def.staminaState);
-      yield `${def.name} ${def.stamina}/${def.staminaState}`;
+    while (def.staminaState > 0 && atk.staminaState > 0) {      
+      let [striker, target] = round % 2 ? [atk, def] : [def, atk];
+      let dmg = improved(striker.physique / 2);
+      yield `round: ${round} - ${striker.name} - strike ${dmg}`;
+      round ++;
+      target.staminaState -= Math.min(dmg, target.staminaState);
+      yield `${target.name} ${target.stamina}/${target.staminaState}`;
     }
+    yield `${atk.staminaState <= 0 ? atk.name : '' } knocked out`;
+    yield `${def.staminaState <= 0 ? def.name : '' } knocked out`;
   }
   
   const letsFight = event => {
