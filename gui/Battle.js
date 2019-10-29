@@ -21,11 +21,11 @@ const south = faces.slice(0, 5).map(id => heroFactory(id));
 const Heroes = ({onChoose, onChuuse}) => (
   <GothicWindow>
     <BattleTeam>
-      {north.map(hero => <FaceSprite data-face={hero.heroId} onClick={onChoose(hero)}/>)}
+      {north.map(hero => <FaceSprite data-face={hero.heroId} onClick={onChoose(hero)} style={{opacity: hero.staminaState / hero.stamina}}/>)}
     </BattleTeam>
     <br/>
     <BattleTeam>
-       {south.map(hero => <FaceSprite data-face={hero.heroId} onClick={onChuuse(hero)}/>)}
+       {south.map(hero => <FaceSprite data-face={hero.heroId} onClick={onChuuse(hero)} style={{opacity: hero.staminaState / hero.stamina}}/>)}
     </BattleTeam>    
   </GothicWindow>
 );
@@ -88,7 +88,7 @@ export default props => {
             <CloseButton onClick={_=>chooseWhu(null)} />
           </HeroCard>
         )}         
-        <pre>{fightLog}</pre>
+        {false && <pre>{fightLog}</pre>}
     </Page>
   );
 }
