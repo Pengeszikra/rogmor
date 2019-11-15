@@ -2,5 +2,6 @@ import React from 'react';
 import { render } from 'react-dom';
 import './gui/scss/style.scss';
 import Battle from './gui/Battle'
+import Leveling from './gui/Leveling'
 
-render(<Battle />, document.getElementById('root'));
+render(<Leveling />, document.getElementById('root'));

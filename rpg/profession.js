@@ -1,6 +1,6 @@
 import {rnd, leveling} from './rpg';
 
-export default (level) => {
+export default (level = 1) => {
   const professions = [
     { profession:'Fighter',     physique: 7, reaction: 4, soul: 2, stamina: 55, willpower: 45 },
     { profession:'Priest',      physique: 3, reaction: 3, soul: 7, stamina: 35, willpower: 65 },
@@ -20,7 +20,7 @@ export default (level) => {
     { profession:'Wizard',      physique: 1, reaction: 2, soul: 8, stamina: 25, willpower: 80 },
   ];  
   const profession = professions[professions.length * Math.random() |0];
-  level = level | rnd(5) + 10; //rnd(49) + 1;
+  // level = level | rnd(5) + 10; //rnd(49) + 1;
   profession.physique  = leveling(level, profession.physique  / 10, 2);
   profession.reaction  = leveling(level, profession.reaction  / 10, 2);
   profession.soul      = leveling(level, profession.soul      / 10, 2);

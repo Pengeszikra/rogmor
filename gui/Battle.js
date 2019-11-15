@@ -75,9 +75,11 @@ export default props => {
 
   return (    
     <Page>
-        <h1>Battle simulation</h1>      
+        <h1>Simple Battle Simulation</h1>      
         <Heroes onChoose={onChoose} onChuuse={onChuuse} />
-        {who && whu && <SimpleButton onClick={letsFight}>Fight</SimpleButton>}
+        {who && whu && 
+          <SimpleButton onClick={letsFight}>Fight</SimpleButton>
+        }
         {who && (
           <HeroCard hero={who}>
             <CloseButton onClick={_=>chooseWho(null)} />
