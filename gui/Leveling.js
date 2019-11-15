@@ -36,6 +36,10 @@ export default props => {
   const onChoose = hero => event => chooseWho(hero);
   const onChuuse = hero => event => chooseWhu(hero);
 
+  const levelUp = hero => () => {
+        
+  };
+
   return (    
     <Page>
         <h1>Leveling test</h1>      
@@ -45,7 +49,7 @@ export default props => {
               <HeroCard hero={who}>
                 <CloseButton onClick={_=>chooseWho(null)} />
               </HeroCard>
-              <SimpleButton>Level up</SimpleButton>
+              <SimpleButton onClick={levelUp(who)}>Level up</SimpleButton>
             </>
           )}        
         </Heroes>
