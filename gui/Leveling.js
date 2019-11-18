@@ -37,7 +37,7 @@ export default props => {
   const onChuuse = hero => event => chooseWhu(hero);
 
   const levelUp = hero => () => {
-        
+    
   };
 
   return (    
