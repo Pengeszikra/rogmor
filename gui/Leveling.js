@@ -37,7 +37,15 @@ export default props => {
   const onChuuse = hero => event => chooseWhu(hero);
 
   const levelUp = hero => () => {
-    
+    const {type, level} = hero;
+    const newLevel = profession(level + 1, type);    
+    hero.physique = newLevel.physique
+    hero.reaction = newLevel.reaction 
+    hero.soul     = newLevel.soul 
+    hero.stamina  = newLevel.stamina  
+    hero.willpower= newLevel.willpower
+    hero.staminaState .  = newLevel.staminaState
+    hero.willpowerState    = newLevel.willpowerState    
   };
 
   return (    

@@ -4,4 +4,4 @@ import './gui/scss/style.scss';
 import Battle from './gui/Battle'
 import Leveling from './gui/Leveling'
 
-render(<Battl />, document.getElementById('root'));
+render(<Leveling />, document.getElementById('root'));
