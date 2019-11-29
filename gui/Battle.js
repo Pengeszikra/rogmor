@@ -30,7 +30,7 @@ const Heroes = ({onChoose, onChuuse}) => (
   </GothicWindow>
 );
 
-export default props => {
+export default ({changeRoute}) => {
   const [who, chooseWho] = useState(null);
   const [whu, chooseWhu] = useState(null);
   const [fightLog, logFight] = useState('');

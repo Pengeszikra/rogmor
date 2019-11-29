@@ -44,8 +44,8 @@ export default props => {
     hero.soul     = newLevel.soul 
     hero.stamina  = newLevel.stamina  
     hero.willpower= newLevel.willpower
-    hero.staminaState .  = newLevel.staminaState
-    hero.willpowerState    = newLevel.willpowerState    
+    hero.staminaState = newLevel.staminaState
+    hero.willpowerState = newLevel.willpowerState    
   };
 
   return (    
