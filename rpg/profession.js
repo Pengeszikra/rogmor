@@ -22,12 +22,15 @@ export const profTypes = {
 const professions = Object.keys(profTypes).map( key => profTypes[key]);
 
 export default (level = 1, profession = professions[rnd(professions.length)] ) => {
-  profession.physique  = leveling(level, profession.physique  / 10, 2);
-  profession.reaction  = leveling(level, profession.reaction  / 10, 2);
-  profession.soul      = leveling(level, profession.soul      / 10, 2);
-  profession.stamina   = leveling(level, profession.stamina   / 10, 2);
-  profession.willpower = leveling(level, profession.willpower / 10, 2);
-  profession.staminaState = profession.stamina;
-  profession.willpowerState = profession.willpower;
-  return ({...profession, level, type: profession});
+  const leveled = {
+    physique   : leveling(level, profession.physique  / 10, 2),
+    reaction   : leveling(level, profession.reaction  / 10, 2),
+    soul       : leveling(level, profession.soul      / 10, 2),
+    stamina    : leveling(level, profession.stamina   / 10, 2),
+    willpower  : leveling(level, profession.willpower / 10, 2),
+    profession : profession.profession,
+  };
+  leveled.staminaState = leveled.stamina;
+  leveled.willpowerState = leveled.willpower;
+  return ({...leveled, level, type: profession});
 }
