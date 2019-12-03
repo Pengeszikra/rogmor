@@ -34,11 +34,16 @@ export default props => {
   const onChoose = hero => event => chooseWho(hero);
 
   const levelUp = hero => () => {
-    const {type, level} = hero;
+    const {type, level, heroId} = hero;    
     const newLevel = profession(level + 1, type)
-    const improvedHero = {...hero, ...newLevel};
-    chooseWho(improvedHero);
-    return newLevel;
+    const improvedHero = {...hero, ...newLevel, heroId};
+    for(let i=0; i<north.length; i++) {
+      if (north[i].heroId === heroId) {
+        north[i] = improvedHero;
+        chooseWho(improvedHero)
+        break;
+      }
+    }
   };
 
   return (    

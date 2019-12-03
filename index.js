@@ -5,4 +5,4 @@ import Battle from './gui/Battle';
 import Leveling from './gui/Leveling';
 import Rogmor from './gui/Rogmor';
 
-render(<Rogmor />, document.getElementById('root'));
+render(<Rogmor/>, document.getElementById('root'));

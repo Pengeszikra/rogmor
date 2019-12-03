@@ -20,6 +20,7 @@ const Intro = ({changeRoute}) =>  (
         </ul>
         <SimpleButton onClick={() => changeRoute('battle')}>Battle test</SimpleButton>
         <SimpleButton onClick={() => changeRoute('leveling')}>Leveling</SimpleButton>
+        Next stepp is correct GUI for multiplayer game development.
     </GothicWindow>
   </Page>
 );
