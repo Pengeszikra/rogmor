@@ -10,7 +10,7 @@ import {improved, shuffle} from '../rpg/rpg';
 
 const  [Page, FaceSprite, BattleTeam, CloseButton, SimpleButton] = 
 styler ('page', 'face-sprite', 'battle-team', 'gui gui-xButton right-top', 'gui simple-button');
-
+const [GothicCloseButton] = styler('gui gui-xButton right-top-gothic');
 const heroFactory = heroId => ({heroId, name: generateName(), ...profession()});
 
 const faces = Array.from({length:100}, (_, i) => i).sort(shuffle);
@@ -18,8 +18,9 @@ const faces = Array.from({length:100}, (_, i) => i).sort(shuffle);
 const north = faces.slice(-5).map(id => heroFactory(id));
 const south = faces.slice(0, 5).map(id => heroFactory(id));
 
-const Heroes = ({onChoose, onChuuse}) => (
+const Heroes = ({onChoose, changeRoute, onChuuse}) => (
   <GothicWindow>
+    <GothicCloseButton onClick={_=>changeRoute('.')} />
     <BattleTeam>
       {north.map(hero => <FaceSprite data-face={hero.heroId} onClick={onChoose(hero)} style={{opacity: hero.staminaState / hero.stamina}}/>)}
     </BattleTeam>
@@ -76,7 +77,7 @@ export default ({changeRoute}) => {
   return (    
     <Page>
         <h1>Simple Battle Simulation</h1>      
-        <Heroes onChoose={onChoose} onChuuse={onChuuse} />
+        <Heroes onChoose={onChoose} onChuuse={onChuuse} changeRoute={changeRoute} />
         {who && whu && 
           <SimpleButton onClick={letsFight}>Fight</SimpleButton>
         }
