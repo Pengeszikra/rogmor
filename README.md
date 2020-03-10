@@ -15,3 +15,6 @@ Question is: what is the minimal requirement for usable mobil mmorpg ?
   - 2d images
   - basic interface
   - minimal animation
+
+[tile maps](https://developer.mozilla.org/en-US/docs/Games/Techniques/Tilemaps)
+[tile image example](https://media.prod.mdn.mozit.cloud/attachments/2015/10/06/11697/40b391b2f58425eb78ddd0660fb8fb2e/tile_atlas.png)
