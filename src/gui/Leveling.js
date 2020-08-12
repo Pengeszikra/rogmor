@@ -24,7 +24,7 @@ const Heroes = ({onChoose, changeRoute, children}) => (
     <BattleTeam>
       {north.map(hero => <FaceSprite data-face={hero.heroId} onClick={onChoose(hero)} style={{opacity: hero.staminaState / hero.stamina}}/>)}
     </BattleTeam>
-    {...children}
+    {children}
   </GothicWindow>
 );
 

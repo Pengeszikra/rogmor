@@ -4,7 +4,8 @@ import HeroCard from './HeroCard';
 import GothicWindow from './GothicWindow';
 import generateName from '../rpg/generateName';
 import profession from '../rpg/profession';
-import { pipe, fromIter, forEach, interval } from 'callbag-basics';
+import { pipe, fromIter, forEach } from 'callbag-basics';
+import interval from 'callbag-interval';
 import sample from 'callbag-sample';
 import {improved, shuffle} from '../rpg/rpg';
 
