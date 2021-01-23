@@ -9,19 +9,14 @@ const [Page, SimpleButton] = styler('page', 'gui simple-button button-line');
 
 const Intro = ({changeRoute}) =>  (    
   <Page>
-    <GothicWindow>
-        This is the exciting Retro RPG projext, based on my really old minimal fantasy graphic set<br/>
-        But this solutain also <br/>
-        <br/>
-        Try to answer some question<br/>
-        <ul>
-          <li>How to use detailed gothic border?</li>
-          <li>Which javascript library is the most helpfull for coordinating RPG game event handling</li>
-        </ul>
-        <SimpleButton onClick={() => changeRoute('battle')}>Battle test</SimpleButton>
-        <SimpleButton onClick={() => changeRoute('leveling')}>Leveling</SimpleButton>
-        Next stepp is correct GUI for multiplayer game development.
-    </GothicWindow>
+      <GothicWindow>
+          Experimental functional react RPG
+          <br/><br/>
+          Onece upon the time was land of Rogmor, where ...
+          <br/><br/>
+          <SimpleButton onClick={() => changeRoute('battle')}>Battle test</SimpleButton>
+          <SimpleButton onClick={() => changeRoute('leveling')}>Leveling</SimpleButton>
+      </GothicWindow>
   </Page>
 );
 

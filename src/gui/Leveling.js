@@ -19,13 +19,16 @@ const faces = Array.from({length:100}, (_, i) => i).sort(shuffle);
 const north = faces.slice(-5).map(id => heroFactory(id));
 
 const Heroes = ({onChoose, changeRoute, children}) => (
-  <GothicWindow>
-    <GothicCloseButton onClick={_=>changeRoute('.')} />
-    <BattleTeam>
-      {north.map(hero => <FaceSprite data-face={hero.heroId} onClick={onChoose(hero)} style={{opacity: hero.staminaState / hero.stamina}}/>)}
-    </BattleTeam>
+  <section>
+    <GothicWindow style={{height: 500}}>
+      <GothicCloseButton onClick={_=>changeRoute('.')} />
+      <br/>
+      <BattleTeam>
+        {north.map(hero => <FaceSprite data-face={hero.heroId} onClick={onChoose(hero)} style={{opacity: hero.staminaState / hero.stamina}}/>)}
+      </BattleTeam>
+    </GothicWindow>
     {children}
-  </GothicWindow>
+  </section>
 );
 
 export default props => {
