@@ -4,5 +4,8 @@ import './gui/scss/style.scss';
 import Battle from './gui/Battle';
 import Leveling from './gui/Leveling';
 import Rogmor from './gui/Rogmor';
+import GothicWindow from './gui/GothicWindow';
+import LayoutTest from './gui/LayoutTest';
+import Adventure from './gui/Adventure';
 
-render(<Rogmor/>, document.getElementById('root'));
+render(<Adventure/>, document.getElementById('root'));

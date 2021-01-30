@@ -54,7 +54,8 @@ pre { color: rgb(204, 186, 209); }
   background-size: cover;
   background-position: center center;
   min-height: 100vh;
-  width: 700px;
+  min-width: 700px;
+  max-width: 1080px;
   margin: 0 auto;
 }
 
@@ -217,4 +218,23 @@ pre { color: rgb(204, 186, 209); }
 
 .button-line {
   display: inline-block;
+}
+
+.base-of-adventure {
+  margin: 0 auto;
+  width: 100vw;
+}
+
+.adventure--hero {
+  position: absolute;
+  z-index: 12;
+  transition: top 100ms, left 100ms;
+}
+
+.adventure--journal {
+  position: absolute;
+  z-index: 11;
+  width: 40px;
+  height: 40px;
+  background: rgba(0,0,0, .3);
 }

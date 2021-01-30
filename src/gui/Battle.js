@@ -67,13 +67,19 @@ export default ({changeRoute}) => {
     yield `${def.staminaState <= 0 ? def.name : '' } knocked out`;
   }
   
+  // const letsFight = event => {
+  //   pipe (
+  //     interval(30),
+  //     sample(fromIter(fight(who, whu))),            
+  //     forEach( mob => logf(mob) )
+  //   );
+  // }
+
   const letsFight = event => {
-    pipe (
-      interval(30),
-      sample(fromIter(fight(who, whu))),            
+      interval(30) |>
+      sample(fromIter(fight(who, whu))) |>
       forEach( mob => logf(mob) )
-    );
-  }
+  };
 
   return (    
     <Page>

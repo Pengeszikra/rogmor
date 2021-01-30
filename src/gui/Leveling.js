@@ -16,7 +16,7 @@ const heroFactory = heroId => ({heroId, name: generateName(), ...profession()});
 
 const faces = Array.from({length:100}, (_, i) => i).sort(shuffle);
 
-const north = faces.slice(-5).map(id => heroFactory(id));
+const north = faces.slice(-8).map(id => heroFactory(id));
 
 const Heroes = ({onChoose, changeRoute, children}) => (
   <section>
@@ -24,16 +24,15 @@ const Heroes = ({onChoose, changeRoute, children}) => (
       <GothicCloseButton onClick={_=>changeRoute('.')} />
       <br/>
       <BattleTeam>
-        {north.map(hero => <FaceSprite data-face={hero.heroId} onClick={onChoose(hero)} style={{opacity: hero.staminaState / hero.stamina}}/>)}
+        {north.map(hero => <FaceSprite key={hero.heroId} data-face={hero.heroId} onClick={onChoose(hero)} style={{opacity: hero.staminaState / hero.stamina}}/>)}
       </BattleTeam>
     </GothicWindow>
     {children}
   </section>
 );
 
-export default props => {
+export default ({changeRoute, ...props}) => {
   const [who, chooseWho] = useState(null);
-  const {changeRoute} = props;
 
   const logf = log => logFight(logs => [logs, log].join('\n'));
 
@@ -53,7 +52,7 @@ export default props => {
   };
 
   return (    
-    <Page>
+    <div {...props}>
       <h1>Leveling test</h1>      
       <Heroes onChoose={onChoose} changeRoute={changeRoute}>
         {who && (
@@ -65,6 +64,6 @@ export default props => {
           </>
         )}        
       </Heroes>
-    </Page>
+    </div>
   );
 }
