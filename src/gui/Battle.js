@@ -42,7 +42,7 @@ export default ({changeRoute}) => {
   const onChoose = hero => event => chooseWho(hero);
   const onChuuse = hero => event => chooseWhu(hero);
 
-  function * fight(...mobs) {
+  function * fightSaga(...mobs) {
     const [a, b] = mobs;
     yield `\n`;
     yield `${a.name} - ${a.profession} : ${a.level} : ${a.reaction}`;
@@ -68,7 +68,7 @@ export default ({changeRoute}) => {
   }
   
   // const letsFight = event => {
-  //   pipe (
+  //   pipe ( 
   //     interval(30),
   //     sample(fromIter(fight(who, whu))),            
   //     forEach( mob => logf(mob) )
@@ -77,7 +77,7 @@ export default ({changeRoute}) => {
 
   const letsFight = event => {
       interval(30) |>
-      sample(fromIter(fight(who, whu))) |>
+      sample(fromIter(fightSaga(who, whu))) |>
       forEach( mob => logf(mob) )
   };
 

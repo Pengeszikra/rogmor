@@ -6,7 +6,7 @@ const [FaceSprite, FaceWindow, ProcessBarBg, ProcessBarIndicator] = styler
 
 const ProcessBar = ({process = 1, ...props}) => (
   <ProcessBarBg {...props}>
-    <ProcessBarIndicator style={{width: process * 248}}/>
+    <ProcessBarIndicator style={{width: process * 254}}/>
   </ProcessBarBg>
 );
 

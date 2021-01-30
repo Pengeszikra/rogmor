@@ -149,7 +149,7 @@ pre { color: rgb(204, 186, 209); }
   background: rgb(22, 100, 15);
   position: absolute;
   top: -7px;
-  left: -10px;
+  left: -13px;
 }
 
 .modal-window-inner {
@@ -221,6 +221,7 @@ pre { color: rgb(204, 186, 209); }
 }
 
 .base-of-adventure {
+  display: block;
   margin: 0 auto;
   width: 100vw;
 }
@@ -250,3 +251,27 @@ body > * { user-select: none;}
 
 .fight-corner--left {left: 100px;}
 .fight-corner--right {left: 480px;}
+
+.z300 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2em;
+}
+
+.modal-dark {
+  position: fixed;
+  z-index: 250;
+  top: 0;
+  left: 0;
+  width: 920px;//100vw;
+  height: 800px; //100vh;
+  overflow: hidden;
+  background: rgba(0,0,0, .7);
+}
+
+.center-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
