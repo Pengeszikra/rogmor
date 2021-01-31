@@ -228,6 +228,11 @@ pre { color: rgb(204, 186, 209); }
 
 body > * { user-select: none;}
 
+.adventure--item {
+  position: absolute;
+  z-index: 12;
+}
+
 .adventure--hero {
   position: absolute;
   z-index: 12;

@@ -3,6 +3,7 @@ import styler from './scss/styler';
 import asset from './scss/asset';
 import Leveling from './Leveling';
 import Battle from './Battle';
+import Adventure from './Adventure';
 
 const [ModalWindow, Page, FaceSprite, FaceGallery, ItemSprite] = styler
       ('modal-window', 'page', 'face-sprite', 'face-gallery', 'item-sprite');
@@ -15,6 +16,7 @@ export default props => (
   <Page>  
     <img src={asset + 'img/splashTop.png'} />
 
+    <Adventure />
 
     <div style={{position:'relative', height:800, width:900, margin:'0 auto'}}>
       <img src={asset + 'img/norebo.jpg'} style={{position:'absolute', top:80, left:65, zIndex:0}}/>

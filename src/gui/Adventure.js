@@ -14,7 +14,7 @@ import sample from 'callbag-sample';
 import { fightSaga } from './battleSaga';
 
 const [ModalWindow, Page, FaceSprite, FaceGallery, ItemSprite, BaseOfAdventure] = styler
-      ('modal-window', 'page', 'face-sprite adventure--hero', 'face-gallery', 'item-sprite', 'base-of-adventure');
+      ('modal-window', 'page', 'face-sprite adventure--hero', 'face-gallery', 'item-sprite adventure--item', 'base-of-adventure');
 
 const [LoginWindow, FaceWindow, ChatWindow, DarkPanel, InfoPanel, RogmorLogo] = styler
       ('gui gui-loginw', 'gui gui-storyw', 'gui gui-chatWindow', 'gui gui-transPanelDark z300', 'gui gui-infow', 'gui gui-rogmor_198x63');
@@ -24,6 +24,7 @@ const [Journal, FightLeftCorner, FightRightCorner, Modal] = styler('adventure--j
 const startingPosition = {x:7, y:8};
 
 export const heroFactory = (heroId, lvl = 1) => ({heroId, name: generateName(), ...profession(lvl)});
+export const itemFactory = (itemId) => ({itemId})
 
 export const xyToTopLeft = ({x, y}) => ({top:y * 40 + 78, left:x * 40 + 65});
 
@@ -34,22 +35,32 @@ export default () => {
   const [position, moveHero] = useState(startingPosition);
   const [journal, setJournal] = useState([]);
   const [enemys, setupEnemys] = useState([]);
+  const [items, setupItems] = useState([]);
   const [fight, setFight] = useState(null);
   const [stepp, incStepp] =  useState(0);
   const [game, setGameState] = useState({isOver: false, play:0});
 
   const logInc = log => {incStepp(st => st + 1); log |> console.log};
   const justInc = log => incStepp(st => st + 1);
+  const dontCollected = ({isEquiped}) => isEquiped;
 
   useEffect( _ => {
-    heroFactory(Math.random() * 100 | 0, 7) |> setHero;    
+    heroFactory(Math.random() * 100 | 0, 5) |> setHero;    
 
     const startingCoord = startingPosition |> toCoord;
+    
 
     [...dryLand]
       .sort(shuffle)
       .filter(coord => coord !== startingPosition)
-      .slice(-33)
+      .slice(-9)
+      .map( coord => ({coord, ...(coord |> coordTo), ...(itemFactory(44 |> rnd))}))
+      |> setupItems;
+
+    [...dryLand]
+      .sort(shuffle)
+      .filter(coord => coord !== startingPosition)
+      .slice(-77)
       .map( coord => ({coord, ...(coord |> coordTo), ...(heroFactory(100 |> rnd, 10 |> rnd))}))
       |> setupEnemys;
   }, [game.play])
@@ -68,6 +79,11 @@ export default () => {
       } else {
         setFight(null);
         moveHero(move);
+        const itemIndex = items.findIndex(({coord}) => coord === target)
+        if (itemIndex >= 0) {
+          // console.log('--- found ---', items[itemIndex])
+          equipItem(itemIndex)
+        }
       }
     }
   }
@@ -84,7 +100,7 @@ export default () => {
     if (looser >= 0) {
       `${enemys[looser].name} beaten ! ` |> console.log
       
-      if (enemys[looser].level + 5 >= hero.level) {
+      if (enemys[looser].level >= hero.level) {
         hero |> levelUp |> setHero;
       }
     } else {
@@ -106,6 +122,16 @@ export default () => {
     } else {
       setFight(enemy);
       letsFight(hero, enemy)
+    }
+  }
+
+  const equipItem = index => {
+    const found = items[index]
+    if (!found.isEquiped) {
+      hero |> levelUp |> setHero;
+      const lessItem = items.map(item => found === item ?  ({...item, isEquiped: true}): item);
+      // console.log(lessItem)
+      setupItems(lessItem)
     }
   }
 
@@ -178,6 +204,14 @@ export default () => {
           .map(
           ({heroId, x, y, name, profession}) => (
             <FaceSprite key={name} data-face={heroId} data-prof={profession} style={({x, y}) |> xyToTopLeft} />
+          )
+        )}
+
+        {items
+          .filter(({isEquiped}) => !isEquiped)
+          .map(
+          ({itemId, x, y}, key) => (
+            <ItemSprite key={key} data-item={itemId} style={({x, y}) |> xyToTopLeft} />
           )
         )}
 
