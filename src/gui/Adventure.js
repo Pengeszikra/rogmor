@@ -5,14 +5,13 @@ import Leveling from './Leveling';
 import Battle from './Battle';
 import generateName from '../rpg/generateName';
 import profession from '../rpg/profession';
-import { rnd, shuffle, improved } from '../rpg/rpg';
+import { rnd, shuffle, improved, pickOne } from '../rpg/rpg';
 import { abToCoord, coordTo, dryLand, toCoord } from '../rpg/rogmorMap';
 import HeroCard from './HeroCard';
-import { fromIter, forEach } from 'callbag-basics';
+import { fromIter, forEach, filter } from 'callbag-basics';
 import interval from 'callbag-interval';
 import sample from 'callbag-sample';
 import { fightSaga } from './battleSaga';
-
 
 const [ModalWindow, Page, FaceSprite, FaceGallery, ItemSprite, BaseOfAdventure] = styler
       ('modal-window', 'page', 'face-sprite adventure--hero', 'face-gallery', 'item-sprite', 'base-of-adventure');
@@ -39,9 +38,11 @@ export default () => {
   const [stepp, incStepp] =  useState(0);
   const [game, setGameState] = useState({isOver: false, play:0});
 
+  const logInc = log => {incStepp(st => st + 1); log |> console.log};
+  const justInc = log => incStepp(st => st + 1);
 
   useEffect( _ => {
-    heroFactory(Math.random() * 100 | 0, 10) |> setHero;    
+    heroFactory(Math.random() * 100 | 0, 7) |> setHero;    
 
     const startingCoord = startingPosition |> toCoord;
 
@@ -52,6 +53,11 @@ export default () => {
       .map( coord => ({coord, ...(coord |> coordTo), ...(heroFactory(100 |> rnd, 10 |> rnd))}))
       |> setupEnemys;
   }, [game.play])
+
+  useEffect( _ => {
+    if (!enemys.length) return;
+    letsNpcAlaive(enemys)
+  }, [game.play, enemys])
 
   const moveHeroIfCan = move => {
     const target = position |> move |> toCoord;
@@ -76,7 +82,6 @@ export default () => {
   const someOneLoose = who => {
     const looser = enemys.findIndex(({name, heroId}) => name === who?.name && heroId === who?.heroId )
     if (looser >= 0) {
-      // setupEnemys(left => {left.splice(looser, 1) ; return left})
       `${enemys[looser].name} beaten ! ` |> console.log
       
       if (enemys[looser].level + 5 >= hero.level) {
@@ -85,23 +90,18 @@ export default () => {
     } else {
       console.log('--- the end ---');
     }
+    setFight(null)
   }
 
   const letsFight = (a, b) => {
     interval(30) |>
     sample(fromIter(fightSaga(a, b, someOneLoose))) |>
-    forEach(log => {
-      // log |> console.log;
-      incStepp(st => st + 1)
-    })
+    forEach(justInc)
   };
 
   const actionRound = index => {
     const enemy = enemys[index];
     if (fight) {
-      // const enemyPlus = levelUp(enemy);
-      // setupEnemys(mobs => {mobs[index] = enemyPlus; return mobs});
-      // hero |> levelUp |> setHero;
       setFight(enemy);
     } else {
       setFight(enemy);
@@ -110,7 +110,7 @@ export default () => {
   }
 
   const handleKeyboard = ({key}) => {
-    if (game.isOver) return;
+    if (game.isOver || fight) return;
     switch (key) {
       case 'ArrowUp': return moveHeroIfCan(({x, y}) => ({x ,y: y - 1}));
       case 'ArrowDown': return moveHeroIfCan(({x, y}) => ({x ,y: y + 1}));
@@ -134,6 +134,34 @@ export default () => {
     incStepp(p=>p+1)
   } 
 
+  function * npcSaga (enemys) {
+    yield `---- npc are active  ----`;
+    const fourDirection = [-1, +1, -1000, +1000];
+    // let n = 10000;
+    let liveEnemy = enemys.filter(checkLive);
+    while (liveEnemy.length) {
+      let npc = enemys[enemys.length |> rnd];
+      const target = pickOne(fourDirection) + npc.coord;
+      if (dryLand.includes(target)) {
+        const {x, y} = target |> coordTo;
+        npc.coord = target;
+        npc.x = x;
+        npc.y = y; 
+        // n--;
+        yield ` npc: ${npc.name} ${target}`;  
+      }
+    }
+  }
+
+
+  const letsNpcAlaive = (enemys) => {
+    interval(30) |>
+    sample(fromIter(npcSaga(enemys))) |>
+    forEach(justInc)
+  };
+
+  const checkLive = ({staminaState}) => staminaState > 0;
+
   return (
     <Modal>
       <BaseOfAdventure onKeyDown={handleKeyboard} tabIndex={0}>  
@@ -146,10 +174,10 @@ export default () => {
         )}
 
         {enemys
-          .filter(({staminaState}) => staminaState > 0 )
+          .filter(checkLive)
           .map(
-          ({heroId, x, y, name}) => (
-            <FaceSprite key={name} data-face={heroId} style={({x, y}) |> xyToTopLeft} />
+          ({heroId, x, y, name, profession}) => (
+            <FaceSprite key={name} data-face={heroId} data-prof={profession} style={({x, y}) |> xyToTopLeft} />
           )
         )}
 
