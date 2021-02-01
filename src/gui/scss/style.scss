@@ -300,3 +300,16 @@ body > * { user-select: none;}
   // &[data-prof='Barbarian']   {filter:  brightness(.7) sepia(100%) hue-rotate(280deg);}
   // &[data-prof='Wizard']      {filter:  brightness(.7) sepia(100%) hue-rotate(300deg);}
 }
+
+.small-card {
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  // top: 695px;
+  // left: 100px;
+  display: flex;
+  flex-direction: row;
+
+  & > span { margin: 10px;}
+}

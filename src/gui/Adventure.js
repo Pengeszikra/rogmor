@@ -12,6 +12,7 @@ import { fromIter, forEach, filter } from 'callbag-basics';
 import interval from 'callbag-interval';
 import sample from 'callbag-sample';
 import { fightSaga } from './battleSaga';
+import CompactHeroCard from './CompactHeroCard';
 
 const [ModalWindow, Page, FaceSprite, FaceGallery, ItemSprite, BaseOfAdventure] = styler
       ('modal-window', 'page', 'face-sprite adventure--hero', 'face-gallery', 'item-sprite adventure--item', 'base-of-adventure');
@@ -29,6 +30,8 @@ export const itemFactory = (itemId) => ({itemId})
 export const xyToTopLeft = ({x, y}) => ({top:y * 40 + 78, left:x * 40 + 65});
 
 export const jlog = p => JSON.stringify(p, null, 2) |> console.log
+
+const Direction = [-1, +1, -1000, -1001, -999, 999, +1000, 1001];
 
 export default () => {
   const [hero, setHero] = useState(null);
@@ -181,7 +184,7 @@ export default () => {
 
 
   const letsNpcAlaive = (enemys) => {
-    interval(30) |>
+    interval(20) |>
     sample(fromIter(npcSaga(enemys))) |>
     forEach(justInc)
   };
@@ -224,9 +227,12 @@ export default () => {
         
         {game?.isOver && (
           <Modal>
-            <DarkPanel onClick={playAgain}><p>the end</p></DarkPanel>
+            <DarkPanel onClick={playAgain} style={{position:'relative'}}>
+              <p>the end</p>
+            </DarkPanel>
           </Modal>
         )}
+        {hero && <CompactHeroCard hero={hero} style={{top:695, left: 100}} />}
       </BaseOfAdventure>
   </Modal>
   );
