@@ -1,11 +1,12 @@
 {
   "name": "react",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "dependencies": {
     "callbag-basics": "^3.1.0",
     "callbag-interval": "^1.1.0",
     "callbag-sample": "^2.0.0",
+    "node-forge": "^0.10.0",
     "react": "^17",
     "react-dom": "^17",
     "react-troll": "^0.0.4"
