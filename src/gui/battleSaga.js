@@ -1,7 +1,6 @@
 import { improved } from "../rpg/rpg";
 
 export function * fightSaga(a, b, fallenOne = p => p, stayInCombat = who => true) {
-  // const [a, b] = mobs;
   yield `\n`;
   yield `${a.name} - ${a.profession} : ${a.level} : ${a.reaction}`;
   yield 'vs.';
