@@ -42,6 +42,7 @@ export default () => {
   const [fight, setFight] = useState(null);
   const [stepp, incStepp] =  useState(0);
   const [game, setGameState] = useState({isOver: false, play:0});
+  const [underEscaping, runAway] = useState(false);
 
   const logInc = log => {incStepp(st => st + 1); log |> console.log};
   const justInc = log => incStepp(st => st + 1);
@@ -99,6 +100,7 @@ export default () => {
   }
 
   const someOneLoose = who => {
+    if (who === null) return setFight(null);
     const looser = enemys.findIndex(({name, heroId}) => name === who?.name && heroId === who?.heroId )
     if (looser >= 0) {
       `${enemys[looser].name} beaten ! ` |> console.log
@@ -112,9 +114,17 @@ export default () => {
     setFight(null)
   }
 
+  const stayInBattle = who => {
+    if (who === hero && underEscaping) {
+      runAway(false);
+      return false
+    };
+    return true;
+  }
+
   const letsFight = (a, b) => {
     interval(30) |>
-    sample(fromIter(fightSaga(a, b, someOneLoose))) |>
+    sample(fromIter(fightSaga(a, b, someOneLoose, stayInBattle))) |>
     forEach(justInc)
   };
 
@@ -139,15 +149,19 @@ export default () => {
   }
 
   const handleKeyboard = ({key}) => {
-    if (game.isOver || fight) return;
+    if (game.isOver) return;
     switch (key) {
       case 'ArrowUp': return moveHeroIfCan(({x, y}) => ({x ,y: y - 1}));
       case 'ArrowDown': return moveHeroIfCan(({x, y}) => ({x ,y: y + 1}));
       case 'ArrowLeft': return moveHeroIfCan(({x, y}) => ({x:x - 1 ,y}));
       case 'ArrowRight': return moveHeroIfCan(({x, y}) => ({x:x + 1 ,y}));
       case 'i': return hero |> jlog;
-      case 'e': return enemys |> jlog;
-      case 'j': global.journal = journal;return journal |> jlog;
+      case 'e': {
+        console.log('--->> escape <<--- !!'); 
+        true |> runAway;
+        return
+      };
+      case 'j': global.journal = journal; return journal |> jlog;
     }
   }
 
@@ -184,16 +198,21 @@ export default () => {
 
 
   const letsNpcAlaive = (enemys) => {
-    interval(20) |>
+    interval(30) |>
     sample(fromIter(npcSaga(enemys))) |>
     forEach(justInc)
   };
 
   const checkLive = ({staminaState}) => staminaState > 0;
 
+  useEffect( _ => {
+    document.addEventListener("keydown", handleKeyboard);
+    return _ => document.removeEventListener("keydown", handleKeyboard);
+  }, [stepp])
+
   return (
     <Modal>
-      <BaseOfAdventure onKeyDown={handleKeyboard} tabIndex={0}>  
+      <BaseOfAdventure>  
         <img src={asset + 'img/norebo.jpg'} style={{position:'absolute', top:80, left:65, zIndex:0}}/>
         <img src={asset + 'img/border.png'} style={{position:'absolute', top:0, left:0, zIndex:30, pointerEvents:'none'}}/>
         {journal.map(
@@ -232,7 +251,7 @@ export default () => {
             </DarkPanel>
           </Modal>
         )}
-        {hero && <CompactHeroCard hero={hero} style={{top:695, left: 100}} />}
+        {hero && <CompactHeroCard hero={hero} style={{top: 695, left: 100}} />}
       </BaseOfAdventure>
   </Modal>
   );
