@@ -1,1 +1,1 @@
-export default "https://cdn.jsdelivr.net/gh/Pengeszikra/rogmor@master/assets/";
+export default "/assets/";
