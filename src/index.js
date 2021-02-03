@@ -7,5 +7,6 @@ import Rogmor from './gui/Rogmor';
 import GothicWindow from './gui/GothicWindow';
 import LayoutTest from './gui/LayoutTest';
 import Adventure from './gui/Adventure';
+import MobileRpg from './gui/MobileRpg';
 
-render(<Adventure/>, document.getElementById('root'));
+render(<MobileRpg/>, document.getElementById('root'));

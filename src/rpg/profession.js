@@ -56,7 +56,7 @@ export const profTypes = {
     psionic:     { profession:'Psionic',     physique: 4, reaction: 5, soul: 6, stamina: 45, willpower: 60 },
     alchemist:   { profession:'Alchemist',   physique: 4, reaction: 5, soul: 6, stamina: 45, willpower: 60 },
 
-    // mentor, diviner, marauder, detective, seer, whisper,
+    // mentor, diviner, marauder, detective, seer, whisper, chaosKnigh, shapechanger, antiPaladin, chief
 }
 
 // https://en.wikipedia.org/wiki/Character_class_(Dungeons_%26_Dragons)
