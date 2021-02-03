@@ -20,7 +20,9 @@ const [ModalWindow, Page, FaceSprite, FaceGallery, ItemSprite, BaseOfAdventure] 
 const [LoginWindow, FaceWindow, ChatWindow, DarkPanel, InfoPanel, RogmorLogo] = styler
       ('gui gui-loginw', 'gui gui-storyw', 'gui gui-chatWindow', 'gui gui-transPanelDark z300', 'gui gui-infow', 'gui gui-rogmor_198x63');
 
-const [Journal, FightLeftCorner, FightRightCorner, Modal] = styler('adventure--journal', 'fight-corner--left', 'fight-corner--right', 'mobile-modal center-content')
+const [Journal, FightLeftCorner, FightRightCorner, Modal] = styler('adventure--journal', 'fight-corner--left', 'fight-corner--right', 'modal-mobile center-content')
+
+const [FightModal, BottomArea, Button] = styler('modal-mobile fight-wraper', 'bottom-area', 'mobil-btn center-content');
 
 const startingPosition = {x:7, y:8};
 
@@ -214,7 +216,7 @@ export default () => {
 
 
       <div className="rogmor-mobil-base" >
-        <div className="norebo-map-r-90"/>
+        <div className="norebo-map-r-90">
 
         {journal.map(
           ({top, left}, key) => (
@@ -238,11 +240,8 @@ export default () => {
           )
         )}
 
-        {hero && <FaceSprite data-face={hero?.heroId} style={position |> xyToTopLeft} />}
-
-        {fight && <FightLeftCorner><HeroCard hero={hero} /></FightLeftCorner>}
-        {fight && <FightRightCorner><HeroCard hero={fight} /></FightRightCorner>}
-        
+        {hero && <FaceSprite data-face={hero?.heroId} style={position |> xyToTopLeft} />}        
+        </div>
         {game?.isOver && (
           <Modal>
             <DarkPanel onClick={playAgain} style={{position:'relative'}}>
@@ -250,7 +249,23 @@ export default () => {
             </DarkPanel>
           </Modal>
         )}
-        {false && hero && <CompactHeroCard hero={hero} style={{top: 695, left: 100}} />}
+
+        {fight && (
+          <FightModal style={{height:'70%'}}>
+            <HeroCard hero={hero} />
+            <HeroCard hero={fight} />
+          </FightModal>
+        )}
+
+        <BottomArea>
+          <InfoPanel>
+            {hero && <CompactHeroCard hero={hero} />}
+            <Button onClick ={_ => moveHeroIfCan(({x, y}) => ({x ,y: y - 1}))} style={{top:  80, left: 120}}>up</Button>
+            <Button onClick ={_ => moveHeroIfCan(({x, y}) => ({x ,y: y + 1}))} style={{top: 170, left: 120}}>down</Button>
+            <Button onClick ={_ => moveHeroIfCan(({x, y}) => ({x:x - 1 ,y}))} style={{top: 125, left: 70}}>left</Button>
+            <Button onClick ={_ => moveHeroIfCan(({x, y}) => ({x:x + 1 ,y}))} style={{top: 125, left: 160}}>right</Button>
+          </InfoPanel>
+        </BottomArea>
       </div>
 
   );
