@@ -1566,6 +1566,13 @@ callbag-skip@1:
   dependencies:
     callbag "^1.1.0"
 
+callbag-take-to-finally@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/callbag-take-to-finally/-/callbag-take-to-finally-0.2.0.tgz#3af329eacf363a146bdf66c3f7e435fd49473ab4"
+  integrity sha512-eEorMhGAHPPU8FH3+iB6kPfCJtBmqhysfOIpxKgYCov74CKEK5RkKbcHI8s7EbsUiGUvKz+gInvkt/MH/HKeVw==
+  dependencies:
+    callbag "^1.1.0"
+
 callbag-take@1:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/callbag-take/-/callbag-take-1.5.0.tgz#3062b42f8ed4ed7e021d2cd1306c029d2ef4a12d"

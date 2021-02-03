@@ -6,6 +6,7 @@
     "callbag-basics": "^3.1.0",
     "callbag-interval": "^1.1.0",
     "callbag-sample": "^2.0.0",
+    "callbag-take-to-finally": "^0.2.0",
     "node-forge": "^0.10.0",
     "react": "^17",
     "react-dom": "^17",
@@ -15,7 +16,6 @@
     "start": "parcel ./src/index.html",
     "build": "parcel build ./src/index.html"
   },
-
   "staticFiles": {
     "staticPath": [
       {
@@ -24,7 +24,6 @@
       }
     ]
   },
-
   "devDependencies": {
     "@babel/core": "^7.0.0-0",
     "@babel/plugin-proposal-pipeline-operator": "^7.10.5",
