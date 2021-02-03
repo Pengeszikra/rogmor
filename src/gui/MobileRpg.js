@@ -259,11 +259,13 @@ export default () => {
 
         <BottomArea>
           <InfoPanel>
-            {hero && <CompactHeroCard hero={hero} />}
-            <Button onClick ={_ => moveHeroIfCan(({x, y}) => ({x ,y: y - 1}))} style={{top:  80, left: 120}}>up</Button>
-            <Button onClick ={_ => moveHeroIfCan(({x, y}) => ({x ,y: y + 1}))} style={{top: 170, left: 120}}>down</Button>
-            <Button onClick ={_ => moveHeroIfCan(({x, y}) => ({x:x - 1 ,y}))} style={{top: 125, left: 70}}>left</Button>
-            <Button onClick ={_ => moveHeroIfCan(({x, y}) => ({x:x + 1 ,y}))} style={{top: 125, left: 160}}>right</Button>
+            <div className="zi-2000">
+              <Button onClick ={_ => moveHeroIfCan(({x, y}) => ({x ,y: y - 1}))} style={{top:  80, left: 120}}>up</Button>
+              <Button onClick ={_ => moveHeroIfCan(({x, y}) => ({x ,y: y + 1}))} style={{top: 170, left: 120}}>down</Button>
+              <Button onClick ={_ => moveHeroIfCan(({x, y}) => ({x:x - 1 ,y}))} style={{top: 125, left: 70}}>left</Button>
+              <Button onClick ={_ => moveHeroIfCan(({x, y}) => ({x:x + 1 ,y}))} style={{top: 125, left: 160}}>right</Button>
+            </div>
+            {hero && <CompactHeroCard hero={hero} style={{pointerEvent:'none'}}/>}
           </InfoPanel>
         </BottomArea>
       </div>

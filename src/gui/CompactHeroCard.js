@@ -14,9 +14,9 @@ export default ({hero, children, ...props}) => {
       <span>
         <span>{`lvl: ${level} - ${profession}`}</span>
         <div>
-          <svg>
-            <rect fill="rgba(0,0,0,0.2)" width={100} height={4} x={0} y={4}/>
-            <rect fill="green" width={100 * staminaState / stamina} height={4} x={0} y={4}/>
+          <svg className="small-card-svg">
+            <rect fill="rgba(0,0,0,0.2)" width={100} height={4} x={0} y={0}/>
+            <rect fill="green" width={100 * staminaState / stamina} height={4} x={0} y={0}/>
           </svg>
         </div>
       </span>
