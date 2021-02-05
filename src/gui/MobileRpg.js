@@ -45,6 +45,7 @@ export default () => {
   const [stepp, incStepp] =  useState(0);
   const [game, setGameState] = useState({isOver: false, play:0});
   const [underEscaping, runAway] = useState(false);
+  const [score, setScore] = useState(0);
 
   const logInc = log => {incStepp(st => st + 1); log |> console.log};
   const justInc = log => incStepp(st => st + 1);
@@ -54,7 +55,7 @@ export default () => {
     heroFactory(Math.random() * 100 | 0, 5) |> setHero;    
 
     const startingCoord = startingPosition |> toCoord;
-    
+    setScore(0);
 
     [...dryLand]
       .sort(shuffle)
@@ -106,12 +107,24 @@ export default () => {
     const looser = enemys.findIndex(({name, heroId}) => name === who?.name && heroId === who?.heroId )
     if (looser >= 0) {
       `${enemys[looser].name} beaten ! ` |> console.log
+
+      setScore( sc => sc + enemys[looser].level);
       
       if (enemys[looser].level >= hero.level) {
         hero |> levelUp |> setHero;
       }
     } else {
-      console.log('--- the end ---');
+      try {
+        const ws = new WebSocket('ws:/161.35.216.224:8080')
+        const {name, level, profession} = hero;
+        ws.onopen =  _ => {
+          ws.send(`${name} lvl:${level} ${profession} score: ${score}`);
+          ws.close();
+        }
+        console.log('--- the end ---');
+      } catch (error) {
+        console.log(' connection error ', error);
+      }
     }
     setFight(null)
   }
@@ -265,7 +278,7 @@ export default () => {
               <Button onClick ={_ => moveHeroIfCan(({x, y}) => ({x:x - 1 ,y}))} style={{top: 125, left: 70}}>left</Button>
               <Button onClick ={_ => moveHeroIfCan(({x, y}) => ({x:x + 1 ,y}))} style={{top: 125, left: 160}}>right</Button>
             </div>
-            {hero && <CompactHeroCard hero={hero} style={{pointerEvent:'none'}}/>}
+            {hero && <CompactHeroCard hero={hero} style={{pointerEvent:'none'}}><span>{score}</span></CompactHeroCard>}
           </InfoPanel>
         </BottomArea>
       </div>
