@@ -24,7 +24,7 @@ const [LoginWindow, FaceWindow, ChatWindow, DarkPanel, InfoPanel, RogmorLogo] = 
 
 const [Journal, FightLeftCorner, FightRightCorner, Modal] = styler('adventure--journal', 'fight-corner--left', 'fight-corner--right', 'modal-mobile center-content')
 
-const [FightModal, BottomArea, Button] = styler('modal-mobile fight-wraper', 'bottom-area', 'mobil-btn center-content');
+const [FightModal, BottomArea, Button] = styler('modal-mobile fight-wraper', 'bottom-area', 'mobile-btn direct center-content');
 
 const startingPosition = {x:7, y:8};
 
@@ -121,7 +121,6 @@ export default () => {
         const ws = new WebSocket(wsServer);
         const {name, level, profession} = hero;
         ws.onopen =  _ => {
-          ws.send(`${name} lvl:${level} ${profession} score: ${score}`);
           ws.close();
         }
         ws.onerror = debug;
@@ -273,21 +272,28 @@ export default () => {
           <FightModal style={{height:'70%'}}>
             <HeroCard hero={hero} />
             <HeroCard hero={fight} />
+            {/* <CompactHeroCard hero={hero} />
+            <CompactHeroCard hero={fight} /> */}
           </FightModal>
         )}
 
-        {debugLog && ( <Modal style={{zIndex:4000}} onClick={ _ => null |> debug}><pre>{debugLog |> jlog}</pre></Modal> )}
+        {debugLog && ( 
+          <Modal style={{zIndex:4000}} onClick={ _ => null |> debug}>
+            <pre className="pre-wrap">{debugLog |> jlog}</pre>
+          </Modal> 
+        )}
 
         <BottomArea>
-          <InfoPanel>
+          <ModalWindow>
+          {hero && <CompactHeroCard hero={hero} style={{pointerEvent:'none'}}><span>{score}</span></CompactHeroCard>}
+
             <div className="zi-2000">
               <Button onClick ={_ => moveHeroIfCan(({x, y}) => ({x ,y: y - 1}))} style={{top:  80, left: 120}}>up</Button>
               <Button onClick ={_ => moveHeroIfCan(({x, y}) => ({x ,y: y + 1}))} style={{top: 170, left: 120}}>down</Button>
               <Button onClick ={_ => moveHeroIfCan(({x, y}) => ({x:x - 1 ,y}))} style={{top: 125, left: 70}}>left</Button>
               <Button onClick ={_ => moveHeroIfCan(({x, y}) => ({x:x + 1 ,y}))} style={{top: 125, left: 160}}>right</Button>
             </div>
-            {hero && <CompactHeroCard hero={hero} style={{pointerEvent:'none'}}><span>{score}</span></CompactHeroCard>}
-          </InfoPanel>
+          </ModalWindow>
         </BottomArea>
       </div>
 

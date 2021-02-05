@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import styler from './scss/styler';
 
 const [FaceSprite, SmallCard, ProcessBarBg, ProcessBarIndicator] = styler
-      ('face-sprite', 'small-card', 'button-b', 'process-bar-indicator');
+      ('face-sprite', 'small-card gui gui-loginw', 'button-b', 'process-bar-indicator');
 
 export default ({hero, children, ...props}) => {
   const {heroId, name, profession, level, physique, reaction, soul, stamina, willpower, staminaState, willpowerState } = hero;
