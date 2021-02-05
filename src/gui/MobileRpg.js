@@ -14,6 +14,8 @@ import sample from 'callbag-sample';
 import { fightSaga } from './battleSaga';
 import CompactHeroCard from './CompactHeroCard';
 
+const wsServer = 'ws:/161.35.216.224:8080';
+
 const [ModalWindow, Page, FaceSprite, FaceGallery, ItemSprite, BaseOfAdventure] = styler
       ('modal-window', 'page', 'face-sprite adventure--hero', 'face-gallery', 'item-sprite adventure--item', 'mobil-page');
 
@@ -31,7 +33,7 @@ export const itemFactory = (itemId) => ({itemId})
 
 export const xyToTopLeft = ({x, y}) => ({top:y * 40 + 00, left:x * 40 + 00});
 
-export const jlog = p => JSON.stringify(p, null, 2) |> console.log
+export const jlog = p => JSON.stringify(p, null, 2);
 
 const Direction = [-1, +1, -1000, -1001, -999, 999, +1000, 1001];
 
@@ -46,6 +48,7 @@ export default () => {
   const [game, setGameState] = useState({isOver: false, play:0});
   const [underEscaping, runAway] = useState(false);
   const [score, setScore] = useState(0);
+  const [debugLog, debug] = useState(null);
 
   const logInc = log => {incStepp(st => st + 1); log |> console.log};
   const justInc = log => incStepp(st => st + 1);
@@ -115,15 +118,17 @@ export default () => {
       }
     } else {
       try {
-        const ws = new WebSocket('ws:/161.35.216.224:8080')
+        const ws = new WebSocket(wsServer);
         const {name, level, profession} = hero;
         ws.onopen =  _ => {
           ws.send(`${name} lvl:${level} ${profession} score: ${score}`);
           ws.close();
         }
+        ws.onerror = debug;
         console.log('--- the end ---');
       } catch (error) {
         console.log(' connection error ', error);
+        error |> debug;
       }
     }
     setFight(null)
@@ -170,12 +175,13 @@ export default () => {
       case 'ArrowDown': return moveHeroIfCan(({x, y}) => ({x ,y: y + 1}));
       case 'ArrowLeft': return moveHeroIfCan(({x, y}) => ({x:x - 1 ,y}));
       case 'ArrowRight': return moveHeroIfCan(({x, y}) => ({x:x + 1 ,y}));
-      case 'i': return hero |> jlog;
+      case 'i': return hero |> console.log;
       case 'e': {
         console.log('--->> escape <<--- !!'); 
         true |> runAway;
         return
       };
+      case 'd': hero |> debug;
       case 'j': global.journal = journal; return journal |> jlog;
     }
   }
@@ -269,6 +275,8 @@ export default () => {
             <HeroCard hero={fight} />
           </FightModal>
         )}
+
+        {debugLog && ( <Modal style={{zIndex:4000}} onClick={ _ => null |> debug}><pre>{debugLog |> jlog}</pre></Modal> )}
 
         <BottomArea>
           <InfoPanel>
