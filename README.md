@@ -59,3 +59,21 @@ export function * fightSaga(a, b, fallenOne = p => p) {
     {fallenOne(null)};
 }
 ```
+
+# RPG
+
+### character attributes
+
+    > physique   : A karakter fizikuma az erőt és a rugallmasságot is beleértve
+
+    > reaction   : A reakció képesség ami a reflexeket és a gyors gondolkodást is magába foglalja
+
+    > soul       : A lelki egyensúlyt és a bölcsességet, valamint a logikus gondolkodást tükröző érték
+
+    > liaison    : A karakter szociális és kommunikatív képessége
+
+    > stamina    : Állóképesség és kitartás, ha az akutáli érték 0 - ra csökken akkor cselekvés képtelenné válik
+
+    > willpower  : Akaraterő és öntudat, ha az aktuális érték 0 - ra csökken akkor elájul
+
+    > merry      : Jókedv egyben reprezentálja a szociális energiát, álltalában nem túl lényeges a csatában, ellenben 

@@ -12,10 +12,13 @@ const [LoginWindow, FaceWindow, ChatWindow, DarkPanel, InfoPanel, RogmorLogo] = 
 
 export default () => {
 
-  const [hero, setHero] = useState({});
+  const [listOfNPC, setNPC] = useState([
+  ]);
 
   useEffect( _ => {
-    heroFactory(rnd(100), 10) |> setHero;
+    Array(6).fill().map(
+      _ => heroFactory(rnd(100), rnd(19) + 1)
+    ) |> setNPC;
   }, []);
 
 
@@ -38,7 +41,9 @@ Rogmor test RPG
 ${'-'.repeat(64)}
       `
       }</pre>
-      <HeroCard hero={hero} />
+      <div style={{display:'flex', flexWrap:'wrap'}}>
+        {listOfNPC.map(npc => <HeroCard key={npc.uid} hero={npc} />)}
+      </div>
     </ModalWindow>
   );
 }

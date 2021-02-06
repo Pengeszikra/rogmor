@@ -1,4 +1,4 @@
-import {rnd, leveling} from './rpg';
+import {rnd, leveling, uid} from './rpg';
 
 export const profTypes = {
     fighter:      { profession:'Fighter',      physique: 7, reaction: 4, soul: 2, liaison: 4, stamina: 55, willpower: 45, merry: 40 },
@@ -81,6 +81,7 @@ export default (level = 1, profession = professions[rnd(professions.length)] ) =
     willpower  : leveling(level, profession.willpower / 10, 2),
     merry      : leveling(level, profession.merry     / 10, 2),
     profession : profession.profession,
+    uid        : uid(),
   };
   leveled.staminaState = leveled.stamina;
   leveled.willpowerState = leveled.willpower;
