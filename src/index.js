@@ -8,5 +8,7 @@ import GothicWindow from './gui/GothicWindow';
 import LayoutTest from './gui/LayoutTest';
 import Adventure from './gui/Adventure';
 import MobileRpg from './gui/MobileRpg';
+import Development from './gui/Development';
+import TeamTest from './gui/TeamTest';
 
-render(<MobileRpg/>, document.getElementById('root'));
+render(<Development />, document.getElementById('root'));

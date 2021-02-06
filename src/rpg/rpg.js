@@ -6,6 +6,8 @@ export const rnd = dice => dice * Math.random() | 0;
 
 export const improved = ( attribute = 1, percent = 0.2 ) => (attribute + (Math.random() * percent * attribute)) | 0;
 
-export const shuffle = () => Math.random() > 0.5 ? 1 : -1;
+export const shuffle = _ => Math.random() > 0.5 ? 1 : -1;
 
 export const pickOne = arr => arr[arr.length |> rnd];
+
+export const uid =  _ => Math.random().toString(32).slice(-8);

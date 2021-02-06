@@ -1,6 +1,6 @@
 import { improved } from "../rpg/rpg";
 
-export function * fightSaga(a, b, fallenOne = p => p, stayInCombat = who => true) {
+export function * fightSaga(a, b, fallenOne = p => p) {
   yield `\n`;
   yield `${a.name} - ${a.profession} : ${a.level} : ${a.reaction}`;
   yield 'vs.';
@@ -12,12 +12,12 @@ export function * fightSaga(a, b, fallenOne = p => p, stayInCombat = who => true
   const [atk, def] = astart > bstart ? [a, b] : [b, a];
   yield `Attacker is: ${atk.name} ${astart} vs ${bstart}`;
   let round = 1;
-  while (def.staminaState > 0 && atk.staminaState > 0 && stayInCombat(a) && stayInCombat(b)) {
+  while (def.staminaState > 0 && atk.staminaState > 0 && !atk.escape && !def.escape) {
     let [striker, target] = round % 2 ? [atk, def] : [def, atk];
     let dmg = improved(striker.physique / 2);
     yield `round: ${round} - ${striker.name} - strike ${dmg}`;
     round ++;
-    target.staminaState -= Math.min(dmg, target.staminaState);
+    target.staminaState -= Math.min(dmg, target.staminaState); // why work this solution
     yield `${target.name} ${target.stamina}/${target.staminaState}`;
   }
   yield `${atk.staminaState <= 0 ? atk.name : '' } knocked out`;

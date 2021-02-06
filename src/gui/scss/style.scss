@@ -154,6 +154,22 @@ pre { color: rgb(204, 186, 209); }
   position: absolute;
   top: -7px;
   left: -13px;
+
+  &[data-process = "stm"] {
+    background: rgb(138, 85, 25);
+    height: 6px;
+    top: -7px;
+  }
+  &[data-process = "wil"] {
+    background: rgb(202, 200, 69);
+    height: 6px;
+    top: -1px;
+  }
+  &[data-process = "mry"] {
+    background: rgb(22, 100, 15);
+    height: 6px;
+    top: 5px;
+  }
 }
 
 .modal-window-inner {

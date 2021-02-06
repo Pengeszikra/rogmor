@@ -285,10 +285,8 @@ export default () => {
 
         {fight && (
           <FightModal style={{height:'70%'}}>
-            <HeroCard hero={hero} />
-            <HeroCard hero={fight} />
-            {/* <CompactHeroCard hero={hero} />
-            <CompactHeroCard hero={fight} /> */}
+            <CompactHeroCard hero={hero} />
+            <CompactHeroCard hero={fight} />
           </FightModal>
         )}
 
