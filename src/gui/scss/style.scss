@@ -24,7 +24,7 @@ body, #root {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-
+  display: flex;
 }
 
 .wireframe {
@@ -202,7 +202,9 @@ pre { color: rgb(204, 186, 209); }
   position: relative;
   color: whitesmoke;
   z-index: 2;
-  margin: 2.2em 2em 3.4em 2em;
+  margin: 26px 24px 48px 24px;
+  max-height: calc(100vh - 72px);
+  overflow: hidden scroll;
 }
 
 .battle-team {

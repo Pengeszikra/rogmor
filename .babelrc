@@ -5,6 +5,7 @@
   ],
   "plugins": [
     [ "@babel/plugin-proposal-pipeline-operator", {"proposal": "minimal"}],
-    [ "@babel/plugin-transform-runtime", { "regenerator": true }]    
+    [ "@babel/plugin-transform-runtime", { "regenerator": true }],
+    [ "auto-import", { "declarations": [{ "default": "React", "path": "react" }]}]
   ]
 }

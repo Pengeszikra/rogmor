@@ -1,4 +1,3 @@
-import React from 'react';
 import styler from './scss/styler';
 import asset from './scss/asset';
 
@@ -11,7 +10,7 @@ export default ({children}) => {
       <SliceContent>
         {children}
       </SliceContent>
-      <GothicBackground/>      
+      <GothicBackground/>
     </Slice9GridHolder>
   );
 }

@@ -1,4 +1,3 @@
-import React from 'react';
 import styler from './scss/styler';
 import asset from './scss/asset';
 import Leveling from './Leveling';

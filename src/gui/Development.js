@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { rnd, uid } from '../rpg/rpg';
+import GothicWindow from './GothicWindow';
 import HeroCard from './HeroCard';
 import styler from './scss/styler';
 import { heroFactory } from './TeamTest';
@@ -17,13 +18,13 @@ export default () => {
 
   useEffect( _ => {
     Array(6).fill().map(
-      _ => heroFactory(rnd(100), rnd(19) + 1)
+      _ => heroFactory(rnd(100), rnd(100) + 1)
     ) |> setNPC;
   }, []);
 
 
   return (
-    <ModalWindow style={{height: '90%'}}>
+    <GothicWindow>
       <FaceSprite data-face={5} />
       <pre style={{color:'#FED', fontSize:18}}>{`
       
@@ -44,6 +45,6 @@ ${'-'.repeat(64)}
       <div style={{display:'flex', flexWrap:'wrap'}}>
         {listOfNPC.map(npc => <HeroCard key={npc.uid} hero={npc} />)}
       </div>
-    </ModalWindow>
+    </GothicWindow>
   );
 }
