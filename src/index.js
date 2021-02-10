@@ -9,5 +9,6 @@ import Adventure from './gui/Adventure';
 import MobileRpg from './gui/MobileRpg';
 import Development from './gui/Development';
 import TeamTest from './gui/TeamTest';
+import AgesOfTrolls from './gui/AgesOfTrolls';
 
-render(<Development />, document.getElementById('root'));
+render(<AgesOfTrolls />, document.getElementById('root'));
