@@ -11,3 +11,5 @@ export const shuffle = _ => Math.random() > 0.5 ? 1 : -1;
 export const pickOne = arr => arr[arr.length |> rnd];
 
 export const uid =  _ => Math.random().toString(32).slice(-8);
+
+export const amount = n => Array(n).fill().map((_, index) => index);

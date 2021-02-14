@@ -472,6 +472,7 @@ body > * { user-select: none;}
 .button-9-slice {
   width: 155px;
   height: 38px;
+  position: relative;
                        background-position: 0px -146px;  color: #f3cba3;
   &[inset="primary"] { background-position: 0px -190px;  color: #f5b66f;}
   &[inset="dark"]    { background-position: 0px -233px;  color: #f5b66f;}
