@@ -463,3 +463,28 @@ body > * { user-select: none;}
   right: 5px;
   font-size: 11px;
 }
+
+.mobil-font-setup {
+  font-size: 13px;
+  color: "#FED";
+}
+
+.button-9-slice {
+  width: 155px;
+  height: 38px;
+                       background-position: 0px -146px;  color: #f3cba3;
+  &[inset="primary"] { background-position: 0px -190px;  color: #f5b66f;}
+  &[inset="dark"]    { background-position: 0px -233px;  color: #f5b66f;}
+  &[inset="bright"]  { background-position: 0px  -99px;  color: #ffeedd;}
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover { filter: brightness(1.3);}
+  margin-bottom: 1em;
+}
+
+.large-button-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content:space-evenly;
+}

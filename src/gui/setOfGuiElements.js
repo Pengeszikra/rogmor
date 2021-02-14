@@ -21,3 +21,8 @@ export const [LoginWindow, FaceWindow, ChatWindow, DarkPanel, InfoPanel, RogmorL
 export const [NoreboMap] = styler(
   'norebo-map-r-90',
 );
+
+export const [Button] = styler(
+  'gui button-9-slice',
+  'gui gui-buttonb3',
+);
