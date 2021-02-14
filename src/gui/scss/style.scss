@@ -427,6 +427,18 @@ body > * { user-select: none;}
   height: 8px;
 }
 
+.face-stamina-svg {
+  width: 40px;
+  height: 3px;
+  position: relative;
+  top: 29px;
+}
+
+.npc-on-map {
+  position: absolute;
+  transition: top 100ms, left 100ms;
+}
+
 .small-card {
   padding: 1em 2em;
   color:rgba(0,0,0, .7)
@@ -441,4 +453,13 @@ body > * { user-select: none;}
 .pre-wrap {
   white-space: pre-wrap;
   word-wrap: break-word;
+}
+
+.level-indicator {
+  z-index: 20;
+  color: white;
+  position: absolute;
+  top: 25px;
+  right: 5px;
+  font-size: 11px;
 }

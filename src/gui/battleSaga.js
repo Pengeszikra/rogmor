@@ -22,7 +22,7 @@ export function * fightSaga(a, b, fallenOne = p => p) {
   }
   yield `${atk.staminaState <= 0 ? atk.name : '' } knocked out`;
   yield `${def.staminaState <= 0 ? def.name : '' } knocked out`;
-  if (a.staminaState <= 0) 
+  if (a.staminaState <= 0)
     {fallenOne(a);}
   else if (b.staminaState <= 0) 
     {fallenOne(b)}

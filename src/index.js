@@ -1,14 +1,13 @@
 import { render } from 'react-dom';
 import './gui/scss/style.scss';
-import Battle from './gui/Battle';
-import Leveling from './gui/Leveling';
-import Rogmor from './gui/Rogmor';
-import GothicWindow from './gui/GothicWindow';
-import LayoutTest from './gui/LayoutTest';
-import Adventure from './gui/Adventure';
-import MobileRpg from './gui/MobileRpg';
-import Development from './gui/Development';
-import TeamTest from './gui/TeamTest';
-import AgesOfTrolls from './gui/AgesOfTrolls';
+// import Rogmor from './gui/Battle';
+// import Rogmor from './gui/Leveling';
+// import Rogmor from './gui/Rogmor';
+// import Rogmor from './gui/GothicWindow';
+// import Rogmor from './gui/LayoutTest';
+// import Rogmor from './gui/MobileRpg';
+// import Rogmor from './gui/Development';
+import Rogmor from './gui/SinglePlayer';
+// import Rogmor from './gui/AgesOfTrolls';
 
-render(<AgesOfTrolls />, document.getElementById('root'));
+render(<Rogmor />, document.getElementById('root'));
