@@ -3,3 +3,4 @@ export const dryLand = [8007,8008,8009,8010,7010,6010,5010,4010,3010,3009,2009,1
 export const toCoord = ({x, y}) => y * 1000 + x;
 export const abToCoord = (a, b) => b * 1000 + a;
 export const coordTo = coord => ({x: coord % 1000 , y: coord / 1000 | 0 }); 
+export const coordToStyle = coord => ({left: (coord % 1000) * 40, top: (coord / 1000 | 0) * 40}); 

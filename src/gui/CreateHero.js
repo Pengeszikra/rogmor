@@ -30,7 +30,7 @@ export default ({troll}) => {
     <section className="large-button-group" style={{width:200, margin:'0 auto'}}>
       <Button inset="primary" onClick={handleRollHero}>Roll your character</Button>
     </section>
-    {hero && <HeroCard hero={hero} />}
+    {hero && <HeroCard hero={hero} style={{fontSize:17}}/>}
     {hero && (
       <section className="large-button-group" style={{width:200, margin:'15px auto'}}>
         <Button inset="primary" onClick={handleLetsAdventure}>select this hero

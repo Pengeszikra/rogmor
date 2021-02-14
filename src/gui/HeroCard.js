@@ -21,12 +21,12 @@ export const MultiProcessBar = ({process = [1,1,1], ...props}) => {
   );
 }
 
-export default ({hero, children}) => {
+export default ({hero, children, ...props}) => {
   const {heroId, name, profession, level, physique, reaction, soul, stamina, willpower, staminaState, willpowerState, liaison, merry, merryState } = hero;
   // const [process, setProcess] = useState(0);
 
   return (
-    <FaceWindow>
+    <FaceWindow {...props}>
       <FaceSprite data-face={heroId} />
       <span>{name}</span>
       <pre>{`

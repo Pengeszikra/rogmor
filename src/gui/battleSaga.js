@@ -29,3 +29,33 @@ export function * fightSaga(a, b, fallenOne = p => p) {
   else 
     {fallenOne(null)};
 }
+
+export const physicalStrike = (a, b) => {
+  const astart = improved(a.reaction) 
+  const bstart = improved(b.reaction)
+  const [atk, def] = astart > bstart ? [a, b] : [b, a];
+  // TODO after first round action goes to another side
+  let dmg = improved(atk.physique / 2);
+  def.staminaState -= Math.min(dmg, def.staminaState);
+  return [a, b];
+}
+
+export const soulSkill = (a, b) => {
+  const astart = improved(a.soul + a.reaction) 
+  const bstart = improved(b.soul + b.reaction)
+  const [atk, def] = astart > bstart ? [a, b] : [b, a];
+  // TODO after first round action goes to another side
+  let dmg = improved(atk.soul / 2);
+  def.willpowerState -= Math.min(dmg, def.willpowerState);
+  return [a, b];
+}
+
+export const socialTalk = (a, b) => {
+  const astart = improved(a.liaison + a.reaction) 
+  const bstart = improved(b.liaison + b.reaction)
+  const [atk, def] = astart > bstart ? [a, b] : [b, a];
+  // TODO after first round action goes to another side
+  let dmg = improved(atk.liaison / 2);
+  def.merryState -= Math.min(dmg, def.merryState);
+  return [a, b];
+}
