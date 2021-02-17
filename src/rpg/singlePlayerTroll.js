@@ -47,9 +47,9 @@ export const gameReducer = (state, {type, payload}) => {
   }
 };
 
-const interactionRound = interaction => ({hero, entities, focus, ...rest}) => {
-  const [hMod, npcMod] = interaction(hero, entities[focus]);
-  return {...rest, hero:hMod, focus, entities:{...entities, [npcMod.uid]:npcMod}};
+const interactionRound = interaction => ({hero, entities, round, focus, ...rest}) => {
+  const [hMod, npcMod] = interaction(hero, entities[focus], round);
+  return {...rest, hero:hMod, round: round + 1, focus, entities:{...entities, [npcMod.uid]:npcMod}};
 };
 
 const fightRound = physicalStrike |> interactionRound;

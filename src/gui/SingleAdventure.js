@@ -4,7 +4,8 @@ import { amount, rnd, shuffle } from "../rpg/rpg";
 import { heroFactory } from "./AgesOfTrolls";
 import CompactHeroCard from "./CompactHeroCard"
 import HeroCard from "./HeroCard";
-import { Button, FaceSprite, LoginWindow, NoreboMap } from "./setOfGuiElements";
+import HeroCardLine from "./HeroCardLine";
+import { Button, FaceSprite, LoginWindow, NoreboMap, Button70 } from "./setOfGuiElements";
 
 export default ({troll}) => {
 
@@ -17,7 +18,7 @@ export default ({troll}) => {
     const area = [...dryLand].sort(shuffle);
     const entitiesArray = area
       .slice(-45)
-      .map(coord => ({coord, ...(heroFactory(100 |> rnd, 10 |> rnd))}))
+      .map(coord => ({coord, ...(heroFactory(100 |> rnd, 7))}))
     setupEntities(entitiesArray.reduce((col, {uid, ...rest}) => ({...col, [uid]: ({uid, ...rest})}) , {}));
     modHero(h => ({...h, coord: area[0]}));
   }, []);
@@ -39,7 +40,7 @@ export default ({troll}) => {
   }
 
   return (<>
-    <section style={{overflowX:'auto', marginBottom: 15}}>
+    <section style={{overflowX:'auto', position:'relative'}}>
       <NoreboMap>
         {Object.entries(entities).map(
           ([uid, npc]) => (
@@ -59,25 +60,33 @@ export default ({troll}) => {
             onClick={_ => null |> focusOn}
           />
         )}
+
       </NoreboMap>
+      {entities && entities[focus] && (
+        <section className="combat-line-holder">
+          <HeroCardLine hero={hero} />
+          <HeroCardLine hero={entities[focus]} />
+        </section>
+      )}
     </section>
     {true && (
-      <section className="large-button-group" style={{margin:'15px auto'}}>
-        <Button inset="primary" onClick={ _ => modHero(   -1 |> moveHero)}>left</Button>
-        <Button inset="primary" onClick={ _ => modHero(    1 |> moveHero)}>right</Button>
-        <Button inset="primary" onClick={ _ => modHero(-1000 |> moveHero)}>up</Button>
-        <Button inset="primary" onClick={ _ => modHero( 1000 |> moveHero)}>down</Button>
+      <section className="large-button-group" style={{margin:0, width: 230}}>
+        <Button70 inset="primary" onClick={ _ => modHero(-1000 |> moveHero)} style={{margin: '10px 50px'}}>up</Button70>
+        <Button70 inset="primary" onClick={ _ => modHero(   -1 |> moveHero)}>left</Button70>
+        <Button70 inset="primary" onClick={ _ => modHero( 1000 |> moveHero)}>down</Button70>
+        <Button70 inset="primary" onClick={ _ => modHero(    1 |> moveHero)}>right</Button70>
       </section>
     )}
 
     {entities && entities[focus] && (
       <section>
-        <HeroCard hero={entities[focus]} style={{fontSize:17}}/>
-        <section className="large-button-group" style={{margin:'15px auto'}}>
-          <Button inset="primary" onClick={ _ => fight()}>Fight</Button>
-          <Button inset="primary" onClick={ _ => skill()}>Skill</Button>
-          <Button inset="primary" onClick={ _ =>  talk()}>Talk</Button>
+        <section className="large-button-group" style={{margin:0, width: 300}}>
+          <Button70 inset="light" onClick={ _ => fight()}>Fight</Button70>
+          <Button70 inset="light" onClick={ _ => skill()}>Skill</Button70>
+          <Button70 inset="light" onClick={ _ =>  talk()}>Talk</Button70>
+          <Button70 inset="light" onClick={ _ =>  {}}>Escape</Button70>
         </section>
+        <HeroCard hero={entities[focus]} style={{fontSize:17}}/>
       </section>
     )}
 

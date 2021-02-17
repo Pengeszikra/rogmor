@@ -22,7 +22,7 @@ export const [NoreboMap] = styler(
   'norebo-map-r-90',
 );
 
-export const [Button] = styler(
+export const [Button, Button70] = styler(
   'gui button-9-slice',
-  'gui gui-buttonb3',
+  'gui button-70',
 );

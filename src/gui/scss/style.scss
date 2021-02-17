@@ -484,8 +484,53 @@ body > * { user-select: none;}
   margin-bottom: 1em;
 }
 
+.button-70 {
+  width: 70px;
+  height: 38px;
+  position: relative;
+                       background-position: -19px -146px;  color: #f3cba3;
+  &[inset="primary"] { background-position: -19px -190px;  color: #f5b66f;}
+  &[inset="dark"]    { background-position: -19px -233px;  color: #f5b66f;}
+  &[inset="bright"]  { background-position: -19px  -99px;  color: #ffeedd;}
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover { filter: brightness(1.3);}
+  margin-bottom: 1em;
+  border: 1px solid black;
+  border-radius: 11px;
+}
+
 .large-button-group {
   display: flex;
   flex-wrap: wrap;
   justify-content:space-evenly;
+}
+
+.combat-line-holder {
+  position: fixed;
+  top: 585px;
+  left: 30px;
+  width: calc(100% - 60px);
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.hero-line {
+  display: flex;
+  align-items: center;
+  width: 140px;
+  height: 40px;
+  font-size: 11px;
+
+  .bar-stm { fill: rgb(138, 85, 25);}
+  .bar-wil { fill: rgb(202, 200, 69);}
+  .bar-mry { fill: rgb(22, 100, 15);}
+
+  .hero-line-bars rect {
+    transition: width 100ms;
+  }
 }

@@ -40,7 +40,7 @@ export default props => (
       <h1>Hero faces ::</h1>
       <FaceGallery>
         {Array.from({length: 100}, (_, face) => <FaceSprite key={face} data-face={face} />)}
-      </FaceGallery>      
+      </FaceGallery>
       <h1>Item sets ::</h1>
       <FaceGallery>
         {Array.from({length: 45}, (_, item) => <ItemSprite key={item} data-item={item} />)}
