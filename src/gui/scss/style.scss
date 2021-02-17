@@ -507,11 +507,17 @@ body > * { user-select: none;}
   justify-content:space-evenly;
 }
 
+.combat-line-undermap {
+  position: relative;
+  width: 100%;
+}
+
 .combat-line-holder {
-  position: fixed;
-  top: 585px;
-  left: 30px;
-  width: calc(100% - 60px);
+  position: absolute;
+  top: -41px;
+  left: 5px;
+  width: calc(100% - 10px);
+  // background-color: rgba(0,0,0, .3);
   height: 40px;
   display: flex;
   justify-content: space-between;

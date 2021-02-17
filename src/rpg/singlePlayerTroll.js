@@ -40,12 +40,22 @@ export const gameReducer = (state, {type, payload}) => {
         : state;
     };
     case FOCUS_ON: return {...state, focus: payload};
-    case FIGHT: return state |> fightRound;
-    case SKILL: return state |> skillRound;
-    case TALK:  return state |> talkRound;
+    case FIGHT: return state |> fightRound |> useFullCheck;
+    case SKILL: return state |> skillRound |> useFullCheck;
+    case TALK:  return state |> talkRound  |> useFullCheck;
     default: return state;
   }
 };
+
+const lostFocus = s => s
+
+const useFullCheck = ({focus, entities, ...rest}) => {
+  const {staminaState, willpowerState, merryState} = entities[focus];
+  return staminaState > 0 
+      && willpowerState > 0 
+      && merryState > 0
+      ? {focus, entities, ...rest} : {focus: null, entities, ...rest}; 
+}
 
 const interactionRound = interaction => ({hero, entities, round, focus, ...rest}) => {
   const [hMod, npcMod] = interaction(hero, entities[focus], round);

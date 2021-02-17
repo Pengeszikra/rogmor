@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import profession from "../rpg/profession";
 import { dryLand, coordToStyle } from "../rpg/rogmorMap";
 import { amount, rnd, shuffle } from "../rpg/rpg";
 import { heroFactory } from "./AgesOfTrolls";
@@ -6,6 +7,8 @@ import CompactHeroCard from "./CompactHeroCard"
 import HeroCard from "./HeroCard";
 import HeroCardLine from "./HeroCardLine";
 import { Button, FaceSprite, LoginWindow, NoreboMap, Button70 } from "./setOfGuiElements";
+
+const capableOfAction = ({staminaState, willpowerState, merryState}) => staminaState && willpowerState && merryState;
 
 export default ({troll}) => {
 
@@ -18,7 +21,7 @@ export default ({troll}) => {
     const area = [...dryLand].sort(shuffle);
     const entitiesArray = area
       .slice(-45)
-      .map(coord => ({coord, ...(heroFactory(100 |> rnd, 7))}))
+      .map(coord => ({coord, ...(heroFactory(100 |> rnd, rnd(5) + 1))}))
     setupEntities(entitiesArray.reduce((col, {uid, ...rest}) => ({...col, [uid]: ({uid, ...rest})}) , {}));
     modHero(h => ({...h, coord: area[0]}));
   }, []);
@@ -29,7 +32,7 @@ export default ({troll}) => {
     const target = coord + direction;
     null |> focusOn;
     if (dryLand.includes(target)) {
-      const who = Object.values(entities).find(({coord}) => coord === target );
+      const who = Object.values(entities).filter(capableOfAction).find(({coord}) => coord === target );
       if (who) {
         who.uid |> focusOn;
         return ({coord, ...rest});  
@@ -42,14 +45,13 @@ export default ({troll}) => {
   return (<>
     <section style={{overflowX:'auto', position:'relative'}}>
       <NoreboMap>
-        {Object.entries(entities).map(
-          ([uid, npc]) => (
+        {Object.values(entities).filter(capableOfAction).map(
+          ({uid, heroId, profession, coord}) => (
             <FaceSprite 
               key={uid} 
-              data-face={npc?.heroId} 
-              data-prof={npc?.profession} 
-              style={npc?.coord |> coordToStyle} 
-              // onClick={npc |> infoAbout}
+              data-face={heroId} 
+              data-prof={profession} 
+              style={coord |> coordToStyle} 
             />
           )
         )}
@@ -62,15 +64,17 @@ export default ({troll}) => {
         )}
 
       </NoreboMap>
-      {entities && entities[focus] && (
-        <section className="combat-line-holder">
+    </section>
+    {entities && entities[focus] && (
+      <section className="combat-line-undermap">
+        <div className="combat-line-holder">
           <HeroCardLine hero={hero} />
           <HeroCardLine hero={entities[focus]} />
-        </section>
-      )}
-    </section>
+        </div>
+      </section>
+    )}
     {true && (
-      <section className="large-button-group" style={{margin:0, width: 230}}>
+      <section className="large-button-group" style={{margin:0, width: 230, position: 'relative'}}>
         <Button70 inset="primary" onClick={ _ => modHero(-1000 |> moveHero)} style={{margin: '10px 50px'}}>up</Button70>
         <Button70 inset="primary" onClick={ _ => modHero(   -1 |> moveHero)}>left</Button70>
         <Button70 inset="primary" onClick={ _ => modHero( 1000 |> moveHero)}>down</Button70>
@@ -95,5 +99,6 @@ export default ({troll}) => {
     <section className="large-button-group" style={{margin:'15px auto'}}>
       <Button inset="primary" onClick={handleToStart}>Back to start</Button>
     </section>
+
   </>);
 }
