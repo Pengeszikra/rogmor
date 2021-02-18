@@ -13,7 +13,7 @@
     "react-troll": "^0.0.4"
   },
   "scripts": {
-    "start": "parcel ./src/index.html",
+    "start": "parcel ./src/index.html -p 7777",
     "build": "parcel build ./src/index.html"
   },
   "staticFiles": {

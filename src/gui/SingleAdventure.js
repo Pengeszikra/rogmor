@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import profession from "../rpg/profession";
 import { dryLand, coordToStyle } from "../rpg/rogmorMap";
 import { amount, rnd, shuffle } from "../rpg/rpg";
@@ -6,11 +6,18 @@ import { heroFactory } from "./AgesOfTrolls";
 import CompactHeroCard from "./CompactHeroCard"
 import HeroCard from "./HeroCard";
 import HeroCardLine from "./HeroCardLine";
-import { Button, FaceSprite, LoginWindow, NoreboMap, Button70 } from "./setOfGuiElements";
+import { Button, FaceSprite, LoginWindow, NoreboMap, Button70, ItemSprite } from "./setOfGuiElements";
 
 const capableOfAction = ({staminaState, willpowerState, merryState}) => staminaState && willpowerState && merryState;
 
 export default ({troll}) => {
+
+  const [actionAnim, playActionAnim] = useState(null);
+
+  const playAnim = anim => {
+    anim |> playActionAnim;
+    setTimeout(_ => null |> playActionAnim , 330);
+  }
 
   const [
     {hero, entities, focus}, 
@@ -21,7 +28,7 @@ export default ({troll}) => {
     const area = [...dryLand].sort(shuffle);
     const entitiesArray = area
       .slice(-45)
-      .map(coord => ({coord, ...(heroFactory(100 |> rnd, rnd(5) + 1))}))
+      .map(coord => ({coord, ...(heroFactory(100 |> rnd, rnd(10) + 1))}))
     setupEntities(entitiesArray.reduce((col, {uid, ...rest}) => ({...col, [uid]: ({uid, ...rest})}) , {}));
     modHero(h => ({...h, coord: area[0]}));
   }, []);
@@ -69,6 +76,7 @@ export default ({troll}) => {
       <section className="combat-line-undermap">
         <div className="combat-line-holder">
           <HeroCardLine hero={hero} />
+          {actionAnim && <ItemSprite data-item={actionAnim} data-anim={actionAnim} />}
           <HeroCardLine hero={entities[focus]} />
         </div>
       </section>
@@ -85,9 +93,9 @@ export default ({troll}) => {
     {entities && entities[focus] && (
       <section>
         <section className="large-button-group" style={{margin:0, width: 300}}>
-          <Button70 inset="light" onClick={ _ => fight()}>Fight</Button70>
-          <Button70 inset="light" onClick={ _ => skill()}>Skill</Button70>
-          <Button70 inset="light" onClick={ _ =>  talk()}>Talk</Button70>
+          <Button70 inset="light" onClick={ _ => {playAnim(1); fight()}}>Fight</Button70>
+          <Button70 inset="light" onClick={ _ => {playAnim(10); skill()}}>Skill</Button70>
+          <Button70 inset="light" onClick={ _ => {playAnim(43); talk()}}>Talk</Button70>
           <Button70 inset="light" onClick={ _ =>  {}}>Escape</Button70>
         </section>
         <HeroCard hero={entities[focus]} style={{fontSize:17}}/>

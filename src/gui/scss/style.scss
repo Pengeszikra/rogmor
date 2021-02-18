@@ -523,6 +523,18 @@ body > * { user-select: none;}
   justify-content: space-between;
   align-items: center;
   flex-wrap: nowrap;
+
+  .item-sprite {
+    position: relative!important;
+
+    animation-name: rotateInDownLeft;
+    animation-duration: 300ms;
+    animation-fill-mode: both;
+    transform-origin: left bottom;
+  
+    transform: scaleX(-1);
+  }
+
 }
 
 .hero-line {
@@ -539,4 +551,10 @@ body > * { user-select: none;}
   .hero-line-bars rect {
     transition: width 100ms;
   }
+}
+
+
+@keyframes rotateInDownLeft {
+    0% { transform: rotate3d(0, 0, 1, -280deg); }
+  100% { transform: none; }
 }
