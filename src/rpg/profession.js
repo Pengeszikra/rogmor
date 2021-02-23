@@ -61,6 +61,7 @@ export const profTypes = {
     maruder:      { profession:'Maruder',      physique: 7, reaction: 4, soul: 2, liaison: 4, stamina: 60, willpower: 40, merry: 40 },
     rich:         { profession:'Rich',         physique: 3, reaction: 4, soul: 3, liaison: 8, stamina: 30, willpower: 70, merry: 30 },
     shapechanger: { profession:'Shapechanger', physique: 6, reaction: 4, soul: 4, liaison: 2, stamina: 55, willpower: 45, merry: 30 },
+    child:        { profession:'Children',     physique: 1, reaction: 1, soul: 2, liaison: 1, stamina:  5, willpower: 50, merry: 50 },
 
     // mentor, diviner, detective, seer
 }
@@ -71,7 +72,7 @@ export const profTypes = {
 /// const professions = Object.keys(profTypes).map( key => profTypes[key]);
 const professions = Object.entries(profTypes).map( ([_, prof]) => prof);
 
-export default (level = 1, profession = professions[rnd(professions.length)] ) => {
+export default (level = 1, profession = professions[rnd(professions.length)], uidFactory = uid ) => {
   const leveled = {
     physique   : leveling(level, profession.physique  / 10, 2),
     reaction   : leveling(level, profession.reaction  / 10, 2),
@@ -81,7 +82,7 @@ export default (level = 1, profession = professions[rnd(professions.length)] ) =
     willpower  : leveling(level, profession.willpower / 10, 2),
     merry      : leveling(level, profession.merry     / 10, 2),
     profession : profession.profession,
-    uid        : uid(),
+    uid        : uidFactory(),
   };
   leveled.staminaState = leveled.stamina;
   leveled.willpowerState = leveled.willpower;

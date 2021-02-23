@@ -1,6 +1,8 @@
 import { Children, useEffect, useState } from 'react';
+import profession, { profTypes } from '../rpg/profession';
 import { amount, rnd, uid } from '../rpg/rpg';
 import { useSinglePlayerReducer } from '../rpg/singlePlayerTroll';
+import { useEntitiReducer } from '../rpg/useEntitiReduce';
 import CreateHero from './CreateHero';
 import GothicWindow from './GothicWindow';
 import HeroCard from './HeroCard';
@@ -20,6 +22,11 @@ export const MobilFrame = ({children}) => (
 export default () => {
   const troll = useSinglePlayerReducer();
   const [{game}] = troll;
+  const [test, {levelUp}] = useEntitiReducer(1);
+  useEffect( _ => {
+    console.log(test)
+    if (test?.level < 10) levelUp()
+  }, [test])
 
   return (
     <MobilFrame>
