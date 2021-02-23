@@ -1,14 +1,16 @@
-import {actionFactory, kebabToCamelCase} from 'react-troll';
+import {useTroll, actionFactory, kebabToCamelCase} from 'react-troll';
 import { physicalStrike, socialTalk, soulSkill } from '../gui/battleSaga';
 
 export const [getActionsLookup, action] = actionFactory(kebabToCamelCase);
 
-export const initialState = {
+const initialState = {
  round : 0,
  hero: null,
  game: {},
  entities: {},
  focus: null,
+ flow: [],
+ actionAnim: null,
 };
 
 export const 
@@ -23,10 +25,11 @@ export const
   FOCUS_ON = action('focus-on'),
   FIGHT = action('fight'),
   SKILL = action('skill'),
-  TALK  = action('talk')
+  TALK  = action('talk'),
+  PLAY_ACTION_ANIM = action('play-action-anim')
 ;
 
-export const gameReducer = (state, {type, payload}) => {
+const gameReducer = (state, {type, payload}) => {
   switch (type) {
     case SET_HERO: return {...state, hero: payload};
     case MOD_HERO: return {...state, hero: state.hero |> payload};
@@ -43,6 +46,7 @@ export const gameReducer = (state, {type, payload}) => {
     case FIGHT: return state |> fightRound |> useFullCheck;
     case SKILL: return state |> skillRound |> useFullCheck;
     case TALK:  return state |> talkRound  |> useFullCheck;
+    case PLAY_ACTION_ANIM: return {...state, actionAnim: payload};
     default: return state;
   }
 };
@@ -66,3 +70,4 @@ const fightRound = physicalStrike |> interactionRound;
 const skillRound = soulSkill |> interactionRound;
 const  talkRound = socialTalk |> interactionRound;
 
+export const useSinglePlayerReducer = _ => useTroll(gameReducer, initialState, getActionsLookup);

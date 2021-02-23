@@ -11,18 +11,15 @@ import { Button, FaceSprite, LoginWindow, NoreboMap, Button70, ItemSprite } from
 const capableOfAction = ({staminaState, willpowerState, merryState}) => staminaState && willpowerState && merryState;
 
 export default ({troll}) => {
-
-  const [actionAnim, playActionAnim] = useState(null);
+  const [
+    {hero, entities, focus, actionAnim}, 
+    {modHero, setGameState, setupEntities, focusOn, fight, skill, talk, playActionAnim}
+  ] = troll;
 
   const playAnim = anim => {
     anim |> playActionAnim;
     setTimeout(_ => null |> playActionAnim , 330);
-  }
-
-  const [
-    {hero, entities, focus}, 
-    {modHero, setGameState, setupEntities, focusOn, fight, skill, talk}
-  ] = troll;
+  };
 
   useEffect( _ => {
     const area = [...dryLand].sort(shuffle);

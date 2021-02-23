@@ -1,7 +1,6 @@
 import { Children, useEffect, useState } from 'react';
-import {useTroll} from 'react-troll';
 import { amount, rnd, uid } from '../rpg/rpg';
-import { gameReducer, getActionsLookup, initialState } from '../rpg/singlePlayerTroll';
+import { useSinglePlayerReducer } from '../rpg/singlePlayerTroll';
 import CreateHero from './CreateHero';
 import GothicWindow from './GothicWindow';
 import HeroCard from './HeroCard';
@@ -19,7 +18,7 @@ export const MobilFrame = ({children}) => (
 );
 
 export default () => {
-  const troll = useTroll(gameReducer, initialState, getActionsLookup);
+  const troll = useSinglePlayerReducer();
   const [{game}] = troll;
 
   return (

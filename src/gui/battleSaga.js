@@ -59,3 +59,10 @@ export const socialTalk = (a, b, round) => {
   target.merryState -= Math.min(dmg, target.merryState);
   return [a, b];
 }
+
+export const strikeDamage = ({physique}, improved = improved) => improved(physique / 2);
+export const mentalDamage = ({soul}, improved = improved) => improved(soul / 2);
+export const persuasion   = ({liaison}, improved = improved) => improved(liaison / 2);
+export const strikeOrder = (improved = improved) => (...entities) => entities
+  .map(entiti => [entiti, improved(entiti.reaction + (entiti.staminaState / 10))])
+  .sort(([a, aQuick],[b, bQuick]) => aQuick > bQuick ? 1 : -1 )
