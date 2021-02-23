@@ -1,6 +1,8 @@
 import { useTroll, actionFactory, kebabToCamelCase } from "react-troll";
 import profession, { profTypes } from "./profession";
 
+  // const [actionSet, action] = actionKebabCamelFactory();
+  // export const [useEmitReducer, action] = useKebabCamellTroll(reducer, initial)
   const [actionSet, action] = actionFactory(kebabToCamelCase);
 
   export const
