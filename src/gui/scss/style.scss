@@ -2,12 +2,10 @@ $asset : "/assets/";
 
 @import url('https://fonts.googleapis.com/css?family=Acme&display=swap');
 @import url('https://fonts.googleapis.com/css?family=VT323&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Shippori+Mincho&display=swap');
 
-h1, p {
-  // font-family: Lato;
-  font-family: 'Acme', sans-serif;
-  color: khaki;  
-}
+h1 { font-family: 'Acme', sans-serif; color: khaki;  }
+p  { font-family: 'Shippori+Mincho', sans-serif; color: khaki;  }
 
 pre {
   font-family: 'VT323', monospace;
@@ -136,7 +134,7 @@ pre { color: rgb(204, 186, 209); }
 
   pre {
     position: absolute;
-    font-family: 'VT323', monospace;
+    // font-family: 'VT323', monospace;
     top: 53px;
     left: 20px;
     color: black;
