@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`useEntitiReduce 1`] = `
+<pre>
+  {
+  "physique": 2,
+  "reaction": 2,
+  "soul": 2,
+  "liaison": 2,
+  "stamina": 3,
+  "willpower": 7,
+  "merry": 7,
+  "profession": "Children",
+  "uid": "_entitiy_",
+  "staminaState": 3,
+  "willpowerState": 7,
+  "merryState": 7,
+  "level": 1,
+  "type": {
+    "profession": "Children",
+    "physique": 1,
+    "reaction": 1,
+    "soul": 2,
+    "liaison": 1,
+    "stamina": 5,
+    "willpower": 50,
+    "merry": 50
+  }
+}
+</pre>
+`;

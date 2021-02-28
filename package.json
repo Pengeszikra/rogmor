@@ -1,6 +1,6 @@
 {
   "name": "react",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "private": true,
   "dependencies": {
     "callbag-basics": "^3.1.0",
@@ -14,7 +14,9 @@
   },
   "scripts": {
     "start": "parcel ./src/index.html -p 7777",
-    "build": "parcel build ./src/index.html"
+    "build": "parcel build ./src/index.html",
+    "test": "jest",
+    "watch": "jest --watchAll"
   },
   "staticFiles": {
     "staticPath": [
@@ -30,9 +32,16 @@
     "@babel/plugin-transform-runtime": "^7.11.0",
     "@babel/preset-env": "^7.10.4",
     "@babel/preset-react": "^7.10.4",
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.4.1",
     "babel-plugin-auto-import": "^1.1.0",
+    "enzyme": "^3.11.0",
+    "enzyme-to-json": "^3.6.1",
+    "jest": "^26.6.3",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-static-files-copy": "^2.3.1",
     "sass": "^1.32.5"
+  },
+  "jest": {
+    "snapshotSerializers": ["enzyme-to-json/serializer"] 
   }
 }
