@@ -556,3 +556,12 @@ body > * { user-select: none;}
     0% { transform: rotate3d(0, 0, 1, -280deg); }
   100% { transform: none; }
 }
+
+.story-line {
+  font-family: 'Shippori+Mincho';
+  color: #FED;
+  background: brown;
+  padding: 7px;
+  border-radius: 4px;
+  margin-bottom: 5px;
+}

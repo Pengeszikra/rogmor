@@ -5,6 +5,8 @@ import { shallow, configure } from "enzyme";
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 configure({ adapter: new Adapter() });
 
+const reactSnapshot = component => expect(shallow(component)).toMatchSnapshot();
+
 test ('create fighter', () => {  
   expect (
     profTypes.fighter
@@ -52,8 +54,23 @@ test ('useEntitiReduce', () => {
     return <pre>{JSON.stringify(unit, null, 2)}</pre>
   }
   
-  expect(shallow(
-    <Unit />
-  )).toMatchSnapshot();
+  expect(shallow(<Unit />)).toMatchSnapshot();
+});
 
+test ('reactSnapshot test with pipeline operator', () => {
+  const Unit = () => {
+    const [unit, actions] = useEntitiReducer()
+    return <pre>{JSON.stringify(unit, null, 2)}</pre>
+  }
+  
+  <Unit /> |> reactSnapshot;
+});
+
+test ('useEntitiReducer simple', () => {
+  const Unit = () => {
+    const [unit, actions] = useEntitiReducer()
+    return <pre>stamina: {unit.stamina}</pre>
+  }
+  
+  expect(shallow(<Unit />)).toMatchSnapshot();
 });

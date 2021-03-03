@@ -60,9 +60,13 @@ export const socialTalk = (a, b, round) => {
   return [a, b];
 }
 
-export const strikeDamage = ({physique}, improved = improved) => improved(physique / 2);
-export const mentalDamage = ({soul}, improved = improved) => improved(soul / 2);
-export const persuasion   = ({liaison}, improved = improved) => improved(liaison / 2);
-export const strikeOrder = (improved = improved) => (...entities) => entities
-  .map(entiti => [entiti, improved(entiti.reaction + (entiti.staminaState / 10))])
-  .sort(([a, aQuick],[b, bQuick]) => aQuick > bQuick ? 1 : -1 )
+export const strikeDamage = ({physique}, imp = improved) => imp(physique / 2);
+export const mentalDamage = ({soul}, imp = improved) => imp(soul / 2);
+export const persuasion   = ({liaison}, imp = improved) => imp(liaison / 2);
+export const strikeOrder = (imp = improved) => (...entities) => entities
+  .map(entiti => [entiti, imp(entiti.reaction + (entiti.staminaState / 10))])
+  .sort(([a, aQuick],[b, bQuick]) => aQuick > bQuick ? 1 : -1 );
+export const strikeFirst = (imp = improved) => (a, b) => 
+  imp(a.reaction + (a.staminaState / 10)) > imp(b.reaction + (b.staminaState / 10))
+  ? a
+  : b;

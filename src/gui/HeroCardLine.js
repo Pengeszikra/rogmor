@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import styler from './scss/styler';
 import { FaceSprite } from './setOfGuiElements';
 
-export default ({hero, children, ...props}) => {
+export default ({hero, children, color = 'black', ...props}) => {
   const {heroId, name, profession, level, physique, reaction, soul, stamina, willpower, staminaState, willpowerState, liaison, merry, merryState } = hero;
 
   return (
@@ -10,7 +10,7 @@ export default ({hero, children, ...props}) => {
       <FaceSprite data-face={heroId} />
       
       <svg className="hero-line-bars" viewBox="0 0 140 40">
-        <text fill="black" x={45} y={16}>level {level} {profession}</text>
+        <text fill={color} x={45} y={16}>level {level} {profession}</text>
         <rect fill="rgba(0,0,0,0.2)" width={100} height={4} x={45} y={22}/>
         <rect fill="rgb(138, 85, 25)" width={100 * staminaState / stamina} height={4} x={45} y={22}/>
 

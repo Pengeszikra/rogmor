@@ -8,6 +8,7 @@ import './gui/scss/style.scss';
 // import Rogmor from './gui/MobileRpg';
 // import Rogmor from './gui/Development';
 // import Rogmor from './gui/AgesOfTrolls';
-import Rogmor from './gui/SinglePlayer';
+// import Rogmor from './gui/SinglePlayer';
+import Rogmor from './gui/KnightQuest';
 
 render(<Rogmor />, document.getElementById('root'));
