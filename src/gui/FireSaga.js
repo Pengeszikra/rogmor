@@ -1,9 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import HeroCardLine from './HeroCardLine';
 import { MobilFrame } from './MobilFrame';
 import { Button70 } from './setOfGuiElements';
 import { jlog } from './TeamTest';
+import { itemDefinitions, mobDefinitions } from '../rpg/mobAndItemsDefinitions';
 import '../gui/scss/fire-saga.scss';
+
 
 // https://codepen.io/Omrega/pen/oNYMwBO?editors=1100
 
@@ -27,8 +29,8 @@ export const ItemCard = ({quality = QUALITY.zero, itemNumber, title, descript}) 
     </div>
   </div>
 );
-export const MobCard = ({quality = QUALITY.zero, mobNumber, title, descript}) => (
-  <div className="card">
+export const MobCard = ({quality = QUALITY.zero, mobNumber, title, descript, wide, ...props}) => (
+  <div className="card" data-wide={wide} {...props}>
     <div className={`card--icon face-sprite ${quality}`} data-face={mobNumber} />
     <div className="card--content">
       <h1>{title}</h1>
@@ -58,6 +60,8 @@ export const ExampleItemList = () => (
 );
 
 export default () => {
+  const [wides, setWides] = useState(Array(100).fill(1))
+
   return (
     <MobilFrame>
       <h1>Fire Saga</h1>
@@ -68,13 +72,23 @@ export default () => {
         Let me tell you of the days of high adventure!<br/>
       </p>
       <div className="grid">
-        {Array(100).fill().map((_, i) => (
-         <MobCard mobNumber={i} title={`mob: ${i}`} descript="" />
+        {wides.map((wide, i) => (
+         <MobCard 
+          key={i} 
+          mobNumber={i} 
+          title={`mob: ${i}`} 
+          descript={mobDefinitions?.[i]?.descript} 
+          onClick={ _ => setWides(ww => {
+            ww[i] = ww[i] >= 3 ? 1: ww[i] + 1; 
+            return [...ww];
+          })}
+          wide={wide}
+        />
         ))}
       </div>
       <div className="grid">
         {Array(45).fill().map((_, i) => (
-          <ItemCard key={i} itemNumber={i} quality={QUALITY.basic} title={`item: ${i}`} descript="" />
+          <ItemCard key={i} itemNumber={i} quality={QUALITY.basic} title={`item: ${i}`} descript={itemDefinitions?.[i]?.descript} />
         ))}
       </div>
     </MobilFrame>

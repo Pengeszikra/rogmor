@@ -35,3 +35,8 @@
 .quality-mythic    { filter: brightness(0.6) sepia(1) contrast(1.5) hue-rotate(270deg); }
 
 .head { grid-area: "c";}
+
+.simple, [data-wide="1"] { grid-column: auto / span 1; }
+.double, [data-wide="2"] { grid-column: auto / span 2; }
+.triple, [data-wide="3"] { grid-column: auto / span 3; }
+
