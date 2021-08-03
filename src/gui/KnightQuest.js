@@ -53,7 +53,7 @@ export default () => {
         </section>
       )}
       <p>Reducer esetében pedig ott lehetne az okosság, hogy valahogy programból összetett reduceret építeni.</p>
-      {story.map((line, key) => (
+      {hero && story.slice().reverse().map((line, key) => (
         <StoryLine key={key} text={line} />
       ))}
       <p>A reducer generátor összekapcsolása pedig a saga, végülis lehet annál nem kellene jobbat kitalálni</p>
