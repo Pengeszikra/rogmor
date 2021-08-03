@@ -76,4 +76,22 @@ export function * fightSaga(a, b, fallenOne = p => p) {
 
     > willpower  : Akaraterő és öntudat, ha az aktuális érték 0 - ra csökken akkor elájul
 
-    > merry      : Jókedv egyben reprezentálja a szociális energiát, álltalában nem túl lényeges a csatában, ellenben 
+    > merry      : Jókedv egyben reprezentálja a szociális energiát, álltalában nem túl lényeges a csatában, ellenben a párbeszédeknél fontos szerepet játszhat.
+
+
+# Modular user interface and react state in mmorpg game client side.
+```jsx
+export ({login}) => {
+
+  const [userState, useActions] = useUser(login);
+
+  return (
+    <UserInterface>
+      
+    </UserInterface>
+  )
+};
+
+
+
+```

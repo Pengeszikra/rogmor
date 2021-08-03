@@ -58,6 +58,11 @@ export default () => {
       ))}
       <p>A reducer generátor összekapcsolása pedig a saga, végülis lehet annál nem kellene jobbat kitalálni</p>
       <p>De valahogy a callbag az amiben lehetőséget látok, de ott is vannak problémás részek</p>
+
+      <br/>
+
+      <p>Viszont most az tűnik a helyes útnak, hogy az actions ne konkrétan módosítsam a stat-et, hanem csak tegyem be egy streambe a a sebzést, amit aztán tetszőlegesen meg lehet jeleníteni, illetve egy képesség módosíthat is.</p>
+      <p>Kellene még egy statusz vagy tag mező is amire lehetne szűrni, pld. elő / halott, elbódítva, lefagyasztva, alvó, stb ....</p>
       
   </MobilFrame>
   );
