@@ -10,6 +10,7 @@ import './gui/scss/style.scss';
 // import Rogmor from './gui/AgesOfTrolls';
 // import Rogmor from './gui/SinglePlayer';
 import Rogmor from './gui/KnightQuest';
+// import Rogmor from './gui/KnightQuestReworked';
 // import Rogmor from './gui/FireSaga';
 
 render(<Rogmor />, document.getElementById('root'));
