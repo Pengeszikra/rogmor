@@ -21,6 +21,7 @@ export default () => {
 
   return (
     <MobilFrame>
+      <h1>FRE - version of Rogmor</h1>
       <div style={{display:'flex', flexWrap:'wrap'}}>
         {!quest && units.map(unit => (
           <HeroCardLine hero={unit} key={unit?.uid} color="#FED" style={{width: 140}} onClick={ _ => unit |> selectHero}/>

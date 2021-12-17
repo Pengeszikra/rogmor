@@ -3,10 +3,12 @@
   "version": "0.2.2",
   "private": true,
   "dependencies": {
+    "@babel/plugin-transform-react-jsx": "^7.14.9",
     "callbag-basics": "^3.1.0",
     "callbag-interval": "^1.1.0",
     "callbag-sample": "^2.0.0",
     "callbag-take-to-finally": "^0.2.0",
+    "fre": "^2.1.1",
     "node-forge": "^0.10.0",
     "re": "^0.1.4",
     "react": "^17",
