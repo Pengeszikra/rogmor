@@ -10,7 +10,7 @@ import { Button, FaceSprite, LoginWindow, NoreboMap, Button70, ItemSprite } from
 
 const capableOfAction = ({staminaState, willpowerState, merryState}) => staminaState && willpowerState && merryState;
 
-export default ({troll}) => {
+export default function SingleAdventure({troll})  {
   const [
     {hero, entities, focus, actionAnim}, 
     {modHero, setGameState, setupEntities, focusOn, fight, skill, talk, playActionAnim}

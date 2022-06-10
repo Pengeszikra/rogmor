@@ -4,7 +4,7 @@ I founded my old RPG graphic on my desktop, so my plan is create some RPG
 game on react stack, maybe PWA output, easy as possible.
 
 ## Next goal:
-reworking this project to ```typescript``` and ```nextjs```
+reworking this project to ```typescript``` and ```nextjs``` builded by ```webpack```
 
 This is the next iteration of my dreams because it will be realised as nextjs project. Rogmor development started bye a stackblitz application in next step is made of react application until now but now we will go into the server.
 
