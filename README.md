@@ -1,8 +1,11 @@
 # [Rogmor](https://rogmor.vercel.app/) react + callbag stack implemented RPG
 > [at first created on stackblitz](stackblitz.com/edit/rogmor)
-
 I founded my old RPG graphic on my desktop, so my plan is create some RPG 
 game on react stack, maybe PWA output, easy as possible.
+
+## Next goal:
+reworking this project to ```typescript``` and ```nextjs```
+
 
 [How to make a MMORPG](https://noobtuts.com/articles/how-to-make-a-mmorpg)
 
@@ -19,6 +22,8 @@ Question is: what is the minimal requirement for usable mobil mmorpg ?
 ## use callbag as generator function controller
 I was used simple callbag to implement complex assyncron process like RPG combat calculaton, and NPC moves.
 > I use pipeline operator instead callbag pip() function.
+
+This one obsoleted ide. 
 
 ```js
   const letsFight = (a, b) => {
@@ -64,34 +69,19 @@ export function * fightSaga(a, b, fallenOne = p => p) {
 
 ### character attributes
 
-    > physique   : A karakter fizikuma az erőt és a rugallmasságot is beleértve
+    > physique   : It is physic of character including strength.
 
-    > reaction   : A reakció képesség ami a reflexeket és a gyors gondolkodást is magába foglalja
+    > reaction   : It is the reaction capability including first thinking and the reflex.
 
-    > soul       : A lelki egyensúlyt és a bölcsességet, valamint a logikus gondolkodást tükröző érték
+    > soul       : Spiritual harmony logical thinking and wisdom.
 
-    > liaison    : A karakter szociális és kommunikatív képessége
+    > liaison    : This is the character social and communication.
 
-    > stamina    : Állóképesség és kitartás, ha az akutáli érték 0 - ra csökken akkor cselekvés képtelenné válik
+    > stamina    : This is the stamina and Longevity. if value reduced to 0 then hero unable to do anything.
 
-    > willpower  : Akaraterő és öntudat, ha az aktuális érték 0 - ra csökken akkor elájul
+    > willpower  : Hero  willpower. If value reduce to 0 then hero is fall down.
 
-    > merry      : Jókedv egyben reprezentálja a szociális energiát, álltalában nem túl lényeges a csatában, ellenben a párbeszédeknél fontos szerepet játszhat.
-
-
-# Modular user interface and react state in mmorpg game client side.
-```jsx
-export ({login}) => {
-
-  const [userState, useActions] = useUser(login);
-
-  return (
-    <UserInterface>
-      
-    </UserInterface>
-  )
-};
+    > merry      : This is the fossil energy very helpful at communication situation.
 
 
-
-```
+This program will be refact to the nextjs I hope with that step I reach my goal to single typescript MMORPG will be a reachable goal.
