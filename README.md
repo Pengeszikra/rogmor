@@ -108,3 +108,11 @@ export default () => (
 
 import IGaveAnotherName from './components/NoNameComponent';
 ```
+
+# Database
+
+The big question is which database is perfect for this application? 
+
+- mongoDB
+- firebase
+- [supabase](https://supabase.com/docs/reference/javascript/installing)
