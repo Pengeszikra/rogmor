@@ -20,9 +20,12 @@ body, #root {
   font-family: 'Acme', sans-serif;
   background: #181818;
   width: 100vw;
+  max-width: 400px;
+  margin: 0 auto;
   height: 100vh;
   overflow: hidden;
   display: flex;
+  filter: grayscale(.7);
 }
 
 .wireframe {
