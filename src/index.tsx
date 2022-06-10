@@ -1,5 +1,5 @@
 import { render } from 'react-dom';
 import './gui/scss/style.scss';
-import Rogmor from './gui/SinglePlayer';
+import {SinglePlayer} from './gui/SinglePlayer';
 
-render(<Rogmor />, document.getElementById('root'));
+render(<SinglePlayer />, document.getElementById('root'));

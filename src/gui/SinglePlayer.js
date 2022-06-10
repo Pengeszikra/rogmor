@@ -3,7 +3,7 @@ import { useSinglePlayerReducer } from '../rpg/singlePlayerTroll';
 import SingleAdventure from './SingleAdventure';
 import CreateHero from './CreateHero';
 
-export default () => {
+export const SinglePlayer = () => {
   const troll = useSinglePlayerReducer();
   const [{game}] = troll;
 
@@ -13,4 +13,4 @@ export default () => {
       {game?.isPlay && <SingleAdventure troll={troll} />}
     </MobilFrame>
   );
-}
+};
