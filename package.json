@@ -25,10 +25,10 @@
     "webpack-glsl-loader": "^1.0.1"
   },
   "scripts": {
-    "next:dev": "next dev",
-    "next:build": "next build",
+    "dev": "next dev",
+    "build": "next build",
     "next:start": "next start",
-    "build": "webpack --mode production",
+    "web:build": "webpack --mode production",
     "start": "webpack-dev-server --port 7777 --mode development",
     "lint": "eslint ./src",
     "test": "jest",
