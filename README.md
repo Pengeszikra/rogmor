@@ -1,11 +1,15 @@
 # [Rogmor](https://rogmor.vercel.app/) react + callbag stack implemented RPG
-> [at first created on stackblitz](stackblitz.com/edit/rogmor)
+> [at first created on stackblitz](https://stackblitz.com/edit/rogmor)
 I founded my old RPG graphic on my desktop, so my plan is create some RPG 
 game on react stack, maybe PWA output, easy as possible.
 
 ## Next goal:
 reworking this project to ```typescript``` and ```nextjs```
 
+This is the next iteration of my dreams because it will be realised as nextjs project. Rogmor development started bye a stackblitz application in next step is made of react application until now but now we will go into the server.
+
+![compact view of development](./src/documents/start-moment-of-nextjs.png)
+compact view of development
 
 [How to make a MMORPG](https://noobtuts.com/articles/how-to-make-a-mmorpg)
 
