@@ -32,7 +32,7 @@ const startingPosition = {x:7, y:8};
 export const heroFactory = (heroId, lvl = 1) => ({heroId, name: generateName(), ...profession(lvl)});
 export const itemFactory = (itemId) => ({itemId})
 
-export const xyToTopLeft = ({x, y}) => ({top:y * 40 + 00, left:x * 40 + 00});
+export const xyToTopLeft = ({x, y}) => ({top:y * 40 + 0, left:x * 40 + 0});
 
 export const jlog = p => JSON.stringify(p, null, 2);
 
