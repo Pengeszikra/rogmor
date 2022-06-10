@@ -85,3 +85,22 @@ export function * fightSaga(a, b, fallenOne = p => p) {
 
 
 This program will be refact to the nextjs I hope with that step I reach my goal to single typescript MMORPG will be a reachable goal.
+
+# Mistakes
+
+The following mistakes I made it when I wrote this program the first one are used exports define default solutions so that each component has no name and that is terrible resident and development tool: Component.
+
+```tsx
+// ./components/NoNameComponent.tsx
+
+export default () => (
+  <pre>
+    <p>Component whitout name</p>
+    <p>react component devtool isn't handle well this</p>
+  </pre>
+);
+
+// use
+
+import IGaveAnotherName from './components/NoNameComponent';
+```
