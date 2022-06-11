@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
+import generateName from '../rpg/generateName';
 
 export default () => {
   const [name, setName] = useState('');

@@ -53,7 +53,7 @@ export const gameReducer = (state, {type, payload}) => {
     case MOD_ENTITI: {
       const {entities} = state;
       return entities[payload?.uid] 
-        ? {...state, entities: {...entities, [uid]: payload} }
+        ? {...state, entities: {...entities, [payload?.uid]: payload} }
         : state;
     }
     default: return state;

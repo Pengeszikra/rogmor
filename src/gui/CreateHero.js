@@ -1,11 +1,11 @@
-import { Children, useEffect, useState } from 'react';
-import {useTroll} from 'react-troll';
-import { amount, rnd, uid } from '../rpg/rpg';
-import { gameReducer, getActionsLookup, initialState } from '../rpg/singlePlayerTroll';
-import GothicWindow from './GothicWindow';
+
+
+import {  rnd } from '../rpg/rpg';
+
+
 import HeroCard from './HeroCard';
-import styler from './scss/styler';
-import { BaseOfAdventure, ChatWindow, FaceSprite, InfoPanel, LoginWindow, NoreboMap, RogmorLogo, Button } from './setOfGuiElements';
+
+import {   FaceSprite,  LoginWindow,   Button } from './setOfGuiElements';
 import { heroFactory } from './TeamTest';
 
 export default function CreateHero({troll}) {

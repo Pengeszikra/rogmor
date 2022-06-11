@@ -1,12 +1,12 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import styler from './scss/styler';
 import HeroCard from './HeroCard';
 import GothicWindow from './GothicWindow';
 import generateName from '../rpg/generateName';
 import profession from '../rpg/profession';
-import { pipe, fromIter, forEach, interval } from 'callbag-basics';
-import sample from 'callbag-sample';
-import {improved, shuffle} from '../rpg/rpg';
+
+
+import { shuffle} from '../rpg/rpg';
 
 const  [Page, FaceSprite, BattleTeam, CloseButton, SimpleButton] = 
 styler ('page', 'face-sprite', 'battle-team', 'gui gui-xButton right-top', 'gui simple-button');
@@ -33,8 +33,6 @@ const Heroes = ({onChoose, changeRoute, children}) => (
 
 export default ({changeRoute, ...props}) => {
   const [who, chooseWho] = useState(null);
-
-  const logf = log => logFight(logs => [logs, log].join('\n'));
 
   const onChoose = hero => event => chooseWho(hero);
 

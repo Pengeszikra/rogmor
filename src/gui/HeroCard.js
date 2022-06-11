@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import styler from './scss/styler';
 
 const [FaceSprite, FaceWindow, ProcessBarBg, ProcessBarIndicator] = styler

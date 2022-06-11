@@ -1,7 +1,7 @@
 import { useTroll, actionFactory, kebabToCamelCase } from "react-troll";
-import { strikeDamage, strikeFirst, strikeOrder } from "../gui/battleSaga";
-import profession, { profTypes } from "./profession";
-import { dice, improved, rnd, shuffle } from "./rpg";
+import { strikeDamage, strikeFirst } from "../gui/battleSaga";
+import profession from "./profession";
+import { dice,  rnd, shuffle } from "./rpg";
 
 export const [actionSet, action] = actionFactory(kebabToCamelCase);
 

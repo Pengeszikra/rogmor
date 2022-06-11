@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react";
-import profession from "../rpg/profession";
+import {  useEffect } from "react";
+
 import { dryLand, coordToStyle } from "../rpg/rogmorMap";
-import { amount, rnd, shuffle } from "../rpg/rpg";
+import {  rnd, shuffle } from "../rpg/rpg";
 import { heroFactory } from "./AgesOfTrolls";
-import CompactHeroCard from "./CompactHeroCard"
+
 import HeroCard from "./HeroCard";
 import HeroCardLine from "./HeroCardLine";
-import { Button, FaceSprite, LoginWindow, NoreboMap, Button70, ItemSprite } from "./setOfGuiElements";
+import { Button, FaceSprite,  NoreboMap, Button70, ItemSprite } from "./setOfGuiElements";
 
 const capableOfAction = ({staminaState, willpowerState, merryState}) => staminaState && willpowerState && merryState;
 

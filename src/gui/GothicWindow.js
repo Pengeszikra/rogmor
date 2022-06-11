@@ -1,5 +1,5 @@
 import styler from './scss/styler';
-import asset from './scss/asset';
+
 
 const [ModalWindow, ModalWindowInner, Slice9GridHolder, GothicBackground, SliceContent] = styler(
   'modal-window', 

@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import styler from './scss/styler';
+import React from 'react';
+
 import { FaceSprite } from './setOfGuiElements';
 
 export default ({hero, children, color = 'black', ...props}) => {

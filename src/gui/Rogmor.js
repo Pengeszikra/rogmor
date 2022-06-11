@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import styler from './scss/styler';
-import asset from './scss/asset';
+
 import GothicWindow from './GothicWindow';
 import Battle from './Battle';
 import Leveling from './Leveling';
-import DebugElements from './DebugElements';
+
 
 const [Page, SimpleButton, RogmorLogo] = styler('page', 'gui simple-button button-line', 'gui-rogmor_198x63');
 

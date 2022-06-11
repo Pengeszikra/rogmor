@@ -39,7 +39,7 @@ const gameReducer = (state, {type, payload}) => {
     case MOD_ENTITI: {
       const {entities} = state;
       return entities[payload?.uid] 
-        ? {...state, entities: {...entities, [uid]: payload} }
+        ? {...state, entities: {...entities, [payload?.uid]: payload} }
         : state;
     };
     case FOCUS_ON: return {...state, focus: payload};

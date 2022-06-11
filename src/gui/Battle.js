@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import styler from './scss/styler';
 import HeroCard from './HeroCard';
 import GothicWindow from './GothicWindow';
 import generateName from '../rpg/generateName';
 import profession from '../rpg/profession';
-import { pipe, fromIter, forEach } from 'callbag-basics';
+import {  fromIter, forEach } from 'callbag-basics';
 import interval from 'callbag-interval';
 import sample from 'callbag-sample';
 import {improved, shuffle} from '../rpg/rpg';

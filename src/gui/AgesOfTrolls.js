@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styler from './scss/styler';
 import asset from './scss/asset';
-import Leveling from './Leveling';
-import Battle from './Battle';
+
+
 import generateName from '../rpg/generateName';
 import profession from '../rpg/profession';
-import { rnd, shuffle, improved, pickOne } from '../rpg/rpg';
-import { abToCoord, coordTo, dryLand, toCoord } from '../rpg/rogmorMap';
+import { rnd, shuffle,  pickOne } from '../rpg/rpg';
+import {  coordTo, dryLand, toCoord } from '../rpg/rogmorMap';
 import HeroCard from './HeroCard';
-import { fromIter, forEach, filter, take } from 'callbag-basics';
+import { fromIter, forEach,  take } from 'callbag-basics';
 import interval from 'callbag-interval';
 import sample from 'callbag-sample';
 import { fightSaga } from './battleSaga';

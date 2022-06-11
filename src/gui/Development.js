@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { rnd, uid } from '../rpg/rpg';
+import { rnd } from '../rpg/rpg';
 import GothicWindow from './GothicWindow';
 import HeroCard from './HeroCard';
-import styler from './scss/styler';
-import { BaseOfAdventure, ChatWindow, FaceSprite, InfoPanel, LoginWindow, NoreboMap, RogmorLogo } from './setOfGuiElements';
+
+import {  ChatWindow,   LoginWindow, NoreboMap } from './setOfGuiElements';
 import { heroFactory } from './TeamTest';
 
 

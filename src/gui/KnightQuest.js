@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { useNoreboReducer } from '../rpg/useNoreboReducer';
-import HeroCard from './HeroCard';
+
 import HeroCardLine from './HeroCardLine';
 import { MobilFrame } from './MobilFrame';
 import { Button70 } from './setOfGuiElements';
-import { jlog } from './TeamTest';
+
 
 const StoryLine = ({text}) => <div className="story-line">{text}</div>;
 
