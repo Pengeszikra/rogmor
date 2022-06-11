@@ -116,3 +116,19 @@ The big question is which database is perfect for this application?
 - mongoDB
 - firebase
 - [supabase](https://supabase.com/docs/reference/javascript/installing)
+
+# system design with [arrows](https://arrows.app/#/local/id=o8r9F2OklqH_7JgWSXnt)
+
+![arrows.app](/src/documents/RogmorTheNextRPG.svg)
+
+```
+MATCH path0 = (Talk)<--(NPC)-->()<--(Story)<--()<--(Hero)-->(Experience)<--(Story)<--(Skillset),
+path1 = (`Level `)-->()-->(Hero)-->(Inventory)-->()-->()-->(Hero)-->(Skillset),
+path2 = (NPC)-->()<--(Story)-->(Talk),
+path3 = (Login)-->(Play)-->(Hero)-->(`Level `)<--(Experience),
+path4 = (Story)-->()-->(Inventory),
+path5 = (Login)-->()-->(Play),
+path6 = (:instance)-->(Login),
+path7 = ()
+RETURN path0, path1, path2, path3, path4, path5, path6, path7
+```
