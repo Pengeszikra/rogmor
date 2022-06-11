@@ -132,3 +132,8 @@ path6 = (:instance)-->(Login),
 path7 = ()
 RETURN path0, path1, path2, path3, path4, path5, path6, path7
 ```
+## Important deployment step of Vercel
+I take few hour to solve the automatic vercel deployment from my gith repo.
+On Build & Development Settings drop down you can select nextjs instead of try output library set to `.next/`
+
+![nextjs to vercel build setup](./src/documents/vercel-nextjs-buildset-as-nextjs.png)
