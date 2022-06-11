@@ -28,9 +28,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "next:start": "next start",
+    "start": "next start",
     "web:build": "webpack --mode production",
-    "start": "webpack-dev-server --port 7777 --mode development",
+    "web:start": "webpack-dev-server --port 7777 --mode development",
     "lint": "eslint ./src",
     "test": "jest",
     "watch": "jest --watchAll",
