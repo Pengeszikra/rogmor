@@ -16,7 +16,7 @@
     "css-loader": "^6.3.0",
     "html-entities": "^2.3.3",
     "next": "^12.1.6",
-    "node-forge": "^0.10.0",
+    "node-forge": "^1.3.0",
     "react": "^17",
     "react-dom": "^17",
     "react-troll": "^0.0.4",
