@@ -15,7 +15,7 @@ import { fightSaga } from './battleSaga';
 import CompactHeroCard from './CompactHeroCard';
 import takeToFinally from 'callbag-take-to-finally';
 
-const wsServer = 'ws:/161.35.216.224:8080';
+const wsServer = 'ws:/188.166.45.33:8080';
 
 const [ModalWindow, Page, FaceSprite, FaceGallery, ItemSprite, BaseOfAdventure] = styler
       ('modal-window', 'page', 'face-sprite adventure--hero', 'face-gallery', 'item-sprite adventure--item', 'mobil-page');
@@ -123,7 +123,7 @@ export default () => {
       }
     } else if (false) {
       try {
-        const ws = new global.WebSocket(wsServer);
+        const ws = new global.WebSocket(wsServer); 
         const {name, level, profession} = hero;
         ws.onopen =  _ => {
           ws.send(`${name} lvl: ${level}-${profession} :: ${score}`)
