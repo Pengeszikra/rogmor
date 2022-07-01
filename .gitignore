@@ -5,3 +5,4 @@ dist/
 .next/
 yarn.lock
 yarn-error.log
+.env.local

@@ -1,8 +1,4 @@
-
-
 import {  rnd } from '../rpg/rpg';
-
-
 import HeroCard from './HeroCard';
 
 import {   FaceSprite,  LoginWindow,   Button } from './setOfGuiElements';
@@ -16,7 +12,12 @@ export default function CreateHero({troll}) {
   }] = troll;
 
   const handleRollHero = _ => heroFactory(100 |> rnd, 7) |> setHero;
-  const handleLetsAdventure = _ => setGameState(game =>({...game, isPlay:true}));
+  const handleLetsAdventure = _ => {
+    fetch(`/api/mdb?hero=${JSON.stringify(hero)}`).then(
+      () => 
+      setGameState(game =>({...game, isPlay:true}))
+    );
+  };
 
   return (<>
     <LoginWindow style={{margin:'0 auto'}}>
@@ -27,7 +28,7 @@ export default function CreateHero({troll}) {
     <p>Don't afraid there is no worst choice, and you can learn something different.</p>
     <p>Rogmor under chaotic statement at moment so prophecy talkimng about a skillfull hero, who will be restor odrer and peace to this land.</p>
     <p><i>Crazy fact that this is the server side version off Rogmor</i></p>
-    <p>version: 0.3.0</p>
+    <p>version: 0.3.1</p>
     {/* <section style={{overflowX:'auto'}}><NoreboMap/></section> */}
     <section className="large-button-group" style={{width:200, margin:'0 auto'}}>
       <Button inset="primary" onClick={handleRollHero}>Roll your character</Button>
