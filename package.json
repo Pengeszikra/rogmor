@@ -28,9 +28,9 @@
   },
   "scripts": {
     "dev": "next dev",
-    "next:build": "next build",
+    "build": "next build",
     "start": "next start",
-    "build": "webpack --mode production",
+    "web:build": "webpack --mode production",
     "web:start": "webpack-dev-server --port 7777 --mode development",
     "lint": "eslint ./src",
     "test": "jest",
