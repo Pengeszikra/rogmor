@@ -1,7 +1,7 @@
 import { SinglePlayer } from '../gui/SinglePlayer';
 
-export default function Home({ allPostsData }) {
+export default function Home() {
   return (
-      <SinglePlayer />  
+    <SinglePlayer />  
   );
 }
