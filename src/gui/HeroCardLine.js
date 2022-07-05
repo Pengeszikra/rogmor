@@ -7,8 +7,8 @@ export default ({hero, children, color = 'black', ...props}) => {
 
   return (
     <section className="hero-line" {...props}>
-      <FaceSprite data-face={heroId} />
-      
+      <div className='face-sprite adventure--hero big-face-line' data-face={heroId} />
+
       <svg className="hero-line-bars" viewBox="0 0 140 40">
         <text fill={color} x={45} y={16}>level {level} {profession}</text>
         <rect fill="rgba(0,0,0,0.2)" width={100} height={4} x={45} y={22}/>

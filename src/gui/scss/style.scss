@@ -582,4 +582,21 @@ body > * { user-select: none;}
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
+  border: none;
+}
+
+.big-face-line {
+  transform: scale(0);
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+
+  animation-name: showUp;
+  animation-duration: 300ms;
+  animation-fill-mode: both;
+}
+
+@keyframes showUp{
+  0% { transform: scale(0); }
+  100% { transform: scale(1.4); }
 }
