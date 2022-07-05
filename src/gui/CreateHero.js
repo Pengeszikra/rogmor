@@ -13,11 +13,12 @@ export default function CreateHero({troll}) {
 
   const handleRollHero = _ => heroFactory(100 |> rnd, 7) |> setHero;
   const handleLetsAdventure = _ => {
+    setGameState(game =>({...game, isPlay:true}))
     return;
-    fetch(`/api/mdb?hero=${JSON.stringify(hero)}`).then(
-      () => 
-      setGameState(game =>({...game, isPlay:true}))
-    );
+    // fetch(`/api/mdb?hero=${JSON.stringify(hero)}`).then(
+    //   () => 
+    //   setGameState(game =>({...game, isPlay:true}))
+    // );
   };
 
   return (<>
@@ -38,7 +39,7 @@ export default function CreateHero({troll}) {
     {hero && (
       <section className="large-button-group" style={{width:200, margin:'15px auto'}}>
         <Button inset="primary" onClick={handleLetsAdventure}>select this hero
-          <FaceSprite data-face={hero.heroId} style={{left:-20, top:-7}} />
+          <div className="face-sprite adventure--hero big-face" data-face={hero.heroId} />
         </Button>
         </section>
       )}
