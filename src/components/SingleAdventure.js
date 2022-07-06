@@ -2,11 +2,11 @@ import {  useEffect } from "react";
 
 import { dryLand, coordToStyle } from "../rpg/rogmorMap";
 import {  rnd, shuffle } from "../rpg/rpg";
-import { heroFactory } from "./AgesOfTrolls";
 
-import HeroCard from "./HeroCard";
-import HeroCardLine from "./HeroCardLine";
-import { Button, FaceSprite,  NoreboMap, Button70, ItemSprite } from "./setOfGuiElements";
+import HeroCard from "../gui/HeroCard";
+import HeroCardLine from "../gui/HeroCardLine";
+import { Button, FaceSprite,  NoreboMap, Button70, ItemSprite } from "../gui/setOfGuiElements";
+import { heroFactory } from '../rpg/heroFactory';
 
 const capableOfAction = ({staminaState, willpowerState, merryState}) => staminaState && willpowerState && merryState;
 

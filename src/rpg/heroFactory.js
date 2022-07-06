@@ -1,4 +1,4 @@
-import generateName from "./src/rpg/generateName";
-import profession from "./src/rpg/profession";
+import generateName from "./generateName";
+import profession from "./profession";
 
 export const heroFactory = (heroId, lvl = 1) => ({heroId, name: generateName(), ...profession(lvl)});

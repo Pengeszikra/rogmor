@@ -1,8 +1,8 @@
 import { rnd } from '../rpg/rpg';
-import HeroCard from './HeroCard';
+import HeroCard from '../gui/HeroCard';
 
-import { FaceSprite, LoginWindow, Button } from './setOfGuiElements';
-import { heroFactory } from './TeamTest';
+import { FaceSprite, LoginWindow, Button } from '../gui/setOfGuiElements';
+import { heroFactory } from '../rpg/heroFactory';
 
 export default function CreateHero({troll}) {
   const [{

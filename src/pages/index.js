@@ -1,4 +1,5 @@
-import { SinglePlayer } from '../gui/SinglePlayer';
+
+import { SinglePlayer } from '../components/SinglePlayer';
 
 export default function Home() {
   return (

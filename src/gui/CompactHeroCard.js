@@ -1,12 +1,10 @@
-import React, {useState} from 'react';
 import styler from './scss/styler';
 
-const [FaceSprite, SmallCard, ProcessBarBg, ProcessBarIndicator] = styler
+const [FaceSprite, SmallCard] = styler
       ('face-sprite', 'small-card gui gui-loginw', 'button-b', 'process-bar-indicator');
 
 export default ({hero, children, ...props}) => {
-  const {heroId, name, profession, level, physique, reaction, soul, stamina, willpower, staminaState, willpowerState } = hero;
-  const [process, setProcess] = useState(0);
+  const {heroId, profession, staminaState } = hero;
 
   return (
     <SmallCard {...props}>

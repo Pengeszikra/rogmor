@@ -1,4 +1,4 @@
-import { MobilFrame } from './MobilFrame';
+import { MobilFrame } from '../gui/MobilFrame';
 import { useSinglePlayerReducer } from '../rpg/singlePlayerTroll';
 import SingleAdventure from './SingleAdventure';
 import CreateHero from './CreateHero';
