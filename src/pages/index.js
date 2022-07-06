@@ -1,8 +1,4 @@
-
 import { SinglePlayer } from '../components/SinglePlayer';
 
-export default function Home() {
-  return (
-    <SinglePlayer />
-  );
-}
+const Home = () => <SinglePlayer />;
+export default Home;

@@ -30,8 +30,8 @@ export const reducer = (state, {type, payload}) => {
     case ADD_UNIT: return {...state, units: [...state.units, payload]};
     case ADD_RANDOM: {
       const random = {
-        ...profession(dice(payload ? payload : 12 |> dice)),
-        heroId: 100 |> rnd
+        ...profession(dice(payload ? payload : dice(12))),
+        heroId: rnd(100)
       }
       return {...state, units: [...state.units, random]}}
     ;

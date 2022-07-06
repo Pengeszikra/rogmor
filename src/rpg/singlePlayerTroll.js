@@ -32,9 +32,9 @@ export const
 const gameReducer = (state, {type, payload}) => {
   switch (type) {
     case SET_HERO: return {...state, hero: payload};
-    case MOD_HERO: return {...state, hero: state.hero |> payload};
-    case NEXT_ROUND: return {...state, round:  state.round |> payload};
-    case SET_GAME_STATE: return {...state, game: state.game |> payload};
+    case MOD_HERO: return {...state, hero: payload(state.hero)};
+    case NEXT_ROUND: return {...state, round: payload(state.round)};
+    case SET_GAME_STATE: return {...state, game: payload(state.game)};
     case SETUP_ENTITIES: return {...state, entities: payload};
     case MOD_ENTITI: {
       const {entities} = state;
@@ -43,9 +43,9 @@ const gameReducer = (state, {type, payload}) => {
         : state;
     };
     case FOCUS_ON: return {...state, focus: payload};
-    case FIGHT: return state |> fightRound |> useFullCheck;
-    case SKILL: return state |> skillRound |> useFullCheck;
-    case TALK:  return state |> talkRound  |> useFullCheck;
+    case FIGHT: return useFullCheck(fightRound(state));
+    case SKILL: return useFullCheck(skillRound(state));
+    case TALK:  return useFullCheck(talkRound(state));
     case PLAY_ACTION_ANIM: return {...state, actionAnim: payload};
     default: return state;
   }
@@ -66,8 +66,8 @@ const interactionRound = interaction => ({hero, entities, round, focus, ...rest}
   return {...rest, hero:hMod, round: round + 1, focus, entities:{...entities, [npcMod.uid]:npcMod}};
 };
 
-const fightRound = physicalStrike |> interactionRound;
-const skillRound = soulSkill |> interactionRound;
-const  talkRound = socialTalk |> interactionRound;
+const fightRound = interactionRound(physicalStrike);
+const skillRound = interactionRound(soulSkill);
+const  talkRound = interactionRound(socialTalk);
 
 export const useSinglePlayerReducer = _ => useTroll(gameReducer, initialState, getActionsLookup);

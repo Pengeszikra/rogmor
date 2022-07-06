@@ -35,13 +35,13 @@ export const
 export const gameReducer = (state, {type, payload}) => {
   switch (type) {
     case SET_HERO: return {...state, hero: payload};
-    case MOVE_HERO: return {...state, position: state.position |> payload};
+    case MOVE_HERO: return {...state, position: payload(state.position)};
     case SET_JOURNAL: return {...state, journal: payload};
     case SETUP_ENEMYS: return {...state, enemys: payload};
     case SETUP_ITEMS: return {...state, items: payload};
     case SET_FIGHT: return {...state, fight: payload};
-    case INC_STEPP: return {...state, stepp:  state.stepp |> payload};
-    case SET_GAME_STATE: return {...state, game: state.game |> payload};
+    case INC_STEPP: return {...state, stepp: payload(state.stepp)};
+    case SET_GAME_STATE: return {...state, game: payload(state.game)};
     case RUN_AWAY: return {...state, underEscaping: payload};
     case SETUP_ENTITIES: return {...state, entities: payload};
     case MOD_ENEMY: {

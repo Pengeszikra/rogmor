@@ -11,7 +11,7 @@ export default function CreateHero({troll}) {
     setHero, setGameState,
   }] = troll;
 
-  const handleRollHero = _ => heroFactory(100 |> rnd, 7) |> setHero;
+  const handleRollHero = _ => setHero(heroFactory(rnd(100), 7));
   const handleLetsAdventure = _ => {
     setGameState(game =>({...game, isPlay:true}))
     return;

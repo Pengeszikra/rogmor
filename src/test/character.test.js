@@ -63,7 +63,7 @@ test ('reactSnapshot test with pipeline operator', () => {
     return <pre>{JSON.stringify(unit, null, 2)}</pre>
   }
   
-  <Unit /> |> reactSnapshot;
+  reactSnapshot(<Unit />);
 });
 
 test ('useEntitiReducer simple', () => {
