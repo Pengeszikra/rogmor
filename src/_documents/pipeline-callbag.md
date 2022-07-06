@@ -1,14 +1,14 @@
-# [Rogmor](https://rogmor.vercel.app/) nextjs implemented RPG
+# [Rogmor](https://rogmor.vercel.app/) react + callbag stack implemented RPG
 > [at first created on stackblitz](https://stackblitz.com/edit/rogmor)
 I founded my old RPG graphic on my desktop, so my plan is create some RPG 
 game on react stack, maybe PWA output, easy as possible.
 
 ## Next goal:
-reworking this project to ```typescript``` and ```nextjs``` builded by ```SWC```
+reworking this project to ```typescript``` and ```nextjs``` builded by ```webpack```
 
 This is the next iteration of my dreams because it will be realised as nextjs project. Rogmor development started bye a stackblitz application in next step is made of react application until now but now we will go into the server.
 
-![compact view of development](./src/_documents/start-moment-of-nextjs.png)
+![compact view of development](./src/documents/start-moment-of-nextjs.png)
 compact view of development
 
 [How to make a MMORPG](https://noobtuts.com/articles/how-to-make-a-mmorpg)
@@ -23,7 +23,19 @@ Question is: what is the minimal requirement for usable mobil mmorpg ?
 [tile maps](https://developer.mozilla.org/en-US/docs/Games/Techniques/Tilemaps)
 [tile image example](https://media.prod.mdn.mozit.cloud/attachments/2015/10/06/11697/40b391b2f58425eb78ddd0660fb8fb2e/tile_atlas.png)
 
-# first saga controlled fight
+## use callbag as generator function controller
+I was used simple callbag to implement complex assyncron process like RPG combat calculaton, and NPC moves.
+> I use pipeline operator instead callbag pip() function.
+
+This one obsoleted ide. 
+
+```js
+  const letsFight = (a, b) => {
+    interval(30) |>
+    sample(fromIter(fightSaga(a, b, someOneLoose, stayInBattle))) |>
+    forEach(justInc)
+  };
+```
 
 ```js
 export function * fightSaga(a, b, fallenOne = p => p) {
@@ -101,13 +113,13 @@ import IGaveAnotherName from './components/NoNameComponent';
 
 The big question is which database is perfect for this application? 
 
-- mongoDB - already selected mongoDB cloud one
+- mongoDB
 - firebase
 - [supabase](https://supabase.com/docs/reference/javascript/installing)
 
 # system design with [arrows](https://arrows.app/#/local/id=o8r9F2OklqH_7JgWSXnt)
 
-![arrows.app](/src/_documents/RogmorTheNextRPG.svg)
+![arrows.app](/src/documents/RogmorTheNextRPG.svg)
 
 ```
 MATCH path0 = (Talk)<--(NPC)-->()<--(Story)<--()<--(Hero)-->(Experience)<--(Story)<--(Skillset),
@@ -124,4 +136,4 @@ RETURN path0, path1, path2, path3, path4, path5, path6, path7
 I take few hour to solve the automatic vercel deployment from my gith repo.
 On Build & Development Settings drop down you can select nextjs instead of try output library set to `.next/`
 
-![nextjs to vercel build setup](./src/_documents/vercel-nextjs-buildset-as-nextjs.png)
+![nextjs to vercel build setup](./src/documents/vercel-nextjs-buildset-as-nextjs.png)
