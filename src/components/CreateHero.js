@@ -4,6 +4,7 @@ import getConfig from 'next/config';
 
 import { FaceSprite, LoginWindow, Button } from '../gui/setOfGuiElements';
 import { heroFactory } from '../rpg/heroFactory';
+import { Blog } from './Blog';
 
 
 export default function CreateHero({troll}) {
@@ -49,5 +50,6 @@ export default function CreateHero({troll}) {
         </Button>
         </section>
       )}
+    <Blog />
   </>);
 }
