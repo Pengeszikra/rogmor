@@ -1,8 +1,10 @@
 import { rnd } from '../rpg/rpg';
 import HeroCard from '../gui/HeroCard';
+import getConfig from 'next/config';
 
 import { FaceSprite, LoginWindow, Button } from '../gui/setOfGuiElements';
 import { heroFactory } from '../rpg/heroFactory';
+
 
 export default function CreateHero({troll}) {
   const [{
@@ -10,6 +12,8 @@ export default function CreateHero({troll}) {
   },{
     setHero, setGameState,
   }] = troll;
+
+  const { publicRuntimeConfig:{version} } = getConfig();
 
   const handleRollHero = _ => setHero(heroFactory(rnd(100), 7));
   const handleLetsAdventure = _ => {
@@ -21,6 +25,8 @@ export default function CreateHero({troll}) {
     // );
   };
 
+
+
   return (<>
     <LoginWindow style={{margin:'0 auto'}}>
       <h1 style={{padding:30, color:'#000'}}>Rogmor the Next:RPG</h1>
@@ -30,7 +36,7 @@ export default function CreateHero({troll}) {
     <p>Don't afraid there is no worst choice, and you can learn something different.</p>
     <p>Rogmor under chaotic statement at moment so prophecy talkimng about a skillfull hero, who will be restor odrer and peace to this land.</p>
     <p><i>Crazy fact that this is the server side version off Rogmor</i></p>
-    <p>version: 0.3.4</p>
+    <p>version: {version}</p>
     {/* <section style={{overflowX:'auto'}}><NoreboMap/></section> */}
     <section className="large-button-group" style={{width:200, margin:'0 auto'}}>
       <Button inset="primary" onClick={handleRollHero}>Roll your character</Button>
