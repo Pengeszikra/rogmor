@@ -2,11 +2,11 @@ import {  useEffect } from "react";
 
 import { dryLand, coordToStyle } from "../rpg/rogmorMap";
 import {  rnd, shuffle } from "../rpg/rpg";
-import { heroFactory } from "./AgesOfTrolls";
 
-import HeroCard from "./HeroCard";
-import HeroCardLine from "./HeroCardLine";
-import { Button, FaceSprite,  NoreboMap, Button70, ItemSprite } from "./setOfGuiElements";
+import HeroCard from "../gui/HeroCard";
+import HeroCardLine from "../gui/HeroCardLine";
+import { Button, FaceSprite,  NoreboMap, Button70, ItemSprite } from "../gui/setOfGuiElements";
+import { heroFactory } from '../rpg/heroFactory';
 
 const capableOfAction = ({staminaState, willpowerState, merryState}) => staminaState && willpowerState && merryState;
 
@@ -17,28 +17,28 @@ export default function SingleAdventure({troll})  {
   ] = troll;
 
   const playAnim = anim => {
-    anim |> playActionAnim;
-    setTimeout(_ => null |> playActionAnim , 330);
+    playActionAnim(anim);
+    setTimeout(_ => playActionAnim(null) , 330);
   };
 
   useEffect( _ => {
     const area = [...dryLand].sort(shuffle);
     const entitiesArray = area
       .slice(-45)
-      .map(coord => ({coord, ...(heroFactory(100 |> rnd, rnd(10) + 1))}))
+      .map(coord => ({coord, ...(heroFactory(rnd(100), rnd(10) + 1))}))
     setupEntities(entitiesArray.reduce((col, {uid, ...rest}) => ({...col, [uid]: ({uid, ...rest})}) , {}));
     modHero(h => ({...h, coord: area[0]}));
   }, []);
 
-  const infoAbout = npc => _ => npc.uid |> focusOn;
+  const infoAbout = npc => _ => focusOn(npc.uid);
   const handleToStart = _ => setGameState(game => ({...game, isPlay: false}))
   const moveHero = direction => ({coord, ...rest}) => {
     const target = coord + direction;
-    null |> focusOn;
+    focusOn(null);
     if (dryLand.includes(target)) {
       const who = Object.values(entities).filter(capableOfAction).find(({coord}) => coord === target );
       if (who) {
-        who.uid |> focusOn;
+        focusOn(who.uid);
         return ({coord, ...rest});  
       }
       return ({coord: target, ...rest});
@@ -55,15 +55,15 @@ export default function SingleAdventure({troll})  {
               key={uid} 
               data-face={heroId} 
               data-prof={profession} 
-              style={coord |> coordToStyle} 
+              style={coordToStyle(coord)} 
             />
           )
         )}
         {hero?.coord && (
           <FaceSprite 
             data-face={hero?.heroId} 
-            style={hero.coord |> coordToStyle} 
-            onClick={_ => null |> focusOn}
+            style={coordToStyle(hero.coord)} 
+            onClick={() => focusOn(null)}
           />
         )}
 
@@ -80,10 +80,10 @@ export default function SingleAdventure({troll})  {
     )}
     {true && (
       <section className="large-button-group" style={{margin:0, width: 230, position: 'relative'}}>
-        <Button70 inset="primary" onClick={ _ => modHero(-1000 |> moveHero)} style={{margin: '10px 50px'}}>up</Button70>
-        <Button70 inset="primary" onClick={ _ => modHero(   -1 |> moveHero)}>left</Button70>
-        <Button70 inset="primary" onClick={ _ => modHero( 1000 |> moveHero)}>down</Button70>
-        <Button70 inset="primary" onClick={ _ => modHero(    1 |> moveHero)}>right</Button70>
+        <Button70 inset="primary" onClick={ _ => modHero(moveHero(-1000))} style={{margin: '10px 50px'}}>up</Button70>
+        <Button70 inset="primary" onClick={ _ => modHero(moveHero(   -1))}>left</Button70>
+        <Button70 inset="primary" onClick={ _ => modHero(moveHero( 1000))}>down</Button70>
+        <Button70 inset="primary" onClick={ _ => modHero(moveHero(    1))}>right</Button70>
       </section>
     )}
 
