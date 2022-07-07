@@ -12,7 +12,7 @@ const capableOfAction = ({staminaState, willpowerState, merryState}) => staminaS
 
 export default function SingleAdventure({troll})  {
   const [
-    {hero, entities, focus, actionAnim}, 
+    {hero, entities, focus, actionAnim, combatResult}, 
     {modHero, setGameState, setupEntities, focusOn, fight, skill, talk, playActionAnim}
   ] = troll;
 
@@ -77,6 +77,9 @@ export default function SingleAdventure({troll})  {
           <HeroCardLine hero={entities[focus]} />
         </div>
       </section>
+    )}
+    {combatResult && (
+      <p>{combatResult}</p>
     )}
     {true && (
       <section className="large-button-group" style={{margin:0, width: 230, position: 'relative'}}>

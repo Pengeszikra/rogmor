@@ -4,13 +4,14 @@ import { physicalStrike, socialTalk, soulSkill } from '../gui/battleSaga';
 export const [getActionsLookup, action] = actionFactory(kebabToCamelCase);
 
 const initialState = {
- round : 0,
- hero: null,
- game: {},
- entities: {},
- focus: null,
- flow: [],
- actionAnim: null,
+  round : 0,
+  hero: null,
+  game: {},
+  entities: {},
+  focus: null,
+  flow: [],
+  actionAnim: null,
+  combatResult: null,
 };
 
 export const 
@@ -32,7 +33,7 @@ export const
 const gameReducer = (state, {type, payload}) => {
   switch (type) {
     case SET_HERO: return {...state, hero: payload};
-    case MOD_HERO: return {...state, hero: payload(state.hero)};
+    case MOD_HERO: return {...state, hero: payload(state.hero), combatResult:null};
     case NEXT_ROUND: return {...state, round: payload(state.round)};
     case SET_GAME_STATE: return {...state, game: payload(state.game)};
     case SETUP_ENTITIES: return {...state, entities: payload};
@@ -58,12 +59,23 @@ const useFullCheck = ({focus, entities, ...rest}) => {
   return staminaState > 0 
       && willpowerState > 0 
       && merryState > 0
-      ? {focus, entities, ...rest} : {focus: null, entities, ...rest}; 
-}
+        ? {focus, entities, ...rest} 
+        : {focus: null, entities, ...rest}; 
+};
 
-const interactionRound = interaction => ({hero, entities, round, focus, ...rest}) => {
+const checkIsLive = ({staminaState, willpowerState, merryState}) => (staminaState > 0 && willpowerState > 0 && merryState > 0);
+
+const interactionRound = interaction => ({hero, entities, round, focus, combatResult, ...rest}) => {
   const [hMod, npcMod] = interaction(hero, entities[focus], round);
-  return {...rest, hero:hMod, round: round + 1, focus, entities:{...entities, [npcMod.uid]:npcMod}};
+  const heroIsDie = !checkIsLive(hMod);
+  const npcIsDie = !checkIsLive(npcMod);
+  const newCombatResult = heroIsDie
+    ? "your adventure is over"
+    : npcIsDie
+      ? `great win over: ${npcMod.name}`
+      : combatResult
+  ;
+  return {...rest, hero:hMod, round: round + 1, focus, entities:{...entities, [npcMod.uid]:npcMod}, combatResult: newCombatResult};
 };
 
 const fightRound = interactionRound(physicalStrike);

@@ -10,7 +10,6 @@ export const SinglePlayer = () => {
 
   return (
     <MobilFrame>
-      
       <Head>
         <title>The Next Hero</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
