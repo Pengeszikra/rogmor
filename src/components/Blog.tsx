@@ -44,13 +44,13 @@ export const Blog = () => {
           <button onClick={sendMessageToSocket} className="p-2 border-2 hover:bg-slate-100">send</button>
         </div>
 
-        <pre className='w-8/12'>{list.map(
+        <div style={{width:'100%'}}>{list.map(
           ({msg, id}) => (
             <div key={id} className='p-4 rounded-lg border-2 m-2 hover:bg-slate-100 flex'>
-              <div className='p-2 whitespace-normal'>{msg}</div>
+              <p className='p-2 whitespace-normal'>{msg}</p>
             </div>
           )
-        )}</pre>
+        )}</div>
 
     </section>
   )

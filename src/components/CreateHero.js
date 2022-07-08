@@ -4,8 +4,6 @@ import getConfig from 'next/config';
 
 import { FaceSprite, LoginWindow, Button } from '../gui/setOfGuiElements';
 import { heroFactory } from '../rpg/heroFactory';
-import { Blog } from './Blog';
-
 
 export default function CreateHero({troll}) {
   const [{
@@ -20,13 +18,7 @@ export default function CreateHero({troll}) {
   const handleLetsAdventure = _ => {
     setGameState(game =>({...game, isPlay:true}))
     return;
-    // fetch(`/api/mdb?hero=${JSON.stringify(hero)}`).then(
-    //   () => 
-    //   setGameState(game =>({...game, isPlay:true}))
-    // );
   };
-
-
 
   return (<>
     <LoginWindow style={{margin:'0 auto'}}>
@@ -50,6 +42,5 @@ export default function CreateHero({troll}) {
         </Button>
         </section>
       )}
-    <Blog />
   </>);
 }
