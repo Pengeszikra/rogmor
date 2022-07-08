@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FC } from 'react';
+import { FaceSprite } from '../gui/setOfGuiElements';
 
 interface InputEvent {
   target: {
@@ -8,17 +9,21 @@ interface InputEvent {
 
 interface Message { 
   id:string; 
-  sendBy: string; 
   msg: string; 
+  name?: string;
+  avatar?: string;
 }
 
-export const Blog = () => {
+export interface IBlogWriter {
+  name: string;
+  avatar: string;
+}
 
-  const [senderName, setSenderName] = useState("guest");
+export const Blog:FC<IBlogWriter> = ({name, avatar}) => {
+
   const [message, setMessage] = useState("");
   const [list, setList] = useState<Message[]>([]);
   const handleChangeMessage = (event:InputEvent) => setMessage(event?.target?.value)
-  const handleChangeSender = (event:InputEvent) => setSenderName(event?.target?.value)
 
   useEffect(() => {
     fetch(`/api/blog`)
@@ -27,17 +32,17 @@ export const Blog = () => {
   }, []);
   
   const sendMessageToSocket = () => {
-    if (message) {
-      fetch(`/api/blog?msg=${message}`)
+    if (message && avatar && name) {
+      setMessage("");
+      fetch(`/api/blog?name=${name}&avatar=${avatar}&msg=${message}`)
         .then(r => r.json())
         .then((result) => {
           setList(result);
-          setMessage("");
         });
     };
   }
 
-  return (
+  return name ? (
     <section>
         <div className="p-4 rounded-lg border-2 m-2 flex gap-2 w-8/12">
           <input onChange={handleChangeMessage} className="p-2 border-2 bg-slate-100" type="text" value={message} />
@@ -45,13 +50,19 @@ export const Blog = () => {
         </div>
 
         <div style={{width:'100%'}}>{list.map(
-          ({msg, id}) => (
+          ({msg, id, name, avatar}) => (
             <div key={id} className='p-4 rounded-lg border-2 m-2 hover:bg-slate-100 flex'>
+              {avatar && name && (
+                <section>
+                  <span>{name}</span>
+                  <FaceSprite data-face={avatar} style={{position: 'relative'}}/>
+                </section>
+              )}
               <p className='p-2 whitespace-normal'>{msg}</p>
             </div>
           )
         )}</div>
 
     </section>
-  )
+  ) : <></>;
 }

@@ -6,10 +6,10 @@ export default async function handler(
 ) {
   let { db } = await connectToDatabase();
   
-  const {query:{msg} = {}} = req;
+  const {query:{msg, avatar, name} = {}} = req;
 
-  if (msg) {
-    await db.collection("blog").insertOne({msg});
+  if (msg && avatar && name) {
+    await db.collection("blog").insertOne({msg, avatar, name});
   }
 
   const result = await db.collection("blog")

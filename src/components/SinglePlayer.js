@@ -7,7 +7,7 @@ import { Blog } from './Blog';
 
 export const SinglePlayer = () => {
   const troll = useSinglePlayerReducer();
-  const [{game}] = troll;
+  const [{game, hero}] = troll;
 
   return (
     <MobilFrame>
@@ -19,7 +19,7 @@ export const SinglePlayer = () => {
 
       {!game?.isPlay && <CreateHero troll={troll} />}
       {game?.isPlay && <SingleAdventure troll={troll} />}
-      <Blog />
+      <Blog name={hero?.name} avatar={hero?.heroId} />
     </MobilFrame>
   );
 };
