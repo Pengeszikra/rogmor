@@ -19,9 +19,10 @@ export interface IBlogWriter {
   avatar: string;
 }
 
-export const blogSameUserHeaderMap = ({name, avatar, ...rest}, index, postList) => postList?.[index - 1]?.name === name
-  ? ({...rest})
-  : ({name, avatar, ...rest})
+type TBlogMap = (content:Message, index:number, list:Message[]) => Message;
+export const blogSameUserHeaderMap:TBlogMap = (content, index, postList) => postList?.[index - 1]?.name === content?.name
+  ? ({msg:content.msg, id: content.id})
+  : content
 ;
 
 export const Blog:FC<IBlogWriter> = ({name, avatar}) => {
@@ -57,15 +58,15 @@ export const Blog:FC<IBlogWriter> = ({name, avatar}) => {
         <div style={{width:'100%'}}>{list
           .map(blogSameUserHeaderMap)
           .map(
-            ({msg, id, name, avatar}) => (
-              <div key={id} className='p-4 rounded-lg border-2 m-2 hover:bg-slate-100 flex'>
-                {avatar && name && (
+            post => (
+              <div key={post.id} className='p-4 rounded-lg border-2 m-2 hover:bg-slate-100 flex'>
+                {post?.avatar && post?.name && (
                   <section className="blog-header">
                     <FaceSprite data-face={avatar} style={{position: 'relative'}}/>
                     <span>{name}</span>
                   </section>
                 )}
-                <p className='p-2 whitespace-normal'>{msg}</p>
+                <p className='p-2 whitespace-normal'>{post.msg}</p>
               </div>
             )
           )
