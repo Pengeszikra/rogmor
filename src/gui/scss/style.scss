@@ -600,3 +600,9 @@ body > * { user-select: none;}
   0% { transform: scale(0); }
   100% { transform: scale(1.4); }
 }
+
+.blog-header {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}

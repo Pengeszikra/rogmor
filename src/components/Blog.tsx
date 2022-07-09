@@ -19,6 +19,11 @@ export interface IBlogWriter {
   avatar: string;
 }
 
+export const blogSameUserHeaderMap = ({name, avatar, ...rest}, index, postList) => postList?.[index - 1]?.name === name
+  ? ({...rest})
+  : ({name, avatar, ...rest})
+;
+
 export const Blog:FC<IBlogWriter> = ({name, avatar}) => {
 
   const [message, setMessage] = useState("");
@@ -49,19 +54,22 @@ export const Blog:FC<IBlogWriter> = ({name, avatar}) => {
           <button onClick={sendMessageToSocket} className="p-2 border-2 hover:bg-slate-100">send</button>
         </div>
 
-        <div style={{width:'100%'}}>{list.map(
-          ({msg, id, name, avatar}) => (
-            <div key={id} className='p-4 rounded-lg border-2 m-2 hover:bg-slate-100 flex'>
-              {avatar && name && (
-                <section>
-                  <span>{name}</span>
-                  <FaceSprite data-face={avatar} style={{position: 'relative'}}/>
-                </section>
-              )}
-              <p className='p-2 whitespace-normal'>{msg}</p>
-            </div>
+        <div style={{width:'100%'}}>{list
+          .map(blogSameUserHeaderMap)
+          .map(
+            ({msg, id, name, avatar}) => (
+              <div key={id} className='p-4 rounded-lg border-2 m-2 hover:bg-slate-100 flex'>
+                {avatar && name && (
+                  <section className="blog-header">
+                    <FaceSprite data-face={avatar} style={{position: 'relative'}}/>
+                    <span>{name}</span>
+                  </section>
+                )}
+                <p className='p-2 whitespace-normal'>{msg}</p>
+              </div>
+            )
           )
-        )}</div>
+        }</div>
 
     </section>
   ) : <></>;
