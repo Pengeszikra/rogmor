@@ -62,8 +62,8 @@ export const Blog:FC<IBlogWriter> = ({name, avatar}) => {
               <div key={post.id} className='p-4 rounded-lg border-2 m-2 hover:bg-slate-100 flex'>
                 {post?.avatar && post?.name && (
                   <section className="blog-header">
-                    <FaceSprite data-face={avatar} style={{position: 'relative'}}/>
-                    <span>{name}</span>
+                    <FaceSprite data-face={post.avatar} style={{position: 'relative'}}/>
+                    <span>{post.name}</span>
                   </section>
                 )}
                 <p className='p-2 whitespace-normal'>{post.msg}</p>
