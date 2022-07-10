@@ -22,7 +22,7 @@ export const MultiProcessBar = ({process = [1,1,1], ...props}) => {
 }
 
 export default ({hero, children, ...props}) => {
-  const {heroId, name, profession, level, physique, reaction, soul, stamina, willpower, staminaState, willpowerState, liaison, merry, merryState } = hero;
+  const {heroId, name, profession, level, body, reaction, soul, stamina, willpower, staminaState, willpowerState, popular, joyful, joyfulState } = hero;
   // const [process, setProcess] = useState(0);
 
   return (
@@ -31,15 +31,15 @@ export default ({hero, children, ...props}) => {
       <span>{name} the {profession}</span>
       <pre>{`
         Level: ${level}
-     Physique: ${physique}
+         Body: ${body}
      Reaction: ${reaction}
          Soul: ${soul}
-      Liaison: ${liaison}
+      Popular: ${popular}
       Stamina: ${staminaState} / ${stamina}
     Willpower: ${willpowerState} / ${willpower}
-        Merry: ${merryState} / ${merry}
+       Joyful: ${joyfulState} / ${joyful}
         `}
-        <MultiProcessBar process={[staminaState / stamina, willpowerState / willpower, merryState / merry]} style={{width: 160, marginLeft: 15, marginTop: -10}} />
+        <MultiProcessBar process={[staminaState / stamina, willpowerState / willpower, joyfulState / joyful]} style={{width: 160, marginLeft: 15, marginTop: -10}} />
       </pre>
       {children}
     </FaceWindow>    

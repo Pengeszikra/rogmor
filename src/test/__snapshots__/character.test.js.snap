@@ -3,10 +3,10 @@
 exports[`reactSnapshot test with pipeline operator 1`] = `
 <pre>
   {
-  "physique": 2,
+  "body": 2,
   "reaction": 2,
   "soul": 2,
-  "liaison": 2,
+  "popular": 2,
   "stamina": 3,
   "willpower": 7,
   "merry": 7,
@@ -14,14 +14,14 @@ exports[`reactSnapshot test with pipeline operator 1`] = `
   "uid": "_entitiy_",
   "staminaState": 3,
   "willpowerState": 7,
-  "merryState": 7,
+  "joyfulState": 7,
   "level": 1,
   "type": {
     "profession": "Children",
-    "physique": 1,
+    "body": 1,
     "reaction": 1,
     "soul": 2,
-    "liaison": 1,
+    "popular": 1,
     "stamina": 5,
     "willpower": 50,
     "merry": 50
@@ -33,10 +33,10 @@ exports[`reactSnapshot test with pipeline operator 1`] = `
 exports[`useEntitiReduce 1`] = `
 <pre>
   {
-  "physique": 2,
+  "body": 2,
   "reaction": 2,
   "soul": 2,
-  "liaison": 2,
+  "popular": 2,
   "stamina": 3,
   "willpower": 7,
   "merry": 7,
@@ -44,14 +44,14 @@ exports[`useEntitiReduce 1`] = `
   "uid": "_entitiy_",
   "staminaState": 3,
   "willpowerState": 7,
-  "merryState": 7,
+  "joyfulState": 7,
   "level": 1,
   "type": {
     "profession": "Children",
-    "physique": 1,
+    "body": 1,
     "reaction": 1,
     "soul": 2,
-    "liaison": 1,
+    "popular": 1,
     "stamina": 5,
     "willpower": 50,
     "merry": 50

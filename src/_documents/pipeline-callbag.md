@@ -79,7 +79,7 @@ export function * fightSaga(a, b, fallenOne = p => p) {
 
     > soul       : Spiritual harmony logical thinking and wisdom.
 
-    > liaison    : This is the character social and communication.
+    > popular    : This is the character social and communication.
 
     > stamina    : This is the stamina and Longevity. if value reduced to 0 then hero unable to do anything.
 

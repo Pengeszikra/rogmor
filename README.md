@@ -61,19 +61,19 @@ export function * fightSaga(a, b, fallenOne = p => p) {
 
 ### character attributes
 
-    > physique   : It is physic of character including strength.
+    > `body` : It is physic of character including strength.
 
-    > reaction   : It is the reaction capability including first thinking and the reflex.
+    > `reaction` : It is the reaction capability including first thinking and the reflex.
 
-    > soul       : Spiritual harmony logical thinking and wisdom.
+    > `soul` : Spiritual harmony, logical thinking and wisdom.
 
-    > liaison    : This is the character social and communication.
+    > `popular` : This is the character social and communication.
 
-    > stamina    : This is the stamina and Longevity. if value reduced to 0 then hero unable to do anything.
+    > `stamina` : This is the stamina and Longevity. if value reduced to 0 then hero unable to do anything.
 
-    > willpower  : Hero  willpower. If value reduce to 0 then hero is fall down.
+    > `willpower` : Hero  willpower. If value reduce to 0 then hero is fall down.
 
-    > merry      : This is the fossil energy very helpful at communication situation.
+    > `joyful` : This is the fossil energy very helpful at communication situation.
 
 
 This program will be refact to the nextjs I hope with that step I reach my goal to single typescript MMORPG will be a reachable goal.

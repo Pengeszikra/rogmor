@@ -55,15 +55,15 @@ const gameReducer = (state, {type, payload}) => {
 const lostFocus = s => s
 
 const useFullCheck = ({focus, entities, ...rest}) => {
-  const {staminaState, willpowerState, merryState} = entities[focus];
+  const {staminaState, willpowerState, joyfulState} = entities[focus];
   return staminaState > 0 
       && willpowerState > 0 
-      && merryState > 0
+      && joyfulState > 0
         ? {focus, entities, ...rest} 
         : {focus: null, entities, ...rest}; 
 };
 
-const checkIsLive = ({staminaState, willpowerState, merryState}) => (staminaState > 0 && willpowerState > 0 && merryState > 0);
+const checkIsLive = ({staminaState, willpowerState, joyfulState}) => (staminaState > 0 && willpowerState > 0 && joyfulState > 0);
 
 const interactionRound = interaction => ({hero, entities, round, focus, combatResult, ...rest}) => {
   const [hMod, npcMod] = interaction(hero, entities[focus], round);
