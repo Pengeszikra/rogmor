@@ -10,11 +10,9 @@ import { heroFactory } from '../rpg/heroFactory';
 
 const capableOfAction = ({staminaState, willpowerState, merryState}) => staminaState && willpowerState && merryState;
 
-export default function SingleAdventure({troll})  {
-  const [
-    {hero, entities, focus, actionAnim, combatResult}, 
-    {modHero, setGameState, setupEntities, focusOn, fight, skill, talk, playActionAnim}
-  ] = troll;
+export default function SingleAdventure({state, army}) {
+  const {hero, entities, focus, actionAnim, combatResult} = state;
+  const {modHero, setGameState, setupEntities, focusOn, fight, skill, talk, playActionAnim} = army;
 
   const playAnim = anim => {
     playActionAnim(anim);

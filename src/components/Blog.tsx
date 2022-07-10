@@ -20,7 +20,8 @@ export interface IBlogWriter {
 }
 
 type TBlogMap = (content:Message, index:number, list:Message[]) => Message;
-export const blogSameUserHeaderMap:TBlogMap = (content, index, postList) => postList?.[index - 1]?.name === content?.name
+export const blogSameUserHeaderMap:TBlogMap 
+= (content, index, postList) => postList?.[index - 1]?.name === content?.name
   ? ({msg:content.msg, id: content.id})
   : content
 ;

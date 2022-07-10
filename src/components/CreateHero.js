@@ -5,12 +5,9 @@ import getConfig from 'next/config';
 import { FaceSprite, LoginWindow, Button } from '../gui/setOfGuiElements';
 import { heroFactory } from '../rpg/heroFactory';
 
-export default function CreateHero({troll}) {
-  const [{
-    hero,
-  },{
-    setHero, setGameState,
-  }] = troll;
+export default function CreateHero({state, army}) {
+  const { hero } = state;
+  const { setHero, setGameState } = army;
 
   const { publicRuntimeConfig:{version} } = getConfig();
 

@@ -1,13 +1,13 @@
 import { MobilFrame } from '../gui/MobilFrame';
 import { useSinglePlayerReducer } from '../rpg/singlePlayerTroll';
-import SingleAdventure from './SingleAdventure';
-import CreateHero from './CreateHero';
+import SingleAdventure from '../components/SingleAdventure';
+import CreateHero from '../components/CreateHero';
 import Head from 'next/head'
-import { Blog } from './Blog';
+import { Blog } from '../components/Blog';
 
-export const SinglePlayer = () => {
-  const troll = useSinglePlayerReducer();
-  const [{game, hero}] = troll;
+const SinglePlayer = () => {
+  const [state, army] = useSinglePlayerReducer();
+  const {game, hero} = state;
 
   return (
     <MobilFrame>
@@ -17,9 +17,12 @@ export const SinglePlayer = () => {
         <link rel="manifest" href="manifest.json"></link>
       </Head>
 
-      {!game?.isPlay && <CreateHero troll={troll} />}
-      {game?.isPlay && <SingleAdventure troll={troll} />}
+      {!game?.isPlay && <CreateHero state={state} army={army} />}
+      {game?.isPlay && <SingleAdventure state={state} army={army} />}
       <Blog name={hero?.name} avatar={hero?.heroId} />
     </MobilFrame>
   );
-};
+}; 
+
+export default SinglePlayer;
+

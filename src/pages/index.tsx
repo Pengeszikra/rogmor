@@ -1,4 +1,3 @@
-import { SinglePlayer } from '../components/SinglePlayer';
-
+import SinglePlayer from './SinglePlayer';
 const Home = () => <SinglePlayer />;
 export default Home;
