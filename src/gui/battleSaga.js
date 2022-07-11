@@ -16,7 +16,7 @@ export const soulSkill = (a, b, round) => {
   const [atk, def] = astart > bstart ? [a, b] : [b, a];
   let [striker, target] = round % 2 ? [atk, def] : [def, atk];
   let dmg = improved(striker.soul / 2);
-  target.willpowerState -= Math.min(dmg, target.willpowerState);
+  target.willState -= Math.min(dmg, target.willState);
   return [a, b];
 }
 

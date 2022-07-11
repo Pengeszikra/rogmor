@@ -83,7 +83,7 @@ export function * fightSaga(a, b, fallenOne = p => p) {
 
     > stamina    : This is the stamina and Longevity. if value reduced to 0 then hero unable to do anything.
 
-    > willpower  : Hero  willpower. If value reduce to 0 then hero is fall down.
+    > will  : Hero  will. If value reduce to 0 then hero is fall down.
 
     > merry      : This is the fossil energy very helpful at communication situation.
 

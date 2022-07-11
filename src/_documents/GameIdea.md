@@ -1,25 +1,32 @@
-> kiindulás: vannak régi képek UI elemekről, 1 térkép, 100 karakter kép és egy tucat tárgy, ebből a felállásból kellene egy minnél ütősebb játékot létrehozni, ahol számos problémát le lehet kódolni a lehető leg cleanebb módszerrel.
+> First start was some old UI elements, 1 map, 100 character few items. I need to make a minimal mmorpg game. 
+
+# Game Progress
+
+> Guest enter: Maybe guest player can be try the game but dont able to save her hero unless signup.
+
+### login type: `guess`, `user`
 
 
-## célok:
-- könnyen alakítható moduláris GUI felület
-  - modulokból összelegózható, letisztult kapcsolatokkal
-- fast image load under PWA - preload phase no problem
+
+## Goals:
+- Ease modular GUI system.
+- Fast image load under PWA - preload phase no problem
 - [slice 9 grid] (http://snapbuilder.com/code_snippet_generator/border_image_generator)
 - [sprite sheet](https://www.codeandweb.com/free-sprite-sheet-packer)
-- egyszerű játék a játékban megvalósítás minél letisztultabb kódolással
-
+- Somme pluginable game in game solution.
 
 ## role play game rules:
 
 main abilities:
-  - Physique
-  - Reaction
+  - Body
   - Soul
+  - Reaction
+  - Popular
 
 main properities:
-  - stamina
-  - willpower
+  - Stamina
+  - will
+  - Joyful
 
 profession
   - level 
@@ -32,32 +39,11 @@ profession
 
 5 karakter / autó csata
 
-## hero dataset
-
-```jsx
-const hero = {
-  level: { base, boost, curse },
-  profession: { base, boost, curse },
-  physique: { base, boost, curse },
-  reaction: { base, boost, curse },
-  soul: { base, boost, curse },
-  stamina: { base, boost, curse },
-  willpower: { base, boost, curse },
-}
-
-maxStamina = calculateStamina(hero) = {
-}
-
-maxWillpower = calculateWillpower(hero)
-```
-
 # Anomaly the interesting parameter of character
 
 Az anomália mint érték bizonyos határig megfelelő profizmusoknál előny lehet, 
 de hajlamosíthat a betegségekre, gyengíti az állóképességet és az akaraterőt,
 szóval egyszerre buff és debuff. 
-
-# Fight 6 vs 6 vagy 4 vs 4
 
 
 # leveling <http://howtomakeanrpg.com/a/how-to-make-an-rpg-levels.html>

@@ -11,7 +11,7 @@ test ('create fighter', () => {
   expect (
     profTypes.fighter
   ).toStrictEqual(
-    { profession:'Fighter',      body: 7, reaction: 4, soul: 2, popular: 4, stamina: 55, willpower: 45, merry: 40 }
+    { profession:'Fighter',      body: 7, reaction: 4, soul: 2, popular: 4, stamina: 55, will: 45, merry: 40 }
   );
 });
 
@@ -39,11 +39,11 @@ test ('create lvl 1 fighter', () => {
           reaction: 4,
           soul: 2,
           stamina: 55,
-          willpower: 45,
+          will: 45,
         },
         uid: 42,
-        willpower: 7,
-        willpowerState: 7,
+        will: 7,
+        willState: 7,
       }
   );
 });

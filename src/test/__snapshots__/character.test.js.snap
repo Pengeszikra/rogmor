@@ -8,12 +8,12 @@ exports[`reactSnapshot test with pipeline operator 1`] = `
   "soul": 2,
   "popular": 2,
   "stamina": 3,
-  "willpower": 7,
+  "will": 7,
   "merry": 7,
   "profession": "Children",
   "uid": "_entitiy_",
   "staminaState": 3,
-  "willpowerState": 7,
+  "willState": 7,
   "joyfulState": 7,
   "level": 1,
   "type": {
@@ -23,7 +23,7 @@ exports[`reactSnapshot test with pipeline operator 1`] = `
     "soul": 2,
     "popular": 1,
     "stamina": 5,
-    "willpower": 50,
+    "will": 50,
     "merry": 50
   }
 }
@@ -38,12 +38,12 @@ exports[`useEntitiReduce 1`] = `
   "soul": 2,
   "popular": 2,
   "stamina": 3,
-  "willpower": 7,
+  "will": 7,
   "merry": 7,
   "profession": "Children",
   "uid": "_entitiy_",
   "staminaState": 3,
-  "willpowerState": 7,
+  "willState": 7,
   "joyfulState": 7,
   "level": 1,
   "type": {
@@ -53,7 +53,7 @@ exports[`useEntitiReduce 1`] = `
     "soul": 2,
     "popular": 1,
     "stamina": 5,
-    "willpower": 50,
+    "will": 50,
     "merry": 50
   }
 }

@@ -8,7 +8,7 @@ import HeroCardLine from "../gui/HeroCardLine";
 import { Button, FaceSprite,  NoreboMap, Button70, ItemSprite } from "../gui/setOfGuiElements";
 import { heroFactory } from '../rpg/heroFactory';
 
-const capableOfAction = ({staminaState, willpowerState, joyfulState}) => staminaState && willpowerState && joyfulState;
+const capableOfAction = ({staminaState, willState, joyfulState}) => staminaState && willState && joyfulState;
 
 export default function SingleAdventure({state, army}) {
   const {hero, entities, focus, actionAnim, combatResult} = state;
