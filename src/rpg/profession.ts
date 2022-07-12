@@ -45,7 +45,7 @@ export const profTypes:ExsistingProfessions = {
     tracker:      { profession:'Tracker',      body: 4, reaction: 5, soul: 6, popular: 5, stamina: 45, will: 60, joyful: 40 },
     dementor:     { profession:'Dementor',     body: 6, reaction: 4, soul: 1, popular: 1, stamina: 75, will: 70, joyful: 40 },
     necromanta:   { profession:'Necromanta',   body: 2, reaction: 5, soul: 6, popular: 1, stamina: 45, will: 60, joyful: 40 },
-  summoner:     { profession:'Summoner',     body: 3, reaction: 5, soul: 6, popular: 2, stamina: 45, will: 60, joyful: 40 },
+    summoner:     { profession:'Summoner',     body: 3, reaction: 5, soul: 6, popular: 2, stamina: 45, will: 60, joyful: 40 },
     shaman:       { profession:'Shaman',       body: 4, reaction: 5, soul: 6, popular: 6, stamina: 45, will: 60, joyful: 40 },
     thief:        { profession:'Thief',        body: 4, reaction: 5, soul: 6, popular: 3, stamina: 45, will: 60, joyful: 40 },
     rouge:        { profession:'Rouge',        body: 4, reaction: 5, soul: 6, popular: 5, stamina: 45, will: 60, joyful: 40 },
