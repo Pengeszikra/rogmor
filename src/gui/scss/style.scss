@@ -608,10 +608,11 @@ body > * { user-select: none;}
 }
 
 .interaction-window {
-  position: absolute;
-  height: 50vh;
-  width: 118px;
-  min-width: 118px;
+  position: fixed;
+  height: 35vh;
+  min-height: 35vh;
+  width: 160px;
+  min-width: 160px;
   top: 50px;
   left: 0;
   z-index: 100;
