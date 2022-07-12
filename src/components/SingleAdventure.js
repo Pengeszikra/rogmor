@@ -5,7 +5,7 @@ import {  rnd, shuffle } from "../rpg/rpg";
 
 import HeroCard from "../gui/HeroCard";
 import HeroCardLine from "../gui/HeroCardLine";
-import { Button, FaceSprite,  NoreboMap, Button70, ItemSprite } from "../gui/setOfGuiElements";
+import { Button, FaceSprite,  NoreboMap, Button70, ItemSprite, ModalWindow, DarkPanel } from "../gui/setOfGuiElements";
 import { heroFactory } from '../rpg/heroFactory';
 
 const capableOfAction = ({staminaState, willState, joyfulState}) => staminaState && willState && joyfulState;
@@ -68,18 +68,20 @@ export default function SingleAdventure({state, army}) {
       </NoreboMap>
     </section>
     {entities && entities[focus] && (
-      <section className="combat-line-undermap">
-        <div className="combat-line-holder">
-          <HeroCardLine hero={hero} />
-          {actionAnim && <ItemSprite data-item={actionAnim} data-anim={actionAnim} />}
-          <HeroCardLine hero={entities[focus]} />
-        </div>
+      <section className="modal-window interaction-window">
+        <HeroCardLine hero={hero} />
+        {actionAnim && <ItemSprite data-item={actionAnim} data-anim={actionAnim} />}
+        <HeroCardLine hero={entities[focus]} />
+        {combatResult && (<p>{combatResult}</p>)}
+        <section className="large-button-group" style={{margin:0, width: 200}}>
+          <Button70 inset="light" onClick={ _ => {playAnim(1); fight()}}>Fight</Button70>
+          <Button70 inset="light" onClick={ _ => {playAnim(10); skill()}}>Skill</Button70>
+          <Button70 inset="light" onClick={ _ => {playAnim(43); talk()}}>Talk</Button70>
+          <Button70 inset="light" onClick={ _ => {focusOn(null)}}>Escape</Button70>
+        </section>
       </section>
     )}
-    {combatResult && (
-      <p>{combatResult}</p>
-    )}
-    {true && (
+    {!entities[focus] && (
       <section className="large-button-group" style={{margin:0, width: 230, position: 'relative'}}>
         <Button70 inset="primary" onClick={ _ => modHero(moveHero(-1000))} style={{margin: '10px 50px'}}>up</Button70>
         <Button70 inset="primary" onClick={ _ => modHero(moveHero(   -1))}>left</Button70>
@@ -90,12 +92,6 @@ export default function SingleAdventure({state, army}) {
 
     {entities && entities[focus] && (
       <section>
-        <section className="large-button-group" style={{margin:0, width: 300}}>
-          <Button70 inset="light" onClick={ _ => {playAnim(1); fight()}}>Fight</Button70>
-          <Button70 inset="light" onClick={ _ => {playAnim(10); skill()}}>Skill</Button70>
-          <Button70 inset="light" onClick={ _ => {playAnim(43); talk()}}>Talk</Button70>
-          <Button70 inset="light" onClick={ _ =>  {}}>Escape</Button70>
-        </section>
         <HeroCard hero={entities[focus]} style={{fontSize:17}}/>
       </section>
     )}

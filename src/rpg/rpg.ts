@@ -15,4 +15,4 @@ export const pickOne = arr => arr[rnd(arr.length)];
 
 export const uid =  _ => Math.random().toString(32).slice(-8);
 
-export const amount = n => Array(n).fill().map((_, index) => index);
+export const amount = n => Array(n).fill(0).map((_, index) => index);

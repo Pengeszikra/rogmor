@@ -606,3 +606,19 @@ body > * { user-select: none;}
   align-items: center;
   gap: 1em;
 }
+
+.interaction-window {
+  position: absolute;
+  height: 50vh;
+  width: 118px;
+  min-width: 118px;
+  top: 50px;
+  left: 0;
+  z-index: 100;
+  display: grid;
+  align-items: center;
+
+  .hero-line-bars {
+    text { fill: #ffeedd }
+  }
+}
