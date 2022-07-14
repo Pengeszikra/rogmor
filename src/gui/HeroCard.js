@@ -28,7 +28,7 @@ export default ({hero, children, ...props}) => {
   return (
     <FaceWindow {...props}>
       <FaceSprite data-face={heroId} />
-      <span>{name} the {profession}</span>
+      <span className='text-xl'>{name} the {profession}</span>
       <pre className='leading-tight text-s'>{`
         Level: ${level}
          Body: ${body}

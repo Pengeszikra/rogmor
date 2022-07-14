@@ -52,7 +52,7 @@ export const Blog:FC<IBlogWriter> = ({name, avatar}) => {
   return name ? (
     <section>
         <div className="m-2 flex gap-2 text-lg font-mono">
-          <input onChange={handleChangeMessage} className="p-2 w-64 bg-black text-white focus:outline-0" type="text" value={message} /> 
+          <input onChange={handleChangeMessage} className="p-2 w-64 bg-black text-white focus:outline-0 text-2xl font-sans" type="text" value={message} /> 
           <button onClick={sendMessageToSocket} className="p-2">send</button>
         </div>
 
