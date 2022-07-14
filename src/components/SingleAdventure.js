@@ -46,8 +46,7 @@ export default function SingleAdventure({state, army}) {
 
   return (<>
     <section style={{overflowX:'auto', position:'relative'}}>
-      {!entities[focus] && (
-        <NoreboMap>
+        <NoreboMap style={!entities[focus] ? {position:'relative'} : {position:'absolute', visibility:'hidden'}}>
           {Object.values(entities).filter(capableOfAction).map(
             ({uid, heroId, profession, coord}) => (
               <FaceSprite 
@@ -65,9 +64,7 @@ export default function SingleAdventure({state, army}) {
               onClick={() => focusOn(null)}
             />
           )}
-
         </NoreboMap>
-      )}
     </section>
     {entities && entities[focus] && (
       // <section className="modal-window interaction-window">
