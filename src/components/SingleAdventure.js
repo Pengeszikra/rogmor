@@ -46,39 +46,42 @@ export default function SingleAdventure({state, army}) {
 
   return (<>
     <section style={{overflowX:'auto', position:'relative'}}>
-      <NoreboMap>
-        {Object.values(entities).filter(capableOfAction).map(
-          ({uid, heroId, profession, coord}) => (
+      {!entities[focus] && (
+        <NoreboMap>
+          {Object.values(entities).filter(capableOfAction).map(
+            ({uid, heroId, profession, coord}) => (
+              <FaceSprite 
+                key={uid} 
+                data-face={heroId} 
+                data-prof={profession} 
+                style={coordToStyle(coord)} 
+              />
+            )
+          )}
+          {hero?.coord && (
             <FaceSprite 
-              key={uid} 
-              data-face={heroId} 
-              data-prof={profession} 
-              style={coordToStyle(coord)} 
+              data-face={hero?.heroId} 
+              style={coordToStyle(hero.coord)} 
+              onClick={() => focusOn(null)}
             />
-          )
-        )}
-        {hero?.coord && (
-          <FaceSprite 
-            data-face={hero?.heroId} 
-            style={coordToStyle(hero.coord)} 
-            onClick={() => focusOn(null)}
-          />
-        )}
+          )}
 
-      </NoreboMap>
+        </NoreboMap>
+      )}
     </section>
     {entities && entities[focus] && (
-      <section className="modal-window interaction-window">
-        <HeroCardLine hero={hero} />
-        {actionAnim && <ItemSprite data-item={actionAnim} data-anim={actionAnim} />}
+      // <section className="modal-window interaction-window">
+      <section className="inbox-interaction">
         <HeroCardLine hero={entities[focus]} />
         {combatResult && (<p>{combatResult}</p>)}
-        <section className="large-button-group" style={{margin:0, width: 200}}>
+        <section className="large-button-group" style={{margin:0, width: 300}}>
           <Button70 inset="light" onClick={ _ => {playAnim(1); fight()}}>Fight</Button70>
           <Button70 inset="light" onClick={ _ => {playAnim(10); skill()}}>Skill</Button70>
           <Button70 inset="light" onClick={ _ => {playAnim(43); talk()}}>Talk</Button70>
           <Button70 inset="light" onClick={ _ => {focusOn(null)}}>Escape</Button70>
         </section>
+        <HeroCardLine hero={hero} />
+        {actionAnim && <ItemSprite data-item={actionAnim} data-anim={actionAnim} />}
       </section>
     )}
     {!entities[focus] && (
