@@ -1,6 +1,6 @@
 {
   "parser": "@babel/eslint-parser",
-  "plugins": ["unused-imports", "react", "react-hooks", "@next/eslint-plugin-next"],
+  "plugins": ["unused-imports", "react", "react-hooks", "@next/eslint-plugin-next", "tailwindcss"],
   "rules": {
     "unused-imports/no-unused-imports": "warn",
     "unused-imports/no-unused-vars": [
