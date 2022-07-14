@@ -51,20 +51,20 @@ export const Blog:FC<IBlogWriter> = ({name, avatar}) => {
 
   return name ? (
     <section>
-        <div className="p-4 rounded-lg border-2 m-2 flex gap-2 w-8/12">
-          <input onChange={handleChangeMessage} className="p-2 border-2 bg-slate-100" type="text" value={message} />
-          <button onClick={sendMessageToSocket} className="p-2 border-2 hover:bg-slate-100">send</button>
+        <div className="m-2 flex gap-2 text-lg font-mono">
+          <input onChange={handleChangeMessage} className="p-2 w-64 bg-black text-white focus:outline-0" type="text" value={message} /> 
+          <button onClick={sendMessageToSocket} className="p-2">send</button>
         </div>
 
         <div style={{width:'100%'}}>{list
           .map(blogSameUserHeaderMap)
           .map(
             post => (
-              <div key={post.id} className='p-4 rounded-lg border-2 m-2 hover:bg-slate-100 flex'>
+              <div key={post.id} className=''>
                 {post?.avatar && post?.name && (
                   <section className="blog-header">
                     <FaceSprite data-face={post.avatar} style={{position: 'relative'}}/>
-                    <span>{post.name}</span>
+                    <span className='text-xl text-slate-500'>{post.name}</span>
                   </section>
                 )}
                 <p className='p-2 whitespace-normal'>{post.msg}</p>

@@ -1,6 +1,6 @@
 {
   "name": "rogmor",
-  "version": "0.3.53",
+  "version": "0.3.55",
   "private": true,
   "dependencies": {
     "crypto-js": "^4.1.1",

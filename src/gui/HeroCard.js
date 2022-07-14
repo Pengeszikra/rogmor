@@ -29,7 +29,7 @@ export default ({hero, children, ...props}) => {
     <FaceWindow {...props}>
       <FaceSprite data-face={heroId} />
       <span>{name} the {profession}</span>
-      <pre>{`
+      <pre className='leading-tight text-s'>{`
         Level: ${level}
          Body: ${body}
          Soul: ${soul}
