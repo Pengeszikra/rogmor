@@ -1,12 +1,24 @@
 import {useTroll, actionFactory, kebabToCamelCase} from 'react-troll';
 import { physicalStrike, socialTalk, soulSkill } from '../gui/battleSaga';
+import { increaseLevel } from './profession';
 
 export const [getActionsLookup, action] = actionFactory(kebabToCamelCase);
+
+export enum GameMode {
+  ROLL_CHARACTER,
+  ADVENTURE_ON_MAP,
+}
+
+export enum CombatOutcome {
+  HERO_DIE,
+  NPC_DIE,
+  OWER_WITHOUT_LOSS,
+}
 
 const initialState = {
   round : 0,
   hero: null,
-  game: {},
+  game: GameMode.ROLL_CHARACTER,
   entities: {},
   focus: null,
   flow: [],
@@ -27,6 +39,7 @@ export const
   FIGHT = action('fight'),
   SKILL = action('skill'),
   TALK  = action('talk'),
+  LEVEL_UP_HERO  = action('level-up-hero'),
   PLAY_ACTION_ANIM = action('play-action-anim')
 ;
 
@@ -35,7 +48,7 @@ const gameReducer = (state, {type, payload}) => {
     case SET_HERO: return {...state, hero: payload};
     case MOD_HERO: return {...state, hero: payload(state.hero), combatResult:null};
     case NEXT_ROUND: return {...state, round: payload(state.round)};
-    case SET_GAME_STATE: return {...state, game: payload(state.game)};
+    case SET_GAME_STATE: return {...state, game:payload};
     case SETUP_ENTITIES: return {...state, entities: payload};
     case MOD_ENTITI: {
       const {entities} = state;
@@ -48,6 +61,7 @@ const gameReducer = (state, {type, payload}) => {
     case SKILL: return useFullCheck(skillRound(state));
     case TALK:  return useFullCheck(talkRound(state));
     case PLAY_ACTION_ANIM: return {...state, actionAnim: payload};
+    case LEVEL_UP_HERO: return {...state, hero: increaseLevel(1)(state.hero)}
     default: return state;
   }
 };
@@ -70,10 +84,10 @@ const interactionRound = interaction => ({hero, entities, round, focus, combatRe
   const heroIsDie = !checkIsLive(hMod);
   const npcIsDie = !checkIsLive(npcMod);
   const newCombatResult = heroIsDie
-    ? "your adventure is over"
+    ? CombatOutcome.HERO_DIE
     : npcIsDie
-      ? `great win over: ${npcMod.name}`
-      : combatResult
+      ? {outcome: CombatOutcome.NPC_DIE, npc: npcMod}
+      : CombatOutcome.OWER_WITHOUT_LOSS
   ;
   return {...rest, hero:hMod, round: round + 1, focus, entities:{...entities, [npcMod.uid]:npcMod}, combatResult: newCombatResult};
 };

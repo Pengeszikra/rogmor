@@ -3,7 +3,7 @@ module.exports = {
   verbose: true,
   preset: 'ts-jest',
   testEnvironment: 'node',
-  roots: ["<rootDir>/app"],
+  roots: ["<rootDir>/src"],
   transform: {
     "^.+\\.(ts|tsx)$": "ts-jest",
     "^.+\\.(js)$": "babel-jest",

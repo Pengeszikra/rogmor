@@ -90,7 +90,7 @@ export const profTypes:ExsistingProfessions = {
 /// const professions = Object.keys(profTypes).map( key => profTypes[key]);
 const professions = Object.entries(profTypes).map( ([_, prof]) => prof);
 
-export default (level = 1, profession = professions[rnd(professions.length)], uidFactory = uid ) => {
+const profession = (level = 1, profession = professions[rnd(professions.length)], uidFactory = uid ) => {
   const leveled:ProfessionInstance = {
     body    : leveling(level, profession.body    / 10, 2),
     reaction    : leveling(level, profession.reaction    / 10, 2),
@@ -110,3 +110,18 @@ export default (level = 1, profession = professions[rnd(professions.length)], ui
   leveled.joyfulState = leveled.joyful;
   return ({...leveled, level, type: profession});
 }
+
+export default profession;
+
+export const increaseLevel = (amount = 1) => ({type, level, name, uid, coord, heroId }) => ({
+  level: level + amount,
+  type,
+  ...profession(
+    level + amount,
+    type
+  ),
+  uid,
+  heroId,
+  coord,
+  name,
+})

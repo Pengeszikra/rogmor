@@ -4,6 +4,7 @@ import getConfig from 'next/config';
 
 import { FaceSprite, LoginWindow, Button } from '../gui/setOfGuiElements';
 import { heroFactory } from '../rpg/heroFactory';
+import { GameMode } from '../rpg/singlePlayerTroll';
 
 export default function CreateHero({state, army}) {
   const { hero } = state;
@@ -11,9 +12,9 @@ export default function CreateHero({state, army}) {
 
   const { publicRuntimeConfig:{version} } = getConfig();
 
-  const handleRollHero = _ => setHero(heroFactory(rnd(100), 7));
+  const handleRollHero = _ => setHero(heroFactory(rnd(100), 4));
   const handleLetsAdventure = _ => {
-    setGameState(game =>({...game, isPlay:true}))
+    setGameState(GameMode.ADVENTURE_ON_MAP);
     return;
   };
 

@@ -7,19 +7,20 @@ import HeroCard from "../gui/HeroCard";
 import HeroCardLine from "../gui/HeroCardLine";
 import { Button, FaceSprite,  NoreboMap, Button70, ItemSprite, ModalWindow, DarkPanel } from "../gui/setOfGuiElements";
 import { heroFactory } from '../rpg/heroFactory';
+import { CombatOutcome, GameMode } from "../rpg/singlePlayerTroll";
 
 const capableOfAction = ({staminaState, willState, joyfulState}) => staminaState && willState && joyfulState;
 
 export default function SingleAdventure({state, army}) {
   const {hero, entities, focus, actionAnim, combatResult} = state;
-  const {modHero, setGameState, setupEntities, focusOn, fight, skill, talk, playActionAnim} = army;
+  const {modHero, setGameState, setupEntities, focusOn, fight, skill, talk, playActionAnim, setHero, levelUpHero} = army;
 
   const playAnim = anim => {
     playActionAnim(anim);
     setTimeout(_ => playActionAnim(null) , 330);
   };
 
-  useEffect( _ => {
+  useEffect( () => {
     const area = [...dryLand].sort(shuffle);
     const entitiesArray = area
       .slice(-45)
@@ -28,8 +29,19 @@ export default function SingleAdventure({state, army}) {
     modHero(h => ({...h, coord: area[0]}));
   }, []);
 
+  useEffect(() => {
+    if (combatResult === CombatOutcome.HERO_DIE) {
+      setHero(null);
+      setGameState(GameMode.ROLL_CHARACTER);
+    }
+
+    if (combatResult?.outcome === CombatOutcome.NPC_DIE) {
+      levelUpHero();
+    }
+  }, [combatResult]);
+
   const infoAbout = npc => _ => focusOn(npc.uid);
-  const handleToStart = _ => setGameState(game => ({...game, isPlay: false}))
+  const handleToStart = _ => setGameState(GameMode.ROLL_CHARACTER)
   const moveHero = direction => ({coord, ...rest}) => {
     const target = coord + direction;
     focusOn(null);
@@ -70,7 +82,6 @@ export default function SingleAdventure({state, army}) {
       // <section className="modal-window interaction-window">
       <section className="inbox-interaction">
         <HeroCardLine hero={entities[focus]} />
-        {combatResult && (<p>{combatResult}</p>)}
         <section className="large-button-group" style={{margin:0, width: 300}}>
           <Button70 inset="light" onClick={ _ => {playAnim(1); fight()}}>Fight</Button70>
           <Button70 inset="light" onClick={ _ => {playAnim(10); skill()}}>Skill</Button70>

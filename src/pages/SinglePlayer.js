@@ -1,5 +1,5 @@
 import { MobilFrame } from '../gui/MobilFrame';
-import { useSinglePlayerReducer } from '../rpg/singlePlayerTroll';
+import { GameMode, useSinglePlayerReducer } from '../rpg/singlePlayerTroll';
 import SingleAdventure from '../components/SingleAdventure';
 import CreateHero from '../components/CreateHero';
 import Head from 'next/head'
@@ -17,8 +17,8 @@ const SinglePlayer = () => {
         <link rel="manifest" href="manifest.json"></link>
       </Head>
 
-      {!game?.isPlay && <CreateHero state={state} army={army} />}
-      {game?.isPlay && <SingleAdventure state={state} army={army} />}
+      {game === GameMode.ROLL_CHARACTER && <CreateHero state={state} army={army} />}
+      {game === GameMode.ADVENTURE_ON_MAP && <SingleAdventure state={state} army={army} />}
       <Blog name={hero?.name} avatar={hero?.heroId} />
     </MobilFrame>
   );
