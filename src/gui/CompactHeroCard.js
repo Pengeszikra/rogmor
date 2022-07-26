@@ -1,14 +1,9 @@
-import styler from './scss/styler';
-
-const [FaceSprite, SmallCard] = styler
-      ('face-sprite', 'small-card gui gui-loginw', 'button-b', 'process-bar-indicator');
-
 export default ({hero, children, ...props}) => {
   const {heroId, profession, staminaState } = hero;
 
   return (
-    <SmallCard {...props}>
-      <FaceSprite data-face={heroId} />
+    <figure className='small-card gui gui-loginw' {...props}>
+      <image className='face-sprite' data-face={heroId} />
       <span>
         <span>{`lvl: ${level} - ${profession}`}</span>
         <div>
@@ -20,6 +15,6 @@ export default ({hero, children, ...props}) => {
       </span>
       {/* <ProcessBar process={staminaState / stamina} style={{width: 160, marginLeft: 15}} /> */}
       {children}
-    </SmallCard>
+    <figurearticle>
   );
-}
+image

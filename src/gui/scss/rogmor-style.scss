@@ -9,7 +9,17 @@ pre {
 
 h1 { font-size: 1.5em; }
 
-body, #root, #__next {
+.portal-root {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  max-width: 400px;
+  margin: 0 auto;
+  height: 100vh;
+  overflow: hidden;
+}
+
+body, #root, #__next, #__rogmor__ {
   margin: 0;
   padding: 0;
   // font-family: sans-serif;
@@ -20,9 +30,11 @@ body, #root, #__next {
   margin: 0 auto;
   height: 100vh;
   overflow: hidden;
-  display: flex;
-  filter: grayscale(.7);
+  // display: flex;
+  // filter: grayscale(.7);
 }
+
+.retro {filter:grayscale(.7)!important;}
 
 .wireframe {
   background-image: url($asset + "img/pageback.jpg");

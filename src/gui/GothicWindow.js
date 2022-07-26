@@ -1,21 +1,10 @@
-import styler from './scss/styler';
-
-
-const [ModalWindow, ModalWindowInner, Slice9GridHolder, GothicBackground, SliceContent] = styler(
-  'modal-window', 
-  'modal-window-ModalWindowInner', 
-  'slice-9-grid-holder', 
-  'modal-window slice-extra', 
-  'slice-content'
-);
-
 export default ({children, ...props}) => {
   return (    
-    <Slice9GridHolder>
-      <SliceContent>
+    <figure className='slice-9-grid-holder retro' id="__rogmor__">
+      <figure className="slice-content">
         {children}
-      </SliceContent>
-      <GothicBackground {...props}/>
-    </Slice9GridHolder>
+      </figure>
+      <figure className="modal-window slice-extra" {...props}/>
+    </figure>
   );
 }

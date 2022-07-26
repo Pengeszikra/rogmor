@@ -1,23 +1,19 @@
 import React from 'react';
-import styler from './scss/styler';
-
-const [FaceSprite, FaceWindow, ProcessBarBg, ProcessBarIndicator] = styler
-      ('face-sprite', 'gui gui-storyw', 'button-b', 'process-bar-indicator');
 
 export const ProcessBar = ({process = 1, ...props}) => (
-  <ProcessBarBg {...props}>
-    <ProcessBarIndicator style={{width: process * 254}}/>
-  </ProcessBarBg>
+  <figure className='button-b' {...props}>
+    <div className='process-bar-indicator' style={{width: process * 254}}/>
+  </figure>
 );
 
 export const MultiProcessBar = ({process = [1,1,1], ...props}) => {
   const [stm, wil, mry] = process;
   return (
-    <ProcessBarBg {...props}>
-      <ProcessBarIndicator data-process="stm" style={{width: (stm || 0) * 254}}/>
-      <ProcessBarIndicator data-process="wil" style={{width: (wil || 0) * 254}}/>
-      <ProcessBarIndicator data-process="mry" style={{width: (mry || 0) * 254}}/>
-    </ProcessBarBg>
+    <figure className='button-b' {...props}>
+      <div className='process-bar-indicator' data-process="stm" style={{width: (stm || 0) * 254}}/>
+      <div className='process-bar-indicator' data-process="wil" style={{width: (wil || 0) * 254}}/>
+      <div className='process-bar-indicator' data-process="mry" style={{width: (mry || 0) * 254}}/>
+    </figure>
   );
 }
 
@@ -26,8 +22,8 @@ export default ({hero, children, ...props}) => {
   // const [process, setProcess] = useState(0);
 
   return (
-    <FaceWindow {...props}>
-      <FaceSprite data-face={heroId} />
+    <section className='gui gui-storyw' {...props}>
+      <figure className='face-sprite' data-face={heroId} />
       <span className='text-xl'>{name} the {profession}</span>
       <pre className='leading-tight text-s'>{`
         Level: ${level}
@@ -42,6 +38,6 @@ export default ({hero, children, ...props}) => {
         <MultiProcessBar process={[staminaState / stamina, willState / will, joyfulState / joyful]} style={{width: 160, marginLeft: 15, marginTop: -10}} />
       </pre>
       {children}
-    </FaceWindow>    
+    </section>    
   );
 }
