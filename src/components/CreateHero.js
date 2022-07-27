@@ -34,7 +34,7 @@ export default function CreateHero({state, army}) {
     <button className="bg-sky-800 hover:bg-sky-600 p-2 text-lg rounded-lg w-full my-4" onClick={handleRollHero}>Roll your character</button>
     {hero && <HeroCard hero={hero} style={{fontSize:17}}/>}
     {hero && (
-      <section className="m-4">
+      <section className="my-4">
         <figure className="face-sprite absolute left-8 z-20 scale-150" data-face={hero.heroId} />
         <button className="bg-sky-800 hover:bg-sky-600 p-2 text-lg rounded-lg w-full my-4" onClick={handleLetsAdventure}>Let adventure!</button>
       </section>

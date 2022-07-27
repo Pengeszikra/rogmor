@@ -78,26 +78,27 @@ export default function SingleAdventure({state, army}) {
           )}
         </NoreboMap>
     </section>
-    {entities && entities[focus] && (
-      // <section className="modal-window interaction-window">
+    {false && entities && entities[focus] && (
       <section className="inbox-interaction">
         <HeroCardLine hero={entities[focus]} />
-        <section className="large-button-group" style={{margin:0, width: 300}}>
-          <Button70 inset="light" onClick={ _ => {playAnim(1); fight()}}>Fight</Button70>
-          <Button70 inset="light" onClick={ _ => {playAnim(10); skill()}}>Skill</Button70>
-          <Button70 inset="light" onClick={ _ => {playAnim(43); talk()}}>Talk</Button70>
-          <Button70 inset="light" onClick={ _ => {focusOn(null)}}>Escape</Button70>
+        <section className="m-4 w-full grid grid-cols-2 gap-2">
+          <button className="rounded-lg p-2 text-lg bg-sky-600" onClick={ _ => {playAnim(1); fight()}}>Fight</button>
+          <button className="rounded-lg p-2 text-lg bg-sky-600" onClick={ _ => {playAnim(10); skill()}}>Skill</button>
+          <button className="rounded-lg p-2 text-lg bg-sky-600" onClick={ _ => {playAnim(43); talk()}}>Talk</button>
+          <button className="rounded-lg p-2 text-lg bg-sky-600" onClick={ _ => {focusOn(null)}}>Escape</button>
         </section>
         <HeroCardLine hero={hero} />
         {actionAnim && <ItemSprite data-item={actionAnim} data-anim={actionAnim} />}
       </section>
     )}
     {!entities[focus] && (
-      <section className="large-button-group" style={{margin:0, width: 230, position: 'relative'}}>
-        <Button70 inset="primary" onClick={ _ => modHero(moveHero(-1000))} style={{margin: '10px 50px'}}>up</Button70>
-        <Button70 inset="primary" onClick={ _ => modHero(moveHero(   -1))}>left</Button70>
-        <Button70 inset="primary" onClick={ _ => modHero(moveHero( 1000))}>down</Button70>
-        <Button70 inset="primary" onClick={ _ => modHero(moveHero(    1))}>right</Button70>
+      <section className="m-4 grid grid-cols-3 gap-2">
+        <div></div>
+        <button className="rounded-lg p-2 text-lg bg-sky-600" onClick={ _ => modHero(moveHero(-1000))}>up</button>
+        <div></div>
+        <button className="rounded-lg p-2 text-lg bg-sky-600" onClick={ _ => modHero(moveHero(   -1))}>left</button>
+        <button className="rounded-lg p-2 text-lg bg-sky-600" onClick={ _ => modHero(moveHero( 1000))}>down</button>
+        <button className="rounded-lg p-2 text-lg bg-sky-600" onClick={ _ => modHero(moveHero(    1))}>right</button>
       </section>
     )}
 
@@ -109,9 +110,7 @@ export default function SingleAdventure({state, army}) {
 
     <HeroCard hero={hero} style={{fontSize:17}}/>
 
-    <section className="large-button-group" style={{margin:'15px auto'}}>
-      <Button inset="primary" onClick={handleToStart}>Back to start</Button>
-    </section>
+    <button className="bg-sky-800 hover:bg-sky-600 p-2 text-lg rounded-lg w-full my-4" onClick={handleToStart}>Back to start</button>
 
   </>);
 }
