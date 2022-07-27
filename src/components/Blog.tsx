@@ -64,10 +64,10 @@ export const Blog:FC<IBlogWriter> = ({name, avatar}) => {
                 {post?.avatar && post?.name && (
                   <section className="blog-header">
                     <FaceSprite data-face={post.avatar} style={{position: 'relative'}}/>
-                    <span className='text-xl text-slate-500'>{post.name}</span>
+                    <span className='text-xl text-sky-500'>{post.name}</span>
                   </section>
                 )}
-                <p className='p-2 whitespace-normal'>{post.msg}</p>
+                <p className='p-2 whitespace-normal text-base'>{post.msg}</p>
               </div>
             )
           )

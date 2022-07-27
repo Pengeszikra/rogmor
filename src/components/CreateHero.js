@@ -22,23 +22,22 @@ export default function CreateHero({state, army}) {
     <LoginWindow style={{margin:'0 auto'}}>
       <h1 style={{padding:30, color:'#000'}}>Rogmor the Next:RPG</h1>
     </LoginWindow>
-    <p>Welcome young adventurer!</p>
-    <p>You are stepp into another dimension, called: Rogmor and ther is a lot of opportunity to fullfill your dreams, at first stepp is choice your character.</p>
-    <p>Don't afraid there is no worst choice, and you can learn something different.</p>
-    <p>Rogmor under chaotic statement at moment so prophecy talkimng about a skillfull hero, who will be restor odrer and peace to this land.</p>
-    <p><i>Crazy fact that this is the server side version off Rogmor</i></p>
-    <p>version: {version}</p>
-    {/* <section style={{overflowX:'auto'}}><NoreboMap/></section> */}
-    <section className="large-button-group" style={{width:200, margin:'0 auto'}}>
-      <Button inset="primary" onClick={handleRollHero}>Roll your character</Button>
-    </section>
+    <article className="text-base">
+      <p>Welcome young <strong>adventurer</strong>!</p>
+      <p>You are stepp into another dimension, called: Rogmor and ther is a lot of opportunity to fullfill your dreams, at first stepp is choice your character.</p>
+      <p>Don't afraid there is no worst choice, and you can learn something different.</p>
+      <p>Rogmor under chaotic statement at moment so prophecy talkimng about a skillfull hero, who will be restor odrer and peace to this land.</p>
+      <br/>
+      <p>version: {version}</p>
+    </article>
+
+    <button className="bg-sky-800 hover:bg-sky-600 p-2 text-lg rounded-lg w-full my-4" onClick={handleRollHero}>Roll your character</button>
     {hero && <HeroCard hero={hero} style={{fontSize:17}}/>}
     {hero && (
-      <section className="large-button-group" style={{width:200, margin:'15px auto'}}>
-        <Button inset="primary" onClick={handleLetsAdventure}>select this hero
-          <div className="face-sprite adventure--hero big-face" data-face={hero.heroId} />
-        </Button>
-        </section>
+      <section className="m-4">
+        <figure className="face-sprite absolute left-8 z-20 scale-150" data-face={hero.heroId} />
+        <button className="bg-sky-800 hover:bg-sky-600 p-2 text-lg rounded-lg w-full my-4" onClick={handleLetsAdventure}>Let adventure!</button>
+      </section>
       )}
   </>);
 }

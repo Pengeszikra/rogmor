@@ -323,25 +323,28 @@ body > * { user-select: none;}
   justify-content: center;
 }
 
-.face-sprite {
+ 
+.norebo-map-r-90 .face-sprite {
   &[data-prof]     {filter:  brightness(.6) sepia(100%) hue-rotate( 00deg);}
-  // &[data-prof='Fighter']     {filter:  brightness(.6) sepia(100%) hue-rotate( 00deg);}
-  // &[data-prof='Priest']      {filter:  brightness(.7) sepia(100%) hue-rotate( 20deg);}
-  // &[data-prof='Paladin']     {filter:  brightness(.7) sepia(100%) hue-rotate( 40deg);}
-  // &[data-prof='Knight']      {filter:  brightness(.7) sepia(100%) hue-rotate( 60deg);}
-  // &[data-prof='Assasin']     {filter:  brightness(.7) sepia(100%) hue-rotate( 80deg);}
-  // &[data-prof='Rogue']       {filter:  brightness(.7) sepia(100%) hue-rotate(100deg);}
-  // &[data-prof='Mage']        {filter:  brightness(.7) sepia(100%) hue-rotate(120deg);}
-  // &[data-prof='Captain']     {filter:  brightness(.7) sepia(100%) hue-rotate(140deg);}
-  // &[data-prof='Noble']       {filter:  brightness(.7) sepia(100%) hue-rotate(160deg);}
-  // &[data-prof='Head hunter'] {filter:  brightness(.7) sepia(100%) hue-rotate(180deg);}
-  // &[data-prof='Witch']       {filter:  brightness(.7) sepia(100%) hue-rotate(200deg);}
-  // &[data-prof='Valkur']      {filter:  brightness(.7) sepia(100%) hue-rotate(220deg);}
-  // &[data-prof='Guard']       {filter:  brightness(.7) sepia(100%) hue-rotate(240deg);}
-  // &[data-prof='Gladiator']   {filter:  brightness(.7) sepia(100%) hue-rotate(260deg);}
-  // &[data-prof='Barbarian']   {filter:  brightness(.7) sepia(100%) hue-rotate(280deg);}
-  // &[data-prof='Wizard']      {filter:  brightness(.7) sepia(100%) hue-rotate(300deg);}
 }
+
+// &[data-prof='Fighter']     {filter:  brightness(.6) sepia(100%) hue-rotate( 00deg);}
+// &[data-prof='Priest']      {filter:  brightness(.7) sepia(100%) hue-rotate( 20deg);}
+// &[data-prof='Paladin']     {filter:  brightness(.7) sepia(100%) hue-rotate( 40deg);}
+// &[data-prof='Knight']      {filter:  brightness(.7) sepia(100%) hue-rotate( 60deg);}
+// &[data-prof='Assasin']     {filter:  brightness(.7) sepia(100%) hue-rotate( 80deg);}
+// &[data-prof='Rogue']       {filter:  brightness(.7) sepia(100%) hue-rotate(100deg);}
+// &[data-prof='Mage']        {filter:  brightness(.7) sepia(100%) hue-rotate(120deg);}
+// &[data-prof='Captain']     {filter:  brightness(.7) sepia(100%) hue-rotate(140deg);}
+// &[data-prof='Noble']       {filter:  brightness(.7) sepia(100%) hue-rotate(160deg);}
+// &[data-prof='Head hunter'] {filter:  brightness(.7) sepia(100%) hue-rotate(180deg);}
+// &[data-prof='Witch']       {filter:  brightness(.7) sepia(100%) hue-rotate(200deg);}
+// &[data-prof='Valkur']      {filter:  brightness(.7) sepia(100%) hue-rotate(220deg);}
+// &[data-prof='Guard']       {filter:  brightness(.7) sepia(100%) hue-rotate(240deg);}
+// &[data-prof='Gladiator']   {filter:  brightness(.7) sepia(100%) hue-rotate(260deg);}
+// &[data-prof='Barbarian']   {filter:  brightness(.7) sepia(100%) hue-rotate(280deg);}
+// &[data-prof='Wizard']      {filter:  brightness(.7) sepia(100%) hue-rotate(300deg);}
+
 
 .small-card {
   position: absolute;
