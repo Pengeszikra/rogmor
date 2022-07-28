@@ -58,39 +58,26 @@ export default function SingleAdventure({state, army}) {
 
   return (<>
     <section style={{overflowX:'auto', position:'relative'}}>
-        <NoreboMap style={!entities[focus] ? {position:'relative'} : {position:'absolute', visibility:'hidden'}}>
-          {Object.values(entities).filter(capableOfAction).map(
-            ({uid, heroId, profession, coord}) => (
-              <FaceSprite 
-                key={uid} 
-                data-face={heroId} 
-                data-prof={profession} 
-                style={coordToStyle(coord)} 
-              />
-            )
-          )}
-          {hero?.coord && (
+      <NoreboMap style={!entities[focus] ? {position:'relative'} : {position:'absolute', visibility:'hidden'}}>
+        {Object.values(entities).filter(capableOfAction).map(
+          ({uid, heroId, profession, coord}) => (
             <FaceSprite 
-              data-face={hero?.heroId} 
-              style={coordToStyle(hero.coord)} 
-              onClick={() => focusOn(null)}
+              key={uid} 
+              data-face={heroId} 
+              data-prof={profession} 
+              style={coordToStyle(coord)} 
             />
-          )}
-        </NoreboMap>
+          )
+        )}
+        {hero?.coord && (
+          <FaceSprite 
+            data-face={hero?.heroId} 
+            style={coordToStyle(hero.coord)} 
+            onClick={() => focusOn(null)}
+          />
+        )}
+      </NoreboMap>
     </section>
-    {false && entities && entities[focus] && (
-      <section className="inbox-interaction">
-        <HeroCardLine hero={entities[focus]} />
-        <section className="m-4 w-full grid grid-cols-2 gap-2">
-          <button className="rounded-lg p-2 text-lg bg-sky-600" onClick={ _ => {playAnim(1); fight()}}>Fight</button>
-          <button className="rounded-lg p-2 text-lg bg-sky-600" onClick={ _ => {playAnim(10); skill()}}>Skill</button>
-          <button className="rounded-lg p-2 text-lg bg-sky-600" onClick={ _ => {playAnim(43); talk()}}>Talk</button>
-          <button className="rounded-lg p-2 text-lg bg-sky-600" onClick={ _ => {focusOn(null)}}>Escape</button>
-        </section>
-        <HeroCardLine hero={hero} />
-        {actionAnim && <ItemSprite data-item={actionAnim} data-anim={actionAnim} />}
-      </section>
-    )}
     {!entities[focus] && (
       <section className="m-4 grid grid-cols-3 gap-2">
         <div></div>
@@ -102,15 +89,19 @@ export default function SingleAdventure({state, army}) {
       </section>
     )}
 
-    {entities && entities[focus] && (
+    {false && entities && entities[focus] && (
       <section>
         <HeroCard hero={entities[focus]} style={{fontSize:17}}/>
       </section>
     )}
 
-    <HeroCard hero={hero} style={{fontSize:17}}/>
+    { !focus && (
+      <>
+        <HeroCard hero={hero} style={{fontSize:17}}/>
+        <button className="bg-sky-800 hover:bg-sky-600 p-2 text-lg rounded-lg w-full my-4" onClick={handleToStart}>Back to start</button>
+      </>
+    )}
 
-    <button className="bg-sky-800 hover:bg-sky-600 p-2 text-lg rounded-lg w-full my-4" onClick={handleToStart}>Back to start</button>
 
   </>);
 }

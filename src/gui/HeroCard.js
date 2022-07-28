@@ -35,7 +35,7 @@ export default ({hero, children, ...props}) => {
          Will: ${willState} / ${will}
        Joyful: ${joyfulState} / ${joyful}
         `}
-        <MultiProcessBar process={[staminaState / stamina, willState / will, joyfulState / joyful]} style={{width: 160, marginLeft: 15, marginTop: -10}} />
+        {/* <MultiProcessBar process={[staminaState / stamina, willState / will, joyfulState / joyful]} style={{width: 160, marginLeft: 15, marginTop: -10}} /> */}
       </pre>
       {children}
     </section>    
