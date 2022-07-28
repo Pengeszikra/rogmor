@@ -1,10 +1,18 @@
 import React from 'react';
 import { searchParamsToUrlQuery } from '../../node_modules/next/dist/shared/lib/router/utils/querystring';
+import { InteractionKind } from '../gui/battleSaga';
 import profession from '../rpg/profession';
 
-export const EntityCard = ({mob, tw=""}) => {
+export const EntityCard = ({mob, wound, tw=""}) => {
 
   const {level, heroId, profession, stamina, staminaState, will, willState, joyful, joyfulState} = mob;
+
+  const woundColor = wound?.kind === InteractionKind.STRIKE
+    ? 'bg-orange-400'
+    : wound?.kind === InteractionKind.SKILL
+      ? 'bg-yellow-400'
+      : 'bg-blue-400'
+  ;
 
   return (
     <figure className={`flex gap-0 w-32 h-64 rounded-3xl bg-sky-600 justify-center flex-wrap items-center hover:brightness-110 ${tw}`}>
@@ -29,6 +37,9 @@ export const EntityCard = ({mob, tw=""}) => {
           style={{transform:`scaleY(${joyfulState/joyful})`}}
         />
       </section>
+      {wound?.target?.heroId === heroId && (
+        <figure className={`fading-to-top text-red-600 ${woundColor} transition  rounded-full p-8 absolute text-5xl`}>{wound.dmg}</figure>
+      )}
     </figure>
   );
 };
@@ -37,9 +48,8 @@ export const PlaceOfMob = () => (<div className='w-32' />);
 
 export default function TailwindArea ({state, army}) {
 
-  const {hero, focus, entities} = state;
-  const {modHero, setGameState, setupEntities, focusOn, fight, skill, talk, playActionAnim, setHero, levelUpHero, } = army;
-
+  const {hero, focus, entities, damageResult} = state;
+  const {focusOn, fight, skill, talk} = army;
 
   return (
     <section className="absolute top-0 left-0 overflow-hidden --pointer-events-none grid justify-center w-screen items-center my-12">
@@ -47,14 +57,13 @@ export default function TailwindArea ({state, army}) {
         <main className="grid justify-center gap-4">
           <section className='flex gap-4'>
             <PlaceOfMob />
-            <EntityCard tw="bg-stone-700" mob={entities?.[focus]} />
+            <EntityCard tw="bg-stone-700" mob={entities?.[focus]} wound={damageResult}/>
             <PlaceOfMob />
           </section>
 
-
           <section className='flex gap-4'>
             <PlaceOfMob />
-            <EntityCard mob={hero} />
+            <EntityCard mob={hero} wound={damageResult} />
             <PlaceOfMob />
           </section>
 

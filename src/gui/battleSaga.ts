@@ -1,5 +1,16 @@
 import { improved } from "../rpg/rpg";
 
+export enum InteractionKind {
+  STRIKE, SKILL, TALK
+}
+
+export interface DamageResult {
+  dmg: number;
+  striker: any;
+  target: any;
+  kind: InteractionKind;
+}
+
 export const physicalStrike = (a, b, round) => {
   const astart = improved(a.reaction) 
   const bstart = improved(b.reaction)
@@ -7,7 +18,7 @@ export const physicalStrike = (a, b, round) => {
   let [striker, target] = round % 2 ? [atk, def] : [def, atk];
   let dmg = improved(striker.body / 2);
   target.staminaState -= Math.min(dmg, target.staminaState);
-  return [a, b];
+  return [a, b, {dmg, striker, target, kind: InteractionKind.STRIKE }];
 }
 
 export const soulSkill = (a, b, round) => {
@@ -17,7 +28,7 @@ export const soulSkill = (a, b, round) => {
   let [striker, target] = round % 2 ? [atk, def] : [def, atk];
   let dmg = improved(striker.soul / 2);
   target.willState -= Math.min(dmg, target.willState);
-  return [a, b];
+  return [a, b, {dmg, striker, target, kind: InteractionKind.SKILL}];
 }
 
 export const socialTalk = (a, b, round) => {
@@ -27,7 +38,7 @@ export const socialTalk = (a, b, round) => {
   let [striker, target] = round % 2 ? [atk, def] : [def, atk];
   let dmg = improved(striker.popular / 2);
   target.joyfulState -= Math.min(dmg, target.joyfulState);
-  return [a, b];
+  return [a, b, {dmg, striker, target, kind: InteractionKind.TALK}];
 }
 
 export const strikeDamage = ({body}, imp = improved) => imp(body / 2);

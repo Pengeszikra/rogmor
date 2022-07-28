@@ -24,6 +24,7 @@ export const initialState = {
   flow: [],
   actionAnim: null,
   combatResult: null,
+  damegeResult: null,
 };
 
 export const 
@@ -40,6 +41,7 @@ export const
   SKILL = action('skill'),
   TALK  = action('talk'),
   LEVEL_UP_HERO  = action('level-up-hero'),
+  SET_DAMAGE_RESULT  = action('set-damage-result'),
   PLAY_ACTION_ANIM = action('play-action-anim')
 ;
 
@@ -61,6 +63,8 @@ export const gameReducer = (state, {type, payload}) => {
     case SKILL: return useFullCheck(skillRound(state));
     case TALK:  return useFullCheck(talkRound(state));
     case PLAY_ACTION_ANIM: return {...state, actionAnim: payload};
+    case SET_DAMAGE_RESULT: return {...state, damageResult: payload};
+
     case LEVEL_UP_HERO: return {...state, hero: increaseLevel(1)(state.hero)}
     default: return state;
   }
@@ -80,7 +84,7 @@ const useFullCheck = ({focus, entities, ...rest}) => {
 const checkIsLive = ({staminaState, willState, joyfulState}) => (staminaState > 0 && willState > 0 && joyfulState > 0);
 
 const interactionRound = interaction => ({hero, entities, round, focus, combatResult, ...rest}) => {
-  const [hMod, npcMod] = interaction(hero, entities[focus], round);
+  const [hMod, npcMod, damageResult] = interaction(hero, entities[focus], round);
   const heroIsDie = !checkIsLive(hMod);
   const npcIsDie = !checkIsLive(npcMod);
   const newCombatResult = heroIsDie
@@ -89,7 +93,7 @@ const interactionRound = interaction => ({hero, entities, round, focus, combatRe
       ? {outcome: CombatOutcome.NPC_DIE, npc: npcMod}
       : CombatOutcome.OWER_WITHOUT_LOSS
   ;
-  return {...rest, hero:hMod, round: round + 1, focus, entities:{...entities, [npcMod.uid]:npcMod}, combatResult: newCombatResult};
+  return {...rest, hero:hMod, round: round + 1, focus, entities:{...entities, [npcMod.uid]:npcMod}, combatResult: newCombatResult, damageResult};
 };
 
 const fightRound = interactionRound(physicalStrike);
