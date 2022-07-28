@@ -51,6 +51,13 @@ export default function TailwindArea ({state, army}) {
             <PlaceOfMob />
           </section>
 
+
+          <section className='flex gap-4'>
+            <PlaceOfMob />
+            <EntityCard mob={hero} />
+            <PlaceOfMob />
+          </section>
+
           <section className="m-4">
             <section className="w-96 grid grid-cols-2 gap-2 p-4">
               <button className="rounded-lg p-2 text-lg bg-orange-400" onClick={fight}>Fight</button>
@@ -59,13 +66,6 @@ export default function TailwindArea ({state, army}) {
               <button className="rounded-lg p-2 text-lg bg-orange-400" onClick={() => focusOn(null)}>Escape</button>
             </section>
           </section>
-
-          <section className='flex gap-4'>
-            <PlaceOfMob />
-            <EntityCard mob={hero} />
-            <PlaceOfMob />
-          </section>
-
         </main>
       )}
     </section>

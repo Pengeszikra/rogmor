@@ -1,4 +1,4 @@
-import {useTroll, actionFactory, kebabToCamelCase} from 'react-troll';
+import { actionFactory, kebabToCamelCase } from 'react-troll';
 import { physicalStrike, socialTalk, soulSkill } from '../gui/battleSaga';
 import { increaseLevel } from './profession';
 
@@ -15,7 +15,7 @@ export enum CombatOutcome {
   OWER_WITHOUT_LOSS,
 }
 
-const initialState = {
+export const initialState = {
   round : 0,
   hero: null,
   game: GameMode.ROLL_CHARACTER,
@@ -43,7 +43,7 @@ export const
   PLAY_ACTION_ANIM = action('play-action-anim')
 ;
 
-const gameReducer = (state, {type, payload}) => {
+export const gameReducer = (state, {type, payload}) => {
   switch (type) {
     case SET_HERO: return {...state, hero: payload};
     case MOD_HERO: return {...state, hero: payload(state.hero), combatResult:null};
@@ -96,4 +96,4 @@ const fightRound = interactionRound(physicalStrike);
 const skillRound = interactionRound(soulSkill);
 const  talkRound = interactionRound(socialTalk);
 
-export const useSinglePlayerReducer = _ => useTroll(gameReducer, initialState, getActionsLookup);
+// export const useSinglePlayerReducer = _ => useTroll(gameReducer, initialState, getActionsLookup);

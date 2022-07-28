@@ -1,13 +1,17 @@
 import { MobilFrame } from '../gui/MobilFrame';
-import { GameMode, useSinglePlayerReducer } from '../rpg/singlePlayerTroll';
+import { GameMode, gameReducer, getActionsLookup, initialState } from '../rpg/singlePlayerTroll';
 import SingleAdventure from '../components/SingleAdventure';
 import CreateHero from '../components/CreateHero';
 import Head from 'next/head'
 import { Blog } from '../components/Blog';
 import TailwindArea from '../components/TailwindArea';
+import { useSagaReducer } from 'use-saga-reducer';
+import { getDispatchedActions } from 'react-troll';
+import { mainSaga } from '../lib/mainSaga';
 
 const RogmorFrame = () => {
-  const [state, army] = useSinglePlayerReducer();
+  const [state, dispatch] = useSagaReducer(mainSaga, gameReducer, initialState);
+  const army = getDispatchedActions(getActionsLookup(), dispatch);
   const {game, hero} = state;
 
   return (
@@ -29,4 +33,3 @@ const RogmorFrame = () => {
 }; 
 
 export default RogmorFrame;
-

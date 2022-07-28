@@ -17,4 +17,4 @@ export default ({hero, children, ...props}) => {
       {children}
     <figurearticle>
   );
-image
+}
