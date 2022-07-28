@@ -7,12 +7,11 @@ export const EntityCard = ({mob, wound, tw=""}) => {
 
   const {level, heroId, profession, stamina, staminaState, will, willState, joyful, joyfulState} = mob;
 
-  const woundColor = wound?.kind === InteractionKind.STRIKE
-    ? 'bg-orange-400'
-    : wound?.kind === InteractionKind.SKILL
-      ? 'bg-yellow-400'
-      : 'bg-blue-400'
-  ;
+  const woundColor = {
+    [InteractionKind.STRIKE]: 'bg-orange-400',
+    [InteractionKind.SKILL]: 'bg-yellow-400',
+    [InteractionKind.TALK]: 'bg-blue-400',
+  }?.[wound?.kind] || '';
 
   return (
     <figure className={`flex gap-0 w-32 h-64 rounded-3xl bg-sky-600 justify-center flex-wrap items-center hover:brightness-110 ${tw}`}>
@@ -68,10 +67,12 @@ export default function TailwindArea ({state, army}) {
           </section>
 
           <section className="m-4">
-            <section className="w-96 grid grid-cols-2 gap-2 p-4">
+            <section className="w-96 grid grid-cols-3 gap-2 p-4">
               <button className="rounded-lg p-2 text-lg bg-orange-400" onClick={fight}>Fight</button>
               <button className="rounded-lg p-2 text-lg bg-orange-400" onClick={skill}>Skill</button>
               <button className="rounded-lg p-2 text-lg bg-orange-400" onClick={talk}>Talk</button>
+              <div />
+            <div />
               <button className="rounded-lg p-2 text-lg bg-orange-400" onClick={() => focusOn(null)}>Escape</button>
             </section>
           </section>

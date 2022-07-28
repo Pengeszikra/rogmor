@@ -13,7 +13,7 @@ const capableOfAction = ({staminaState, willState, joyfulState}) => staminaState
 
 export default function SingleAdventure({state, army}) {
   const {hero, entities, focus, actionAnim, combatResult} = state;
-  const {modHero, setGameState, setupEntities, focusOn, fight, skill, talk, playActionAnim, setHero, levelUpHero} = army;
+  const {modHero, setGameState, setupEntities, focusOn, fight, skill, talk, playActionAnim, setHero, levelUpHero, setDamageResult} = army;
 
   const playAnim = anim => {
     playActionAnim(anim);
@@ -45,6 +45,7 @@ export default function SingleAdventure({state, army}) {
   const moveHero = direction => ({coord, ...rest}) => {
     const target = coord + direction;
     focusOn(null);
+    setDamageResult(null);
     if (dryLand.includes(target)) {
       const who = Object.values(entities).filter(capableOfAction).find(({coord}) => coord === target );
       if (who) {
