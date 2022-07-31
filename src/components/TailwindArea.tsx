@@ -3,6 +3,13 @@ import { searchParamsToUrlQuery } from '../../node_modules/next/dist/shared/lib/
 import { InteractionKind } from '../gui/battleSaga';
 import profession from '../rpg/profession';
 
+export const VerticalValue = ({value=1, tw="bg-white"}) => (
+  <div 
+    className={`w-4 h-24 origin-bottom transition ${tw}`}
+    style={{transform:`scaleY(${value})`}} 
+  />
+);
+
 export const EntityCard = ({mob, wound, tw=""}) => {
 
   const {level, heroId, profession, stamina, staminaState, will, willState, joyful, joyfulState} = mob;
@@ -23,18 +30,9 @@ export const EntityCard = ({mob, wound, tw=""}) => {
       </section>
       <div className='text-white p-2 text-lg'>{profession}</div>
       <section className='flex gap-2 w-max m-4 items-end justify-end'>
-        <div 
-          className='bg-rose-800 w-4 h-24 origin-bottom transition' 
-          style={{transform:`scaleY(${staminaState/stamina})`}} 
-        />
-        <div 
-          className='bg-yellow-200 w-4 h-24 origin-bottom transition' 
-          style={{transform:`scaleY(${willState/will})`}}
-        />
-        <div 
-          className='bg-indigo-800 w-4 h-24 origin-bottom transition' 
-          style={{transform:`scaleY(${joyfulState/joyful})`}}
-        />
+        <VerticalValue tw='bg-rose-900' value={staminaState/stamina}/>
+        <VerticalValue tw='bg-yellow-200' value={willState/will} />
+        <VerticalValue tw='bg-emerald-800' value={joyfulState/joyful} />
       </section>
       {wound?.target?.heroId === heroId && (
         <figure className={`fading-to-top text-red-600 ${woundColor} transition  rounded-full p-8 absolute text-5xl`}>{wound.dmg}</figure>
@@ -53,10 +51,10 @@ export default function TailwindArea ({state, army}) {
   return (
     <section className="absolute top-0 left-0 overflow-hidden --pointer-events-none grid justify-center w-screen items-center my-12">
       {entities && entities[focus] && (
-        <main className="grid justify-center gap-4">
+        <main className="grid justify-center gap-4 scale-[0.8]">
           <section className='flex gap-4'>
             <PlaceOfMob />
-            <EntityCard tw="bg-stone-700" mob={entities?.[focus]} wound={damageResult}/>
+            <EntityCard tw="bg-purple-600" mob={entities?.[focus]} wound={damageResult}/>
             <PlaceOfMob />
           </section>
 

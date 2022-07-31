@@ -125,3 +125,28 @@ I take few hour to solve the automatic vercel deployment from my gith repo.
 On Build & Development Settings drop down you can select nextjs instead of try output library set to `.next/`
 
 ![nextjs to vercel build setup](./src/_documents/vercel-nextjs-buildset-as-nextjs.png)
+
+```tsx
+export function * encounterSaga() {
+  const {payload:{heroTeam, opponentTeam, area, isAuto}} = yield take(ENCOUNTER_BEGIN);
+
+  const {type} = yield take([LETS_TALK, AMBUSH, CHARGE]);
+
+  if (type === CHARGE) {
+    let sequence = speedOrder([
+      chargeOrder(heroTeam),
+      awarnesOrder(opponentTeam),
+    ]);
+
+    while (sequence.length) {
+      const [next] = sequence;
+      const nextMove = heroTeam.includes(next) 
+        ? yield waitUserInteraction()   // >>  take([STRIKE, SKILL])
+        : yield figureOutOppositesMove()
+    }
+
+
+  }
+
+}
+```

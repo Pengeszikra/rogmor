@@ -18,13 +18,14 @@ export enum CombatOutcome {
 export const initialState = {
   round : 0,
   hero: null,
+  focus: null,
   game: GameMode.ROLL_CHARACTER,
   entities: {},
-  focus: null,
   flow: [],
   actionAnim: null,
   combatResult: null,
   damegeResult: null,
+  encounterOutcome: [],
 };
 
 export const 
@@ -40,6 +41,8 @@ export const
   FIGHT = action('fight'),
   SKILL = action('skill'),
   TALK  = action('talk'),
+  ENCOUNTER_BEGIN  = action('encounter-begin'),
+  ENCOUNTER_OUTCOME  = action('encounter-outcome'),
   LEVEL_UP_HERO  = action('level-up-hero'),
   SET_DAMAGE_RESULT  = action('set-damage-result'),
   PLAY_ACTION_ANIM = action('play-action-anim')
