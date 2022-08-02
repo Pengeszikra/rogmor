@@ -1,4 +1,4 @@
-import {  useEffect } from "react";
+import {  useEffect, useRef } from "react";
 
 import { dryLand, coordToStyle } from "../rpg/rogmorMap";
 import {  rnd, shuffle } from "../rpg/rpg";
@@ -14,6 +14,17 @@ const capableOfAction = ({staminaState, willState, joyfulState}) => staminaState
 export default function SingleAdventure({state, army}) {
   const {hero, entities, focus, actionAnim, combatResult} = state;
   const {modHero, setGameState, setupEntities, focusOn, fight, skill, talk, playActionAnim, setHero, levelUpHero, setDamageResult} = army;
+
+  const mapRef = useRef(null);
+
+  useEffect(() => {
+    if (!mapRef.current) return;
+    const autoScroll = () => {
+      mapRef.current.scrollLeft = 100;
+    };
+    mapRef.current.addEventListener("scroll", autoScroll);
+    return () => mapRef?.current && mapRef.current.removeEventListener("scroll", autoScroll);
+  }, [mapRef, hero?.coord])
 
   const playAnim = anim => {
     playActionAnim(anim);
@@ -59,7 +70,11 @@ export default function SingleAdventure({state, army}) {
 
   return (<>
     <section style={{overflowX:'auto', position:'relative'}}>
-      <NoreboMap style={!entities[focus] ? {position:'relative'} : {position:'absolute', visibility:'hidden'}}>
+      <div 
+        className="norebo-map-r-90" 
+        style={!entities[focus] ? {position:'relative'}  : {position:'absolute', visibility:'hidden'}}
+        ref={mapRef}
+      >
         {Object.values(entities).filter(capableOfAction).map(
           ({uid, heroId, profession, coord}) => (
             <FaceSprite 
@@ -77,7 +92,7 @@ export default function SingleAdventure({state, army}) {
             onClick={() => focusOn(null)}
           />
         )}
-      </NoreboMap>
+      </div>
     </section>
     {!entities[focus] && (
       <section className="m-4 grid grid-cols-3 gap-2">
