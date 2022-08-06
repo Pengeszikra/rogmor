@@ -1,18 +1,18 @@
 import {  useEffect, useRef } from "react";
 
 import { dryLand, coordToStyle } from "../rpg/rogmorMap";
-import {  rnd, shuffle } from "../rpg/rpg";
+import {  rnd, shuffle, uid, pickOne } from "../rpg/rpg";
 
 import HeroCard from "../gui/HeroCard";
-import HeroCardLine from "../gui/HeroCardLine";
-import { Button, FaceSprite,  NoreboMap, Button70, ItemSprite, ModalWindow, DarkPanel } from "../gui/setOfGuiElements";
-import { heroFactory } from '../rpg/heroFactory';
-import { CombatOutcome, GameMode } from "../rpg/singlePlayerTroll";
+import { FaceSprite } from "../gui/setOfGuiElements";
+import { CombatOutcome, GameMode, MainState } from "../rpg/singlePlayerTroll";
+import { mobFactory, professionList, traitsFactory, Team, Mob } from "../rpg/profession";
+import { generateName } from "../rpg/generateName";
 
-const capableOfAction = ({staminaState, willState, joyfulState}) => staminaState && willState && joyfulState;
+const capableOfAction = ({condition:{staminaState, willState, joyfulState}}:Mob) => staminaState && willState && joyfulState;
 
 export default function SingleAdventure({state, army}) {
-  const {hero, entities, focus, actionAnim, combatResult} = state;
+  const {hero, entities, focus, actionAnim, combatResult} = state as MainState;
   const {modHero, setGameState, setupEntities, focusOn, fight, skill, talk, playActionAnim, setHero, levelUpHero, setDamageResult} = army;
 
   const mapRef = useRef(null);
@@ -31,12 +31,24 @@ export default function SingleAdventure({state, army}) {
     setTimeout(_ => playActionAnim(null) , 330);
   };
 
+
   useEffect( () => {
     const area = [...dryLand].sort(shuffle);
-    const entitiesArray = area
+    const entitiesArray:Mob[] = area
       .slice(-45)
-      .map(coord => ({coord, ...(heroFactory(rnd(100), rnd(10) + 1))}))
-    setupEntities(entitiesArray.reduce((col, {uid, ...rest}) => ({...col, [uid]: ({uid, ...rest})}) , {}));
+      .map(coord => mobFactory(
+        generateName(),
+        rnd(100),
+        coord,
+        uid(),
+        Team.BAD,
+        traitsFactory(rnd(10), pickOne(professionList))
+      ))
+
+    const entitiesLookup:Record<string, Mob> = Object.fromEntries(entitiesArray.map(mob => [mob.uid, mob]));
+
+    setupEntities(entitiesLookup);
+
     modHero(h => ({...h, coord: area[0]}));
   }, []);
 
@@ -51,8 +63,8 @@ export default function SingleAdventure({state, army}) {
     }
   }, [combatResult]);
 
-  const infoAbout = npc => _ => focusOn(npc.uid);
-  const handleToStart = _ => setGameState(GameMode.ROLL_CHARACTER)
+  const infoAbout = npc => () => focusOn(npc.uid);
+  const handleToStart = () => setGameState(GameMode.ROLL_CHARACTER)
   const moveHero = direction => ({coord, ...rest}) => {
     const target = coord + direction;
     focusOn(null);
@@ -60,7 +72,7 @@ export default function SingleAdventure({state, army}) {
     if (dryLand.includes(target)) {
       const who = Object.values(entities).filter(capableOfAction).find(({coord}) => coord === target );
       if (who) {
-        focusOn(who.uid);
+        focusOn(who?.uid);
         return ({coord, ...rest});  
       }
       return ({coord: target, ...rest});
@@ -76,18 +88,18 @@ export default function SingleAdventure({state, army}) {
         ref={mapRef}
       >
         {Object.values(entities).filter(capableOfAction).map(
-          ({uid, heroId, profession, coord}) => (
+          ({uid, avatar, professionType, coord}) => (
             <FaceSprite 
               key={uid} 
-              data-face={heroId} 
-              data-prof={profession} 
+              data-face={avatar} 
+              data-prof={professionType} 
               style={coordToStyle(coord)} 
             />
           )
         )}
         {hero?.coord && (
           <FaceSprite 
-            data-face={hero?.heroId} 
+            data-face={hero?.avatar} 
             style={coordToStyle(hero.coord)} 
             onClick={() => focusOn(null)}
           />

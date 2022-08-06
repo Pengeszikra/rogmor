@@ -1,9 +1,9 @@
 export default ({hero, children, ...props}) => {
-  const {heroId, profession, staminaState } = hero;
+  const {avatar, profession, staminaState } = hero;
 
   return (
     <figure className='small-card gui gui-loginw' {...props}>
-      <image className='face-sprite' data-face={heroId} />
+      <image className='face-sprite' data-face={avatar} />
       <span>
         <span>{`lvl: ${level} - ${profession}`}</span>
         <div>

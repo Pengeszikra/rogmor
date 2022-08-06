@@ -20,7 +20,7 @@ export const initial = (level = 1, prof = profTypes.child, uidFac = _ => '_child
 export const reducer = (state, {type, payload}) => {
   switch (type) {
     case LEVEL_UP: return {...state, ...profession(state.level + 1, state.type, _ => state.uid)};
-    case CHANGE_FACE: return {...state, heroId: payload}
+    case CHANGE_FACE: return {...state, avatar: payload}
     default: return state;
   }
 }

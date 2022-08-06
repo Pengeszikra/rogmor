@@ -1,6 +1,6 @@
 import { actionFactory, kebabToCamelCase } from 'react-troll';
 import { physicalStrike, socialTalk, soulSkill } from '../gui/battleSaga';
-import { increaseLevel } from './profession';
+import { increaseLevel, Mob } from './profession';
 
 export const [getActionsLookup, action] = actionFactory(kebabToCamelCase);
 
@@ -13,6 +13,19 @@ export enum CombatOutcome {
   HERO_DIE,
   NPC_DIE,
   OWER_WITHOUT_LOSS,
+}
+
+export interface MainState {
+  round : number;
+  hero: Mob;
+  focus: string;
+  game: GameMode;
+  entities: Record<string, Mob>;
+  flow: any[];
+  actionAnim: any;
+  combatResult: any;
+  damegeResult: any;
+  encounterOutcome: any[];
 }
 
 export const initialState = {
@@ -45,6 +58,11 @@ export const
   ENCOUNTER_OUTCOME  = action('encounter-outcome'),
   LEVEL_UP_HERO  = action('level-up-hero'),
   SET_DAMAGE_RESULT  = action('set-damage-result'),
+  USER_ACT = action("user-act"),
+  PLAY_ACTION = action("play-action"),
+  PLAY_OUTCOME = action("play-outcome"),
+  ANIMATION_ENDED = action("animation-ended"),
+  ANIMATION_SKIPPED = action("animation-skipped"),
   PLAY_ACTION_ANIM = action('play-action-anim')
 ;
 
@@ -76,7 +94,7 @@ export const gameReducer = (state, {type, payload}) => {
 const lostFocus = s => s
 
 const useFullCheck = ({focus, entities, ...rest}) => {
-  const {staminaState, willState, joyfulState} = entities[focus];
+  const {condition:{staminaState, willState, joyfulState}} = entities[focus] as Mob;
   return staminaState > 0 
       && willState > 0 
       && joyfulState > 0
@@ -84,7 +102,11 @@ const useFullCheck = ({focus, entities, ...rest}) => {
         : {focus: null, entities, ...rest}; 
 };
 
-const checkIsLive = ({staminaState, willState, joyfulState}) => (staminaState > 0 && willState > 0 && joyfulState > 0);
+const checkIsLive = ({condition}:Mob) => (
+     condition.staminaState > 0 
+  && condition.willState > 0 
+  && condition.joyfulState > 0
+);
 
 const interactionRound = interaction => ({hero, entities, round, focus, combatResult, ...rest}) => {
   const [hMod, npcMod, damageResult] = interaction(hero, entities[focus], round);
@@ -102,5 +124,3 @@ const interactionRound = interaction => ({hero, entities, round, focus, combatRe
 const fightRound = interactionRound(physicalStrike);
 const skillRound = interactionRound(soulSkill);
 const  talkRound = interactionRound(socialTalk);
-
-// export const useSinglePlayerReducer = _ => useTroll(gameReducer, initialState, getActionsLookup);

@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Level Up to fighter 2 1`] = `
+Object {
+  "ability": Object {
+    "body": 7,
+    "joyful": 20,
+    "popular": 6,
+    "reaction": 6,
+    "soul": 5,
+    "stamina": 26,
+    "title": "Fighter",
+    "will": 22,
+  },
+  "avatar": 22,
+  "condition": Object {
+    "joyfulState": 20,
+    "staminaState": 26,
+    "willState": 22,
+  },
+  "coord": 0,
+  "level": 2,
+  "name": "Mr. Foo",
+  "professionType": "fighter",
+  "team": 2,
+  "uid": "dfx532",
+}
+`;
+
+exports[`Personalize lvl 1 fighter 1`] = `
+Object {
+  "ability": Object {
+    "body": 3,
+    "joyful": 6,
+    "popular": 2,
+    "reaction": 2,
+    "soul": 2,
+    "stamina": 8,
+    "title": "Fighter",
+    "will": 7,
+  },
+  "avatar": 22,
+  "condition": Object {
+    "joyfulState": 6,
+    "staminaState": 8,
+    "willState": 7,
+  },
+  "coord": 0,
+  "level": 1,
+  "name": "Mr. Foo",
+  "professionType": "fighter",
+  "team": 2,
+  "uid": "dfx532",
+}
+`;
+
+exports[`create lvl 1 fighter 1`] = `
+Object {
+  "ability": Object {
+    "body": 3,
+    "joyful": 6,
+    "popular": 2,
+    "reaction": 2,
+    "soul": 2,
+    "stamina": 8,
+    "title": "Fighter",
+    "will": 7,
+  },
+  "condition": Object {
+    "joyfulState": 6,
+    "staminaState": 8,
+    "willState": 7,
+  },
+  "level": 1,
+  "professionType": "fighter",
+}
+`;

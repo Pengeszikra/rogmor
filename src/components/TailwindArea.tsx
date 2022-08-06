@@ -1,7 +1,7 @@
 import React from 'react';
-import { searchParamsToUrlQuery } from '../../node_modules/next/dist/shared/lib/router/utils/querystring';
 import { InteractionKind } from '../gui/battleSaga';
-import profession from '../rpg/profession';
+import { Mob } from '../rpg/profession';
+
 
 export const VerticalValue = ({value=1, tw="bg-white"}) => (
   <div className='relative'>
@@ -15,7 +15,11 @@ export const VerticalValue = ({value=1, tw="bg-white"}) => (
 
 export const EntityCard = ({mob, wound, tw=""}) => {
 
-  const {level, heroId, profession, stamina, staminaState, will, willState, joyful, joyfulState} = mob;
+  const {
+    avatar, level,
+    ability:{stamina, will, joyful, title}, 
+    condition:{staminaState, willState, joyfulState}
+  } = mob as Mob;
 
   const woundColor = {
     [InteractionKind.STRIKE]: 'bg-orange-400',
@@ -26,19 +30,19 @@ export const EntityCard = ({mob, wound, tw=""}) => {
   return (
     <figure className={`flex gap-0 w-32 h-64 rounded-3xl bg-sky-600 justify-center flex-wrap items-center hover:brightness-110 ${tw} shadow-lg`}>
       <section className='grid items-center justify-center w-24 h-24 relative'>
-        <figure className='face-sprite big-face' data-face={heroId} />
+        <figure className='face-sprite big-face' data-face={avatar} />
         <div className="absolute rounded-full bg-red-800 p-3 text-lg text-white w-9 h-8 flex items-center justify-center right-24 shadow-lg">
           <span>{level}</span>
         </div>
       </section>
-      <div className='text-white p-2 text-lg'>{profession}</div>
+      <div className='text-white p-2 text-lg'>{title}</div>
       <section className='flex gap-2 w-max m-4 items-end justify-end'>
         <VerticalValue tw='bg-rose-900' value={staminaState/stamina}/>
         <VerticalValue tw='bg-yellow-200' value={willState/will} />
         <VerticalValue tw='bg-emerald-900' value={joyfulState/joyful} />
         
       </section>
-      {wound?.target?.heroId === heroId && (
+      {wound?.target?.avatar === avatar && (
         <figure className={`fading-to-top text-red-600 ${woundColor} transition  rounded-full p-8 absolute text-5xl`}>{wound.dmg}</figure>
       )}
     </figure>

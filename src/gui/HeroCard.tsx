@@ -1,4 +1,5 @@
 import React from 'react';
+import { Mob } from '../rpg/profession';
 
 export const ProcessBar = ({process = 1, ...props}) => (
   <figure className='button-b' {...props}>
@@ -17,14 +18,17 @@ export const MultiProcessBar = ({process = [1,1,1], ...props}) => {
   );
 }
 
-export default ({hero, children, ...props}) => {
-  const {heroId, name, profession, level, body, reaction, soul, stamina, will, staminaState, willState, popular, joyful, joyfulState } = hero;
-  // const [process, setProcess] = useState(0);
+export default ({hero, ...props}) => {
+  const {
+    avatar, name, level, 
+    ability:{body, soul, reaction, popular, stamina, will, joyful, title}, 
+    condition:{staminaState, willState, joyfulState}
+  } = hero as Mob;
 
   return (
     <section className='gui gui-storyw' {...props}>
-      <figure className='face-sprite' data-face={heroId} />
-      <span className='text-xl'>{name} the {profession}</span>
+      <figure className='face-sprite' data-face={avatar} />
+      <span className='text-xl'>{name} the {title}</span>
       <pre className='leading-tight text-s'>{`
         Level: ${level}
          Body: ${body}
@@ -34,10 +38,8 @@ export default ({hero, children, ...props}) => {
       Stamina: ${staminaState} / ${stamina}
          Will: ${willState} / ${will}
        Joyful: ${joyfulState} / ${joyful}
-        `}
-        {/* <MultiProcessBar process={[staminaState / stamina, willState / will, joyfulState / joyful]} style={{width: 160, marginLeft: 15, marginTop: -10}} /> */}
+      `}
       </pre>
-      {children}
-    </section>    
+    </section>
   );
 }

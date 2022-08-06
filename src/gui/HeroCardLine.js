@@ -3,11 +3,11 @@ import React from 'react';
 import { FaceSprite } from './setOfGuiElements';
 
 export default ({hero, children, color = 'white', ...props}) => {
-  const {heroId, name, profession, level, physique, reaction, soul, stamina, will, staminaState, willState, joyful, joyfulState } = hero;
+  const {avatar, name, profession, level, physique, reaction, soul, stamina, will, staminaState, willState, joyful, joyfulState } = hero;
 
   return (
     <section className="hero-line" {...props}>
-      <div className='face-sprite adventure--hero big-face-line' data-face={heroId} />
+      <div className='face-sprite adventure--hero big-face-line' data-face={avatar} />
 
       <svg className="hero-line-bars" viewBox="0 0 140 40">
         <text fill={color} x={45} y={16}>level {level} {profession}</text>

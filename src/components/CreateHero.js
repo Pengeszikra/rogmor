@@ -1,10 +1,11 @@
-import { rnd } from '../rpg/rpg';
+import { rnd, uid } from '../rpg/rpg';
 import HeroCard from '../gui/HeroCard';
 import getConfig from 'next/config';
 
 import { FaceSprite, LoginWindow, Button } from '../gui/setOfGuiElements';
-import { heroFactory } from '../rpg/heroFactory';
 import { GameMode } from '../rpg/singlePlayerTroll';
+import { mobFactory, Team, traitsFactory } from '../rpg/profession';
+import { generateName } from '../rpg/generateName';
 
 export default function CreateHero({state, army}) {
   const { hero } = state;
@@ -12,8 +13,15 @@ export default function CreateHero({state, army}) {
 
   const { publicRuntimeConfig:{version} } = getConfig();
 
-  const handleRollHero = _ => setHero(heroFactory(rnd(100), 4));
-  const handleLetsAdventure = _ => {
+  const handleRollHero = () => setHero(mobFactory(
+    generateName(),
+    rnd(100),
+    0,
+    uid(),
+    Team.PLAYER,
+    traitsFactory(4)
+  ));
+  const handleLetsAdventure = () => {
     setGameState(GameMode.ADVENTURE_ON_MAP);
     return;
   };
@@ -35,7 +43,7 @@ export default function CreateHero({state, army}) {
     {hero && <HeroCard hero={hero} style={{fontSize:17}}/>}
     {hero && (
       <section className="my-4">
-        <figure className="face-sprite absolute left-8 z-20 scale-150" data-face={hero.heroId} />
+        <figure className="face-sprite absolute left-8 z-20 scale-150" data-face={hero.avatar} />
         <button className="bg-sky-800 hover:bg-sky-600 p-2 text-lg rounded-lg w-full my-4" onClick={handleLetsAdventure}>Let adventure!</button>
       </section>
       )}
