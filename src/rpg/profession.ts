@@ -114,6 +114,7 @@ export const professionLookup:ProfessionLookup = {
 // https://wfrp1e.fandom.com/wiki/List_Of_Advanced_Careers
 
 export const professionList = Object.values(professionLookup);
+export const professionKeyList = Object.keys(professionLookup) as ProfessionKey[];
 
 export const traitsFactory = (level:number = 1,  professionType:ProfessionKey) => {
 

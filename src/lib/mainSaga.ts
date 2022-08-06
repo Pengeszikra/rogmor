@@ -3,6 +3,7 @@ import { ANIMATION_ENDED, ANIMATION_SKIPPED, ENCOUNTER_BEGIN, ENCOUNTER_OUTCOME,
 import { putAction } from '../util/putAction';
 import { Mob, Team } from '../rpg/profession';
 // import { Encounter } from './mainSaga';
+import { improved } from '../rpg/rpg';
 
 const slash = p => p;
 
@@ -11,7 +12,6 @@ const slash = p => p;
 export interface Effect {
   id: string;
   type: string;
-
 }
 export interface Act {
   id: string;
@@ -43,8 +43,15 @@ export interface Encounter {
   showTime: Effect[];
 }
 
+export const actionOrder = (mobList:Mob[]) => mobList
+  .map(entiti => [entiti, improved(entiti.ability.reaction + (entiti.condition.staminaState / 10))])
+  .sort(([a, aSpeed],[b, bSpeed]) => aSpeed > bSpeed ? 1 : -1 )
+;
+
 const turnGoesTo = (encounter:Encounter) => {
-  return encounter.mobList[0];
+  const {mobList} = encounter;
+  const [first] = actionOrder(mobList);
+  return first;
 }
 
 export enum Outcome { ENDED };
