@@ -44,27 +44,6 @@ export interface Encounter {
 }
 
 const turnGoesTo = (encounter:Encounter) => {
-  const first:Mob = {
-    avatar: '367',
-    level: 1,
-    name: 'foo-fighter',
-    team: Team.PLAYER,
-    type: '',
-    coord: 0,
-    uid: '',
-    staminaState: 0,
-    willState: 0,
-    joyfulState: 0,
-    profession: '',
-    body: 0,
-    reaction: 0,
-    soul: 0,
-    popular: 0,
-    stamina: 0,
-    will: 0,
-    joyful: 0
-  }
-
   return encounter.mobList[0];
 }
 
@@ -93,7 +72,7 @@ export function * encounterSaga (encounter:Encounter) {
       ? yield take(USER_ACT)
       : yield call(npcActSaga, encounter);
     ;
-    const outcome:OutcomeList = yield call(playTurnSaga, encounter, act);
+    const outcome:OutcomeList = yield call(playTurnSaga, encounter);
     yield putAction(PLAY_ACTION, act);
     yield putAction(PLAY_OUTCOME, outcome);
     yield take([ANIMATION_ENDED, ANIMATION_SKIPPED]);
@@ -107,5 +86,5 @@ export function * npcActSaga(encounter:Encounter) {
 }
 
 export function * playTurnSaga(encounter:Encounter) {
-  
+  return [Outcome.ENDED];
 }
