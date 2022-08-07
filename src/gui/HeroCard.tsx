@@ -28,16 +28,16 @@ export default ({hero, ...props}) => {
   return (
     <section className='gui gui-storyw' {...props}>
       <figure className='face-sprite' data-face={avatar} />
-      <span className='text-xl leading-4'>{name} the {title}</span>
+      <span className='text-lg leading-4'>{name} the {title}</span>
       <pre className='leading-[1em] text-[1.15em] m-2'>{`
         Level: ${level}
          Body: ${body}
          Soul: ${soul}
      Reaction: ${reaction}
       Popular: ${popular}
-      Stamina: ${staminaState} / ${stamina}
-         Will: ${willState} / ${will}
-       Joyful: ${joyfulState} / ${joyful}
+      Stamina: ${stamina}
+         Will: ${will}
+       Joyful: ${joyful}
       `}
       </pre>
     </section>
