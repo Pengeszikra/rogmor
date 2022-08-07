@@ -19,7 +19,7 @@ export default function CreateHero({state, army}) {
     0,
     uid(),
     Team.PLAYER,
-    traitsFactory(4)
+    traitsFactory(rnd(4)+2)
   ));
   const handleLetsAdventure = () => {
     setGameState(GameMode.ADVENTURE_ON_MAP);
