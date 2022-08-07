@@ -66,27 +66,27 @@ export function * mainSaga() {
 function * encounterRulerSaga() {
   while (true) {
     const {payload:encounter} = yield take(ENCOUNTER_BEGIN);
-    const encounterTask = yield fork(encounterSaga, encounter);
+    // const encounterTask = yield fork(encounterSaga, encounter);
     yield take(ENCOUNTER_OUTCOME);
-    yield cancel(encounterTask);
+    // yield cancel(encounterTask);
   }
 }
 
-export function * encounterSaga (encounter:Encounter) {
-  while(true) {
-    const activeMob:Mob = turnGoesTo(encounter);
-    const {payload:act} = activeMob.team === Team.PLAYER
-      ? yield take(USER_ACT)
-      : yield call(npcActSaga, encounter);
-    ;
-    const outcome:OutcomeList = yield call(playTurnSaga, encounter);
-    yield putAction(PLAY_ACTION, act);
-    yield putAction(PLAY_OUTCOME, outcome);
-    yield take([ANIMATION_ENDED, ANIMATION_SKIPPED]);
-
-    
-  }
-}
+// export function * encounterSaga (encounter:Encounter) {
+//   while(true) {
+//     const [activeMob,speed]:[Mob] = turnGoesTo(encounter);
+//     const {payload:act} = activeMob.team === Team.PLAYER
+//       ? yield take(USER_ACT)
+//       : yield call(npcActSaga, encounter);
+//     ;
+//     const outcome:OutcomeList = yield call(playTurnSaga, encounter);
+//     yield putAction(PLAY_ACTION, act);
+//     yield putAction(PLAY_OUTCOME, outcome);
+//     yield take([ANIMATION_ENDED, ANIMATION_SKIPPED]);
+// 
+//     
+//   }
+// }
 
 export function * npcActSaga(encounter:Encounter) {
   
