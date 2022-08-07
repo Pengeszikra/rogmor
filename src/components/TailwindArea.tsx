@@ -62,24 +62,24 @@ export default function TailwindArea ({state, army}) {
         <main className="grid justify-center gap-4 scale-[0.8] rounded-3xl">
           <section className='flex gap-4'>
             <PlaceOfMob />
-            <EntityCard tw="bg-purple-600" mob={entities?.[focus]} wound={damageResult}/>
+            <EntityCard tw="bg-stone-600" mob={entities?.[focus]} wound={damageResult}/>
             <PlaceOfMob />
           </section>
 
           <section className='flex gap-4'>
             <PlaceOfMob />
-            <EntityCard mob={hero} wound={damageResult} />
+            <EntityCard tw="bg-[#676]" mob={hero} wound={damageResult} />
             <PlaceOfMob />
           </section>
 
           <section className="m-4">
             <section className="w-96 grid grid-cols-3 gap-2 p-4">
-              <button className="rounded-lg p-2 text-lg bg-orange-400" onClick={fight}>Fight</button>
-              <button className="rounded-lg p-2 text-lg bg-orange-400" onClick={skill}>Skill</button>
-              <button className="rounded-lg p-2 text-lg bg-orange-400" onClick={talk}>Talk</button>
+              <button className="rounded-lg p-2 text-lg text-white bg-sky-600 grayscale-[.7]" onClick={fight}>Fight</button>
+              <button className="rounded-lg p-2 text-lg text-white bg-sky-600 grayscale-[.7]" onClick={skill}>Skill</button>
+              <button className="rounded-lg p-2 text-lg text-white bg-sky-600 grayscale-[.7]" onClick={talk}>Talk</button>
               <div />
             <div />
-              <button className="rounded-lg p-2 text-lg bg-orange-400" onClick={() => focusOn(null)}>Escape</button>
+              <button className="rounded-lg p-2 text-lg text-white bg-sky-700 grayscale-[.7]" onClick={() => focusOn(null)}>Escape</button>
             </section>
           </section>
         </main>
