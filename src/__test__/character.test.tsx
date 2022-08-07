@@ -1,5 +1,5 @@
 import { oneLevelUp, increaseLevel, Mob, mobFactory, Team, traitsFactory, professionKeyList } from "../rpg/profession";
-import { improved } from "../rpg/rpg";
+import { improved, rnd, amount } from "../rpg/rpg";
 
 const fighter1Trait = traitsFactory(1, 'fighter');
 const fighterMob:Mob = {...fighter1Trait, 
@@ -12,9 +12,11 @@ const fighterMob:Mob = {...fighter1Trait,
 
 const actionOrder = (mobList:Mob[]) => mobList
   .map(mob => [mob, improved(
-      mob.ability.reaction 
-      + (mob.condition.staminaState / 10) 
-      + (mob.condition.willState / 15)
+      (
+        mob.ability.reaction 
+      + (mob.condition.staminaState / 10)
+      + (mob.condition.willState / 10)
+      ) / mob.level
     )])
   .sort(([a, aSpeed],[b, bSpeed]) => aSpeed > bSpeed ? -1 : 1 )
 ;
@@ -49,20 +51,14 @@ test('order of speed', () => {
   const list = [fighterMob, MrFooLevel2];
   const order = actionOrder(list);
   
-  expect(order).toEqual([[MrFooLevel2, 203], [fighterMob, 3]])
+  expect(order).toEqual([[MrFooLevel2, 20], [fighterMob, 4]])
 })
 
 test('speed order of different profession lvl 10', () => {
-  //  const MrFooLevel2 = increaseLevel(10)(fighterMob);
-  
   const list:Mob[] = professionKeyList.map(
     (key, index) => mobFactory(
-      `Mr. ${key}`,
-      7,
-      0,
-      index,
-      Team.GOOD,
-      traitsFactory(10, key)
+      `Mr. ${key}`,7,0,index,Team.GOOD,
+      traitsFactory(100, key)
     )
   )
 
@@ -70,6 +66,40 @@ test('speed order of different profession lvl 10', () => {
   
   expect(
     order.map(([mob, speed]:[Mob, number]) => `${mob.professionType}`)
+  ).toMatchSnapshot();
+})
+
+test('Samurai speed number by levels', () => {
+  const makeSamurai = (lvl) => 
+    mobFactory(
+      `Samurai level:${lvl}`,1,2,`id:${lvl}`,Team.GOOD,
+      traitsFactory(lvl, 'samurai')
+    )
+  ;
+
+  const samuraiList = amount(20).map(lvl => makeSamurai((lvl + 1) * 5));
+
+  expect(
+    actionOrder(samuraiList).map(
+      ([mob, speed]:[Mob, number]) => `${mob.name} ${speed}`
+    )
+  ).toMatchSnapshot();
+})
+
+test('Fighter speed number by levels', () => {
+  const makeFighter = (lvl) => 
+    mobFactory(
+      `Fighter level:${lvl}`,1,2,`id:${lvl}`,Team.GOOD,
+      traitsFactory(lvl, 'fighter')
+    )
+  ;
+
+  const fighterList = amount(20).map(lvl => makeFighter((lvl + 1) * 5));
+
+  expect(
+    actionOrder(fighterList).map(
+      ([mob, speed]:[Mob, number]) => `${mob.name} ${speed}`
+    )
   ).toMatchSnapshot();
 })
 
