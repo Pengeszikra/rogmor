@@ -15,6 +15,6 @@ export default ({hero, children, ...props}) => {
       </span>
       {/* <ProcessBar process={staminaState / stamina} style={{width: 160, marginLeft: 15}} /> */}
       {children}
-    <figurearticle>
+    </figure>
   );
 }

@@ -58,20 +58,20 @@ export enum Outcome { ENDED };
 export type OutcomeList = Outcome[];
 
 export function * mainSaga() {
-  yield all([
-    fork(encounterRulerSaga),
-  ]);
+  // yield all([
+  //   fork(encounterRulerSaga),
+  // ]);
 };
 
-function * encounterRulerSaga() {
-  while (true) {
-    const {payload:encounter} = yield take(ENCOUNTER_BEGIN);
-    // const encounterTask = yield fork(encounterSaga, encounter);
-    yield take(ENCOUNTER_OUTCOME);
-    // yield cancel(encounterTask);
-  }
-}
-
+// function * encounterRulerSaga() {
+//   while (true) {
+//     const {payload:encounter} = yield take(ENCOUNTER_BEGIN);
+//     const encounterTask = yield fork(encounterSaga, encounter);
+//     yield take(ENCOUNTER_OUTCOME);
+//     yield cancel(encounterTask);
+//   }
+// }
+// 
 // export function * encounterSaga (encounter:Encounter) {
 //   while(true) {
 //     const [activeMob,speed]:[Mob] = turnGoesTo(encounter);
