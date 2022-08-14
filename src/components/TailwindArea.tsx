@@ -55,7 +55,7 @@ export default function TailwindArea ({state, army}) {
 
   const {hero, focus, entities, damageResult} = state;
   const {focusOn, fight, skill, talk} = army;
-
+  
   return (
     <section className="absolute top-0 left-0 overflow-hidden --pointer-events-none grid justify-center w-screen items-center my-12">
       {entities && entities[focus] && (

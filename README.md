@@ -150,3 +150,41 @@ export function * encounterSaga() {
 
 }
 ```
+
+# Slash
+Small script language with tailwind like syntax for simplify skill programming.
+Easy compose functionality
+
+```bash
+    # simple strong strike with weapon
+    target
+    body-hit
+    power-2
+
+    target-all
+    body-hit
+    weak-2
+
+    fill-4 # need a four round to refill
+    target-2
+    soul-hit-4
+
+    fill-3
+    target-ally
+    soul-heal-2
+
+    fill-2
+    target-ally-all
+    reaction-shield-4
+
+    instant # this means ready for use instant
+    fill-4
+    target-random
+    soul-hit-percent-5
+
+    fill-6
+    body-sacrifice-5
+    target-ally-dead
+    resurrection
+    soul-heal-4
+```
