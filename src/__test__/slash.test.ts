@@ -1,5 +1,5 @@
 import { oneLevelUp, increaseLevel, Mob, mobFactory, Team, traitsFactory, ProfessionKey } from "../rpg/profession";
-import { improved, rnd, amount } from "../rpg/rpg";
+import { improved, rnd, amount, pickOne } from "../rpg/rpg";
 import { call } from 'redux-saga/effects';
 
 const makeMob = (lvl:number, prof:ProfessionKey, team:Team = Team.GOOD) => mobFactory(
@@ -18,9 +18,9 @@ const skillForProf:Partial<Record<ProfessionKey, string[]>> = {
 const getSkillObject = (m:Mob):Partial<SlashObject>[] => skillForProf[m.professionType].map(slashParse);
 
 const testTeams = [
-  [5, 'assasin', Team.BAD],
-  [6, 'bishop', Team.BAD],
   [5, 'icelander', Team.BAD],
+  [6, 'bishop', Team.BAD],
+  [5, 'assasin', Team.BAD],
   [4, 'ninja', Team.GOOD],
   [7, 'samurai', Team.GOOD],
   [4, 'merchant', Team.GOOD],
@@ -65,17 +65,12 @@ export enum HitType {
 
 export interface SlashObject {
   fill: number;
-  target: Target;
-  hit: HitType;
+  select: Target;
+  doit: Doit;
+  type: HitType;
   mul: number;
-  heal: number;
-  stun: number;
-  bribe: number;
-  ressurection:  Target;
-  shield: HitType;
-  shieldPower: number;
   score: number;
-  spec: string;
+  extra: string;
   _ERROR_: string;
 }
 
@@ -84,7 +79,7 @@ export type SlashParser = (source:string) => Partial<SlashObject>;
 const slashCustomParse:SlashParser = command => {
   const baseCommand = command.split('-[')[0];
   const numeric = command.match(/-\[([\d|\.]+)\]/)?.[1];
-  const custom = command.match(/-\[([\d|a-z|A-Z|\.]+)\]/)?.[1];
+  const words = command.match(/-\[([\d|a-z|A-Z|\.]+)\]/)?.[1];
   if (numeric) {
     switch (baseCommand) {
       case 'power': return {mul: + numeric};
@@ -92,9 +87,9 @@ const slashCustomParse:SlashParser = command => {
     }
   } 
   else 
-  if (custom) {
+  if (words) {
     switch (baseCommand) {
-      case 'spec': return {spec: custom};
+      case 'extra': return {extra: words};
     }
   }
   return {_ERROR_:command};
@@ -116,10 +111,10 @@ export const slashParse:SlashParser = slashSource => slashSource.split(' ')
       case 'target-rnd-ally': case 'tra': return {select: Target.RANDOM_ALLY};
       case 'target-ally': case 'tsa': return {select: Target.SELECTED_ALLY};
       case 'target-all-ally': case 'taa': return {select: Target.ALL_ALLY};
-      case 'hit-body': case 'hb': return {hit: HitType.BODY};
-      case 'hit-soul': case 'hs': return {hit: HitType.SOUL};
-      case 'hit-popular': case 'hp': return {hit: HitType.POPULAR};
-      case 'hit-combat': case 'hc': return {hit: HitType.BODY | HitType.SOUL};
+      case 'hit-body': case 'hb': return {doit:Doit.HIT, type: HitType.BODY, mul: 1};
+      case 'hit-soul': case 'hs': return {doit:Doit.HIT, type: HitType.SOUL, mul: 1};
+      case 'hit-popular': case 'hp': return {doit:Doit.HIT, type: HitType.POPULAR, mul: 1};
+      case 'hit-combat': case 'hc': return {doit:Doit.HIT, type: HitType.BODY | HitType.SOUL, mul: 1};
       case 'power': case 'power-1': case 'p-1': return {mul: 1};
       case 'power-2': case 'p-2': return {mul: 2};
       case 'power-3': case 'p-3': return {mul: 3};
@@ -129,30 +124,26 @@ export const slashParse:SlashParser = slashSource => slashSource.split(' ')
       case 'weak-2': case 'w-2': return {mul: .7};
       case 'weak-3': case 'w-3': return {mul: .6};
       case 'weak-4': case 'w-4': return {mul: .5};
-      case 'heal': return {heal: 1};
-      case 'heal-2': return {heal: 2};
-      case 'heal-3': return {heal: 3};
-      case 'heal-4': return {heal: 4};
-      case 'stun': return {stun: 1};
-      case 'stun-2': return {stun: 2};
-      case 'stun-3': return {stun: 3};
-      case 'stun-4': return {stun: 4};
-      case 'bribe': return {bribe: 1};
-      case 'bribe-2': return {bribe: 2};
-      case 'bribe-3': return {bribe: 3};
-      case 'bribe-4': return {bribe: 4};
-      case 'bless-body': return {bless: HitType.BODY};
-      case 'bless-soul': return {bless: HitType.SOUL};
-      case 'bless-popular': return {bless: HitType.POPULAR};
-      case 'ressurection': return {ressurection: Target.SELECTED_ALLY};
-      case 'shield-body': return {shield: HitType.BODY, shieldPower: 1};
-      case 'shield-soul': return {shield: HitType.SOUL, shieldPower: 1};
-      case 'shield-popular': return {shield: HitType.POPULAR, shieldPower: 1};
-      case 'shield-reaction': return {shield: HitType.REACTION, shieldPower: 1};
-      case 'shield-1': return {shieldPower: 1};
-      case 'shield-2': return {shieldPower: 2};
-      case 'shield-3': return {shieldPower: 3};
-      case 'shield-4': return {shieldPower: 4};
+      case 'heal': return {doit:Doit.HEAL, mul: 1};
+      case 'heal-2': return {doit:Doit.HEAL, mul: 2};
+      case 'heal-3': return {doit:Doit.HEAL, mul: 3};
+      case 'heal-4': return {doit:Doit.HEAL, mul: 4};
+      case 'stun': return {doit: Doit.STUN , mul:1};
+      case 'stun-2': return {doit: Doit.STUN , mul:2};
+      case 'stun-3': return {doit: Doit.STUN , mul:3};
+      case 'stun-4': return {doit: Doit.STUN , mul:4};
+      case 'bribe': return {doit:Doit.BRIBE, mul: 1};
+      case 'bribe-2': return {doit:Doit.BRIBE, mul: 2};
+      case 'bribe-3': return {doit:Doit.BRIBE, mul: 3};
+      case 'bribe-4': return {doit:Doit.BRIBE, mul: 4};
+      case 'bless-body': return {doit:Doit.BLESS, mul:1, type: HitType.BODY};
+      case 'bless-soul': return {doit:Doit.BLESS, mul:1, type: HitType.SOUL};
+      case 'bless-popular': return {doit:Doit.BLESS, mul:1, type: HitType.POPULAR};
+      case 'ressurection': return {doit:Doit.RESSURECT};
+      case 'shield-body': return {doit:Doit.SHIELD, type: HitType.BODY, mul: 1};
+      case 'shield-soul': return {doit:Doit.SHIELD, type: HitType.SOUL, mul: 1};
+      case 'shield-popular': return {doit:Doit.SHIELD, type: HitType.POPULAR, mul: 1};
+      case 'shield-reaction': return {doit:Doit.SHIELD, type: HitType.REACTION, mul: 1};
       case 'score-1': case 's-1': return {score:1};
       case 'score-2': case 's-2': return {score:2};
       case 'score-3': case 's-3': return {score:3};
@@ -164,6 +155,51 @@ export const slashParse:SlashParser = slashSource => slashSource.split(' ')
   })
   .reduce((acu, item) => ({...acu, ...item}),{})
 ;
+
+export enum Doit {
+  SELECT, TARGET, HIT, HEAL, BLESS, RESSURECT, SHIELD, STUN, DIE, BRIBE,
+}
+
+export type TargetMobId = string;
+
+export interface FlowAction {
+  who: TargetMobId;
+  doit: Doit;
+  type?: HitType;
+  select?: Target;
+  target?: TargetMobId[];
+  amount?: [TargetMobId, number][]; // later improved with isCritical, dmg is negative, heal is positive
+}
+
+const selectByWeakest:FlowAction = {
+  who: '22',
+  doit: Doit.TARGET,
+  select: Target.SELECTED_ENEMY,
+  target: ['13'],
+}
+
+const strikeTheWeakest:FlowAction = {
+  who: '22',
+  doit: Doit.HIT,
+  type: HitType.BODY,
+  target: ['13'],
+  amount:  [['13', 234 ]]
+}
+
+const strikeAll:FlowAction = {
+  who: '22',
+  doit: Doit.HIT,
+  type: HitType.BODY,
+  target: ['13','48','11'],
+  amount: [['13', 234], ['48', 220], ['11', 112] ]
+}
+
+const someOneDie:FlowAction = {
+  who: '22',
+  doit: Doit.DIE,
+  target: ['13'],
+}
+
 
 test ('samurai lvl 5', () => {
   expect (makeMob(5, 'samurai', Team.GOOD)).toMatchSnapshot();
@@ -186,13 +222,14 @@ test ('simple strike test', () => {
 
 test ('simple strike test', () => {  
   expect (
-    slashParse('i target hb power-[2.4] spec-[teleport]')
+    slashParse('i target hb power-[2.4] extra-[teleport]')
   ).toStrictEqual({
     fill:0,
     select: Target.SELECTED_ENEMY,
-    hit: HitType.BODY,
+    type: HitType.BODY,
+    doit: Doit.HIT,
     mul: 2.4,
-    spec: 'teleport',
+    extra: 'teleport',
   });
 });
 
@@ -209,48 +246,147 @@ test ('search unexsist skill', () => {
   );
 });
 
+export const aiTarget = (actor:Mob, actorSkill:Partial<SlashObject>, mobList:Mob[]):FlowAction => {
+  
+  const {team:actorTeam} = actor;
+  const seekEnemy = ({team}) => team !== actorTeam;
+  const selectUid = ({uid}) => uid;
+  const getAffinity = ({condition:{staminaState, willState, joyfulState}}:Partial<Mob>) => {
+    switch(actorSkill?.type) {
+      case HitType.BODY: return staminaState;
+      case HitType.SOUL: return willState;
+      case HitType.POPULAR: return joyfulState;
+      case HitType.REACTION: return staminaState + willState;
+    }
+  }
+  const weakByAffinity = (a:Mob, b:Mob) => getAffinity(a) > getAffinity(b) ? 1 : -1;
+  const matchTarget = (select:Target, type:HitType) => {
+    switch(select) {
+      case Target.SELECTED_ENEMY: return mobList
+        .filter(seekEnemy)
+        .sort(weakByAffinity)
+        .map(selectUid)
+        .slice(0,1)
+      ;
+      case Target.ALL_ENEMY: return mobList.filter(seekEnemy).map(selectUid);
+      case Target.RANDOM_ENEMY: return pickOne(mobList.filter(seekEnemy));
+    }
+  };
+  
+  const target:TargetMobId[] = matchTarget(actorSkill?.select, actorSkill?.type);
+  
+  return {
+    who: actor.uid,
+    doit: Doit.TARGET,
+    select: actorSkill?.select,
+    target
+  };
+}
+
+export const calcAmount = (actor:Mob, target:Mob, actorSkill:Partial<SlashObject>):number => {
+  return 111
+}
+
+export const calcResult = (actor:Mob, actorSkill:Partial<SlashObject>, mobList:Mob[], targetting:FlowAction):FlowAction => {
+  const {doit, type } = actorSkill;
+  const {who, target} = targetting;
+  const amount:[TargetMobId, number][] = target.map((enemyId:TargetMobId) => [
+    enemyId,
+    calcAmount(actor, mobList.find(({uid}) => uid === enemyId), actorSkill)
+  ])
+  return {
+    who,
+    doit,
+    type,
+    target,
+    amount,
+  }
+}
+
+export const getSkillResult = (actor:Mob, actorSkill:Partial<SlashObject>, mobList:Mob[]):FlowAction[] => {
+  
+  const targetting:FlowAction = aiTarget(actor, actorSkill, mobList);
+
+  const result:FlowAction = calcResult(actor, actorSkill, mobList, targetting);
+
+  return [targetting, result];
+}
+
 export function * combatFlowSaga(mobList:Mob[]):any {
   const order = actionOrder(mobList);
   yield order;
-  const [actor]:[Mob] = order.shift();
-  yield actor;
-  const slashObject = getSkillObject(actor);
-  yield slashObject;
+  while (order.length) {
+    const [actor]:[Mob] = order.shift();
+    yield actor;
+    const skillList = getSkillObject(actor);
+    yield skillList;
+    const [A1] = skillList;
+    const [aiTargetting, skillResult] = getSkillResult(actor, A1, mobList);
+    yield aiTargetting;
+    yield skillResult;
+  }
 }
 
-
-describe ('combat round', () => {
+describe ('combat flow by automatic fight', () => {
 
   const mobList = testTeams.map(([lvl, type, team]:[number, ProfessionKey, Team]) => makeMob(lvl, type, team));
-  const play = {mobList}
   const flow = combatFlowSaga(mobList)
+  const nextRound = (generator) => generator.next().value; 
 
   test('initial order', () => {
   
     expect ( 
-      flow.next().value.map(([m])=>m.professionType)
+      nextRound(flow).map(([m])=>m.uid)
     ).toStrictEqual(
       [
-        'samurai',
-        'bishop',
-        'assasin',
-        'icelander',
-        'ninja',
-        'merchant'
+        'id:samurai-7',
+        'id:bishop-6',
+        'id:icelander-5',
+        'id:assasin-5',
+        'id:ninja-4',
+        'id:merchant-4',
       ]
     );
   })
 
   test ('first is the samurai', () => {
-    expect (
-      flow.next().value
-    ).toStrictEqual(
-      mobList[4]
-    );
+    expect(nextRound(flow)).toStrictEqual(mobList[4]);
   });
 
   test ('samurai skill object list is', () => {
-    expect(flow.next().value).toMatchSnapshot() 
+    expect(nextRound(flow)).toMatchSnapshot() 
   });
+
+  test ('samurai select one enemy for A1', () => {
+    expect(nextRound(flow)).toStrictEqual(
+      {
+        who: 'id:samurai-7',
+        doit: Doit.TARGET,
+        select: Target.SELECTED_ENEMY,
+        target: ['id:assasin-5'],
+      } as FlowAction
+    )
+  });
+
+  test ('samurai hit weakest enemy', () => {
+    expect(nextRound(flow)).toStrictEqual(
+      {
+        who: 'id:samurai-7',
+        doit: Doit.HIT,
+        type: HitType.BODY,
+        target: ['id:assasin-5'],
+        amount: [['id:assasin-5', 111]],
+      } as FlowAction
+    )
+  });
+
+  test ('samurai A2 and A3 fiiled up bye one', () => {
+
+  });
+
+  test ('next one is the bishop', () => {
+    expect (nextRound(flow)).toStrictEqual(mobList[1]);
+  });
+
 });
 

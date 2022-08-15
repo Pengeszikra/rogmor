@@ -188,3 +188,7 @@ Easy compose functionality
     resurrection
     soul-heal-4
 ```
+
+# TDD Test Drive Development
+Under Slash development, the TDD is a great help. Step by step implement the whole action process,
+maybe this code is not the optimum, but looks it is working. And TS also great help to solve this complex process.

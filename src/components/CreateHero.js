@@ -32,9 +32,9 @@ export default function CreateHero({state, army}) {
     </LoginWindow>
     <article className="text-base">
       <p>Welcome young <strong>adventurer</strong>!</p>
-      <p>You are stepp into another dimension, called: Rogmor and ther is a lot of opportunity to fullfill your dreams, at first stepp is choice your character.</p>
+      <p>You are stepp into another dimension, called: <strong>Rogmor</strong> and ther is a lot of opportunity to fullfill your dreams, at first stepp is choice your character.</p>
       <p>Don't afraid there is no worst choice, and you can learn something different.</p>
-      <p>Rogmor under chaotic statement at moment so prophecy talkimng about a skillfull hero, who will be restor odrer and peace to this land.</p>
+      <p>Rogmor under chaotic statement at moment so prophecy talkimng about a skillfull hero, who <strong>will be restor odrer and peace</strong> to this land.</p>
       <br/>
       <p>version: {version}</p>
     </article>

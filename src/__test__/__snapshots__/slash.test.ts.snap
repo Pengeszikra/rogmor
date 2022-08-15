@@ -1,24 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`combat round samurai skill object list is 1`] = `
+exports[`combat flow by automatic fight samurai skill object list is 1`] = `
 Array [
   Object {
+    "doit": 2,
     "fill": 0,
-    "hit": 1,
     "mul": 2,
     "select": 1,
+    "type": 1,
   },
   Object {
+    "doit": 2,
     "fill": 2,
-    "hit": 1,
     "mul": 4,
     "select": 1,
+    "type": 1,
   },
   Object {
+    "doit": 2,
     "fill": 4,
-    "hit": 1,
     "mul": 2,
     "select": 2,
+    "type": 1,
   },
 ]
 `;
@@ -28,27 +31,27 @@ Object {
   "mobList": Array [
     Object {
       "ability": Object {
-        "body": 23,
+        "body": 28,
         "joyful": 110,
         "popular": 18,
-        "reaction": 28,
-        "soul": 13,
+        "reaction": 25,
+        "soul": 25,
         "stamina": 123,
-        "title": "Assasin",
-        "will": 148,
+        "title": "Icelander",
+        "will": 160,
       },
       "avatar": 2,
       "condition": Object {
         "joyfulState": 110,
         "staminaState": 123,
-        "willState": 148,
+        "willState": 160,
       },
       "coord": 1,
       "level": 5,
-      "name": "assasin level:5",
-      "professionType": "assasin",
+      "name": "icelander level:5",
+      "professionType": "icelander",
       "team": 2,
-      "uid": "id:assasin-5",
+      "uid": "id:icelander-5",
     },
     Object {
       "ability": Object {
@@ -76,27 +79,27 @@ Object {
     },
     Object {
       "ability": Object {
-        "body": 28,
+        "body": 23,
         "joyful": 110,
         "popular": 18,
-        "reaction": 25,
-        "soul": 25,
+        "reaction": 28,
+        "soul": 13,
         "stamina": 123,
-        "title": "Icelander",
-        "will": 160,
+        "title": "Assasin",
+        "will": 148,
       },
       "avatar": 2,
       "condition": Object {
         "joyfulState": 110,
         "staminaState": 123,
-        "willState": 160,
+        "willState": 148,
       },
       "coord": 1,
       "level": 5,
-      "name": "icelander level:5",
-      "professionType": "icelander",
+      "name": "assasin level:5",
+      "professionType": "assasin",
       "team": 2,
-      "uid": "id:icelander-5",
+      "uid": "id:assasin-5",
     },
     Object {
       "ability": Object {
