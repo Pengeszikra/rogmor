@@ -1,6 +1,5 @@
 import { oneLevelUp, increaseLevel, Mob, mobFactory, Team, traitsFactory, ProfessionKey } from "../rpg/profession";
-import { improved, rnd, amount, pickOne } from "../rpg/rpg";
-import { call } from 'redux-saga/effects';
+import { improved, rnd, pickOne } from "../rpg/rpg";
 
 const makeMob = (lvl:number, prof:ProfessionKey, team:Team = Team.GOOD) => mobFactory(
   `${prof} level:${lvl}`, 2, 1, `id:${prof}-${lvl}`, team, traitsFactory(lvl, prof)
@@ -35,7 +34,7 @@ const slashPreParse = (slashSource:string) => slashSource.split(' ')
   .map(([c,m]) => m ? {c,m} : {c}) // c: command, m: modification
 ;
 
-const actionOrder = (mobList) => mobList
+export const actionOrder = (mobList) => mobList
   .map(mob => [mob, 
     improved(
       (
@@ -284,7 +283,13 @@ export const aiTarget = (actor:Mob, actorSkill:Partial<SlashObject>, mobList:Mob
 }
 
 export const calcAmount = (actor:Mob, target:Mob, actorSkill:Partial<SlashObject>):number => {
-  return 111
+
+  switch(actorSkill?.type) {
+    case HitType.BODY: return Math.min(improved(actor.ability.body / 2), target.condition.staminaState);
+    case HitType.SOUL: return Math.min(improved(actor.ability.soul / 2), target.condition.willState);
+    case HitType.POPULAR: return Math.min(improved(actor.ability.popular / 2), target.condition.joyfulState);
+    case HitType.REACTION: return Math.min(improved(actor.ability.reaction / 2), target.condition.staminaState);
+  }
 }
 
 export const calcResult = (actor:Mob, actorSkill:Partial<SlashObject>, mobList:Mob[], targetting:FlowAction):FlowAction => {
@@ -375,17 +380,67 @@ describe ('combat flow by automatic fight', () => {
         doit: Doit.HIT,
         type: HitType.BODY,
         target: ['id:assasin-5'],
-        amount: [['id:assasin-5', 111]],
+        amount: [['id:assasin-5', 24]],
       } as FlowAction
     )
   });
 
-  test ('samurai A2 and A3 fiiled up bye one', () => {
-
-  });
+  test ('samurai A2 and A3 fiiled up bye one', () => {});
 
   test ('next one is the bishop', () => {
     expect (nextRound(flow)).toStrictEqual(mobList[1]);
+    nextRound(flow)
+  });
+
+  test ('bishop select one enemy for A1', () => {
+    expect(nextRound(flow)).toStrictEqual(
+      {
+        who: 'id:bishop-6',
+        doit: Doit.TARGET,
+        select: Target.SELECTED_ENEMY,
+        target: ['id:ninja-4'],
+      } as FlowAction
+    )
+  });
+
+  test ('bishop hit weakest enemy', () => {
+    expect(nextRound(flow)).toStrictEqual(
+      {
+        who: 'id:bishop-6',
+        doit: Doit.HIT,
+        type: HitType.SOUL,
+        target: ['id:ninja-4'],
+        amount: [['id:ninja-4', 19]],
+      } as FlowAction
+    )
+  });
+
+  test ('next one is the icelander', () => {
+    expect (nextRound(flow)).toStrictEqual(mobList[0]);
+    nextRound(flow)
+  });
+
+  test ('icelander select one enemy for A1', () => {
+    expect(nextRound(flow)).toStrictEqual(
+      {
+        who: 'id:icelander-5',
+        doit: Doit.TARGET,
+        select: Target.SELECTED_ENEMY,
+        target: ['id:merchant-4'],
+      } as FlowAction
+    )
+  });
+
+  test ('icelander hit weakest enemy', () => {
+    expect(nextRound(flow)).toStrictEqual(
+      {
+        who: 'id:icelander-5',
+        doit: Doit.HIT,
+        type: HitType.BODY,
+        target: ['id:merchant-4'],
+        amount: [['id:merchant-4', 16]],
+      } as FlowAction
+    )
   });
 
 });
