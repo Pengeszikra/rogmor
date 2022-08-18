@@ -8,7 +8,7 @@ const makeMob = (lvl:number, prof:ProfessionKey, team:Team = Team.GOOD) => mobFa
 const skillForProf:Partial<Record<ProfessionKey, string[]>> = {
   'assasin': ['instant target hit-body','fill-3 hit-body power-4','fill-4 target-all hit-soul power-2'],
   'bishop': ['instant target hit-soul power-2','f-3 tsa heal-2','fill-4 target-all-ally bless-body power-2'],
-  'icelander': ['instant target hit-body power-2','fill-3 target-all hit-body','fill-4 target-rnd power-4'],
+  'icelander': ['instant target-all hit-body','fill-3 target-all hit-body','fill-4 target-rnd power-4'],
   'ninja': ['instant target hit-body power-[2.4]','fill-4 target-all hit-body power-2','fill-2 target hit-body stun-2 power-4'],
   'samurai': ['instant target hit-body power-2','fill-2 target hit-body power-4','fill-4 target-all hit-body power-2'],
   'merchant': ['instant target hit-body weak','fill-2 hit-popular power-2','fill-4 target-all bribe-2'],
@@ -161,13 +161,23 @@ export enum Doit {
 
 export type TargetMobId = string;
 
+export type AmountCause = number;
+export type AmountReach = number;
+export interface Condition {
+  staminaState: number;
+  willState: number;
+  joyfulState: number;
+}
+
+export type AmountItem = [TargetMobId, AmountCause, AmountReach, Condition];
+
 export interface FlowAction {
   who: TargetMobId;
   doit: Doit;
   type?: HitType;
   select?: Target;
   target?: TargetMobId[];
-  amount?: [TargetMobId, number][]; // later improved with isCritical, dmg is negative, heal is positive
+  amount?: AmountItem[];
 }
 
 const selectByWeakest:FlowAction = {
@@ -182,7 +192,7 @@ const strikeTheWeakest:FlowAction = {
   doit: Doit.HIT,
   type: HitType.BODY,
   target: ['13'],
-  amount:  [['13', 234 ]]
+  amount:  [['13', 234, 344, {staminaState: 344, joyfulState: 444, willState: 555}]]
 }
 
 const strikeAll:FlowAction = {
@@ -190,7 +200,11 @@ const strikeAll:FlowAction = {
   doit: Doit.HIT,
   type: HitType.BODY,
   target: ['13','48','11'],
-  amount: [['13', 234], ['48', 220], ['11', 112] ]
+  amount: [
+    ['13', 234, 344, {staminaState: 344, joyfulState: 444, willState: 555}], 
+    ['48', 234, 423, {staminaState: 423, joyfulState: 444, willState: 555}], 
+    ['11', 234, 112, {staminaState: 112, joyfulState: 444, willState: 555}] 
+  ]
 }
 
 const someOneDie:FlowAction = {
@@ -282,23 +296,39 @@ export const aiTarget = (actor:Mob, actorSkill:Partial<SlashObject>, mobList:Mob
   };
 }
 
-export const calcAmount = (actor:Mob, target:Mob, actorSkill:Partial<SlashObject>):number => {
+export const calcHit = (actor:Mob, target:Mob, actorSkill:Partial<SlashObject>):AmountItem => {
 
   switch(actorSkill?.type) {
-    case HitType.BODY: return Math.min(improved(actor.ability.body / 2), target.condition.staminaState);
-    case HitType.SOUL: return Math.min(improved(actor.ability.soul / 2), target.condition.willState);
-    case HitType.POPULAR: return Math.min(improved(actor.ability.popular / 2), target.condition.joyfulState);
-    case HitType.REACTION: return Math.min(improved(actor.ability.reaction / 2), target.condition.staminaState);
+    case HitType.BODY: {
+      const dmg:number = Math.min(improved(actor.ability.body / 2 * actorSkill.mul), target.condition.staminaState);
+      const left:number = target.condition.staminaState - dmg;
+      return [target.uid, - dmg, left, {...target.condition, staminaState: left}];
+    };
+    case HitType.SOUL: {
+      const dmg:number = Math.min(improved(actor.ability.soul / 2 * actorSkill.mul), target.condition.willState);
+      const left:number = target.condition.willState - dmg;
+      return [target.uid, - dmg, left, {...target.condition, willState: left}];
+    }
+    case HitType.POPULAR: {
+      const dmg:number = Math.min(improved(actor.ability.popular / 2 * actorSkill.mul), target.condition.joyfulState);
+      const left:number = target.condition.joyfulState - dmg;
+      return [target.uid, - dmg, left, {...target.condition, joyfulState: left}];
+    }
+
+    case HitType.REACTION: {
+      const dmg:number = Math.min(improved(actor.ability.reaction / 2 * actorSkill.mul), target.condition.staminaState);
+      const left:number = target.condition.staminaState - dmg;
+      return [target.uid, - dmg, left, {...target.condition, staminaState: left}];
+    }
   }
 }
 
 export const calcResult = (actor:Mob, actorSkill:Partial<SlashObject>, mobList:Mob[], targetting:FlowAction):FlowAction => {
   const {doit, type } = actorSkill;
   const {who, target} = targetting;
-  const amount:[TargetMobId, number][] = target.map((enemyId:TargetMobId) => [
-    enemyId,
-    calcAmount(actor, mobList.find(({uid}) => uid === enemyId), actorSkill)
-  ])
+  const amount:AmountItem[] = target.map(
+    (enemyId:TargetMobId) => calcHit(actor, mobList.find(({uid}) => uid === enemyId), actorSkill)
+  );
   return {
     who,
     doit,
@@ -317,19 +347,47 @@ export const getSkillResult = (actor:Mob, actorSkill:Partial<SlashObject>, mobLi
   return [targetting, result];
 }
 
-export function * combatFlowSaga(mobList:Mob[]):any {
-  const order = actionOrder(mobList);
-  yield order;
-  while (order.length) {
-    const [actor]:[Mob] = order.shift();
-    yield actor;
-    const skillList = getSkillObject(actor);
-    yield skillList;
-    const [A1] = skillList;
-    const [aiTargetting, skillResult] = getSkillResult(actor, A1, mobList);
-    yield aiTargetting;
-    yield skillResult;
+export const skillReducer = (mobList:Mob[], result:FlowAction):Mob[] => {
+  switch (result.doit) {
+    case Doit.HIT: {
+      const affectedMobList:Mob[] = result.amount
+        .map(([id, dmg, left, condition]) => {
+          const mob = mobList.find(({uid}) => uid === id);
+          return [mob, condition];
+        })
+        .map(([mob, condition]:[Mob, Condition]) => {
+          return [mob, condition];
+        })
+        .map(([mob, condition]:[Mob, Condition]) => ({...mob, condition}));
+
+      return mobList.map(mob => {
+        const affected:Mob = affectedMobList.find((m:Mob) => m.uid === mob.uid);
+        if (!affected) return mob
+        return affected 
+      });
+    }
+    default: mobList;
   }
+}
+
+export function * combatFlowSaga(mobList:Mob[]):any {
+  while (true) {
+    const order = actionOrder(mobList);
+    yield order;
+    while (order.length) {
+      const [actor]:[Mob] = order.shift();
+      yield actor.uid;
+      const skillList = getSkillObject(actor);
+      yield skillList;
+      const [A1] = skillList;
+      const [aiTargetting, skillResult] = getSkillResult(actor, A1, mobList);
+      mobList = skillReducer(mobList, skillResult);
+      yield aiTargetting;
+      yield skillResult;
+    }
+    // yield mobList.map((mob:Mob) => [mob.uid,mob.condition])
+  }
+
 }
 
 describe ('combat flow by automatic fight', () => {
@@ -341,21 +399,21 @@ describe ('combat flow by automatic fight', () => {
   test('initial order', () => {
   
     expect ( 
-      nextRound(flow).map(([m])=>m.uid)
+      nextRound(flow).map(([m]:[Mob])=>[m.uid, m.condition])
     ).toStrictEqual(
       [
-        'id:samurai-7',
-        'id:bishop-6',
-        'id:icelander-5',
-        'id:assasin-5',
-        'id:ninja-4',
-        'id:merchant-4',
+        ['id:samurai-7', {staminaState: 357, willState: 284, joyfulState: 210}],
+        ['id:bishop-6', {staminaState: 174, willState: 228, joyfulState: 156}],
+        ['id:icelander-5', {staminaState: 123, willState: 160, joyfulState: 110}],
+        ['id:assasin-5', {staminaState: 123, willState: 148, joyfulState: 110}],
+        ['id:ninja-4', {staminaState: 96, willState: 80, joyfulState: 72}],
+        ['id:merchant-4', {staminaState: 96, willState: 112, joyfulState: 72}],
       ]
     );
   })
 
   test ('first is the samurai', () => {
-    expect(nextRound(flow)).toStrictEqual(mobList[4]);
+    expect(nextRound(flow)).toStrictEqual('id:samurai-7');
   });
 
   test ('samurai skill object list is', () => {
@@ -380,7 +438,7 @@ describe ('combat flow by automatic fight', () => {
         doit: Doit.HIT,
         type: HitType.BODY,
         target: ['id:assasin-5'],
-        amount: [['id:assasin-5', 24]],
+        amount: [['id:assasin-5', -49, 74, {staminaState: 74, joyfulState: 110, willState: 148}]],
       } as FlowAction
     )
   });
@@ -388,7 +446,7 @@ describe ('combat flow by automatic fight', () => {
   test ('samurai A2 and A3 fiiled up bye one', () => {});
 
   test ('next one is the bishop', () => {
-    expect (nextRound(flow)).toStrictEqual(mobList[1]);
+    expect (nextRound(flow)).toStrictEqual('id:bishop-6');
     nextRound(flow)
   });
 
@@ -410,13 +468,13 @@ describe ('combat flow by automatic fight', () => {
         doit: Doit.HIT,
         type: HitType.SOUL,
         target: ['id:ninja-4'],
-        amount: [['id:ninja-4', 19]],
+        amount: [['id:ninja-4', -39, 41, {staminaState: 96, joyfulState: 72, willState: 41}]],
       } as FlowAction
     )
   });
 
   test ('next one is the icelander', () => {
-    expect (nextRound(flow)).toStrictEqual(mobList[0]);
+    expect (nextRound(flow)).toStrictEqual('id:icelander-5');
     nextRound(flow)
   });
 
@@ -425,22 +483,66 @@ describe ('combat flow by automatic fight', () => {
       {
         who: 'id:icelander-5',
         doit: Doit.TARGET,
-        select: Target.SELECTED_ENEMY,
-        target: ['id:merchant-4'],
+        select: Target.ALL_ENEMY,
+        target: [
+          'id:ninja-4',  
+          'id:samurai-7',
+          'id:merchant-4',
+        ],
       } as FlowAction
     )
   });
 
-  test ('icelander hit weakest enemy', () => {
+  test ('icelander hit all enemy', () => {
     expect(nextRound(flow)).toStrictEqual(
       {
         who: 'id:icelander-5',
         doit: Doit.HIT,
         type: HitType.BODY,
-        target: ['id:merchant-4'],
-        amount: [['id:merchant-4', 16]],
+        target: [
+          'id:ninja-4',
+          'id:samurai-7',
+          'id:merchant-4',
+        ],
+        amount: [
+          ['id:ninja-4', -16, 80, {staminaState: 80, joyfulState: 72, willState: 41}],
+          ['id:samurai-7', -16, 341, {staminaState: 341, joyfulState: 210, willState: 284}], 
+          ['id:merchant-4', -16, 80, {staminaState: 80, joyfulState: 72, willState: 112}],
+        ],
       } as FlowAction
     )
+  });
+  
+  test ('end of the round', () => {
+    Array(12).fill(1).forEach(() => nextRound(flow))
+    expect (
+      nextRound(flow).map(([m]:[Mob])=>[m.uid, m.condition])
+    ).toStrictEqual(
+      [
+        ['id:samurai-7', {staminaState: 341, willState: 284, joyfulState: 210}],
+        ['id:bishop-6', {staminaState: 174, willState: 228, joyfulState: 156}],
+        ['id:icelander-5', {staminaState: 123, willState: 160, joyfulState: 110}],
+        ['id:assasin-5', {staminaState: 49, willState: 148, joyfulState: 110}],
+        ['id:ninja-4', {staminaState: 80, willState: 41, joyfulState: 72}],
+        ['id:merchant-4', {staminaState: 67, willState: 112, joyfulState: 72}],
+      ]
+    );
+  });
+
+  test ('end of the second', () => {
+    Array(6 * 4).fill(1).forEach(() => nextRound(flow))
+    expect (
+      nextRound(flow).map(([m]:[Mob])=>[m.uid, m.condition])
+    ).toStrictEqual(
+      [
+        ['id:samurai-7', {staminaState: 325, willState: 284, joyfulState: 210}],
+        ['id:bishop-6', {staminaState: 174, willState: 228, joyfulState: 156}],
+        ['id:icelander-5', {staminaState: 123, willState: 160, joyfulState: 110}],
+        ['id:assasin-5', {staminaState: 0, willState: 148, joyfulState: 110}], // he is die
+        ['id:merchant-4', {staminaState: 38, willState: 112, joyfulState: 72}],
+        ['id:ninja-4', {staminaState: 64, willState: 2, joyfulState: 72}],
+      ]
+    );
   });
 
 });
