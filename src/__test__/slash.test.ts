@@ -1,4 +1,4 @@
-import { oneLevelUp, increaseLevel, Mob, mobFactory, Team, traitsFactory, ProfessionKey } from "../rpg/profession";
+import { Condition, Mob, mobFactory, Team, traitsFactory, ProfessionKey } from "../rpg/profession";
 import { improved, rnd, pickOne } from "../rpg/rpg";
 
 const makeMob = (lvl:number, prof:ProfessionKey, team:Team = Team.GOOD) => mobFactory(
@@ -35,6 +35,7 @@ const slashPreParse = (slashSource:string) => slashSource.split(' ')
 ;
 
 export const actionOrder = (mobList) => mobList
+  .filter(isCapableToAction)
   .map(mob => [mob, 
     improved(
       (
@@ -163,11 +164,6 @@ export type TargetMobId = string;
 
 export type AmountCause = number;
 export type AmountReach = number;
-export interface Condition {
-  staminaState: number;
-  willState: number;
-  joyfulState: number;
-}
 
 export type AmountItem = [TargetMobId, AmountCause, AmountReach, Condition];
 
@@ -179,40 +175,6 @@ export interface FlowAction {
   target?: TargetMobId[];
   amount?: AmountItem[];
 }
-
-const selectByWeakest:FlowAction = {
-  who: '22',
-  doit: Doit.TARGET,
-  select: Target.SELECTED_ENEMY,
-  target: ['13'],
-}
-
-const strikeTheWeakest:FlowAction = {
-  who: '22',
-  doit: Doit.HIT,
-  type: HitType.BODY,
-  target: ['13'],
-  amount:  [['13', 234, 344, {staminaState: 344, joyfulState: 444, willState: 555}]]
-}
-
-const strikeAll:FlowAction = {
-  who: '22',
-  doit: Doit.HIT,
-  type: HitType.BODY,
-  target: ['13','48','11'],
-  amount: [
-    ['13', 234, 344, {staminaState: 344, joyfulState: 444, willState: 555}], 
-    ['48', 234, 423, {staminaState: 423, joyfulState: 444, willState: 555}], 
-    ['11', 234, 112, {staminaState: 112, joyfulState: 444, willState: 555}] 
-  ]
-}
-
-const someOneDie:FlowAction = {
-  who: '22',
-  doit: Doit.DIE,
-  target: ['13'],
-}
-
 
 test ('samurai lvl 5', () => {
   expect (makeMob(5, 'samurai', Team.GOOD)).toMatchSnapshot();
@@ -259,6 +221,8 @@ test ('search unexsist skill', () => {
   );
 });
 
+export const isCapableToAction = (m:Mob):boolean => !m?.condition?.isOut;
+
 export const aiTarget = (actor:Mob, actorSkill:Partial<SlashObject>, mobList:Mob[]):FlowAction => {
   
   const {team:actorTeam} = actor;
@@ -276,13 +240,14 @@ export const aiTarget = (actor:Mob, actorSkill:Partial<SlashObject>, mobList:Mob
   const matchTarget = (select:Target, type:HitType) => {
     switch(select) {
       case Target.SELECTED_ENEMY: return mobList
+        .filter(isCapableToAction)
         .filter(seekEnemy)
         .sort(weakByAffinity)
         .map(selectUid)
         .slice(0,1)
       ;
-      case Target.ALL_ENEMY: return mobList.filter(seekEnemy).map(selectUid);
-      case Target.RANDOM_ENEMY: return pickOne(mobList.filter(seekEnemy));
+      case Target.ALL_ENEMY: return mobList.filter(isCapableToAction).filter(seekEnemy).map(selectUid);
+      case Target.RANDOM_ENEMY: return pickOne(mobList.filter(isCapableToAction).filter(seekEnemy));
     }
   };
   
@@ -323,12 +288,22 @@ export const calcHit = (actor:Mob, target:Mob, actorSkill:Partial<SlashObject>):
   }
 }
 
+export const checkIsOut = ([tMobId, aCause, aReach, condition]:AmountItem):AmountItem => 
+     condition.staminaState > 0
+  && condition.willState > 0
+  && condition.joyfulState > 0
+    ? [tMobId, aCause, aReach, condition]
+    : [tMobId, aCause, aReach, {...condition, isOut:true}]
+;
+
 export const calcResult = (actor:Mob, actorSkill:Partial<SlashObject>, mobList:Mob[], targetting:FlowAction):FlowAction => {
   const {doit, type } = actorSkill;
   const {who, target} = targetting;
-  const amount:AmountItem[] = target.map(
-    (enemyId:TargetMobId) => calcHit(actor, mobList.find(({uid}) => uid === enemyId), actorSkill)
-  );
+  const amount:AmountItem[] = target
+    .map(
+      (enemyId:TargetMobId) => calcHit(actor, mobList.find(({uid}) => uid === enemyId), actorSkill)
+    )
+    .map(checkIsOut);
   return {
     who,
     doit,
@@ -387,14 +362,14 @@ export function * combatFlowSaga(mobList:Mob[]):any {
     }
     // yield mobList.map((mob:Mob) => [mob.uid,mob.condition])
   }
-
 }
 
-describe ('combat flow by automatic fight', () => {
+describe ('First full combat round', () => {
 
   const mobList = testTeams.map(([lvl, type, team]:[number, ProfessionKey, Team]) => makeMob(lvl, type, team));
   const flow = combatFlowSaga(mobList)
   const nextRound = (generator) => generator.next().value; 
+  const skippRound = (amount:number) => Array(amount).fill(1).forEach(() => nextRound(flow))
 
   test('initial order', () => {
   
@@ -514,7 +489,7 @@ describe ('combat flow by automatic fight', () => {
   });
   
   test ('end of the round', () => {
-    Array(12).fill(1).forEach(() => nextRound(flow))
+    skippRound(12);
     expect (
       nextRound(flow).map(([m]:[Mob])=>[m.uid, m.condition])
     ).toStrictEqual(
@@ -529,21 +504,48 @@ describe ('combat flow by automatic fight', () => {
     );
   });
 
+  test ('assasin knocked out of fight', () => {    
+    skippRound(3)
+    expect (
+      nextRound(flow)
+    ).toStrictEqual(
+      {
+        who: 'id:samurai-7',
+        doit: Doit.HIT,
+        type: HitType.BODY,
+        target: ['id:assasin-5'],
+        amount: [['id:assasin-5', -49, 0, {staminaState: 0, joyfulState: 110, willState: 148, isOut: true}]],
+      } as FlowAction
+
+    );
+    skippRound(2);
+  });
+
   test ('end of the second', () => {
-    Array(6 * 4).fill(1).forEach(() => nextRound(flow))
+    skippRound(6 * 3)
     expect (
       nextRound(flow).map(([m]:[Mob])=>[m.uid, m.condition])
     ).toStrictEqual(
       [
         ['id:samurai-7', {staminaState: 325, willState: 284, joyfulState: 210}],
         ['id:bishop-6', {staminaState: 174, willState: 228, joyfulState: 156}],
-        ['id:icelander-5', {staminaState: 123, willState: 160, joyfulState: 110}],
-        ['id:assasin-5', {staminaState: 0, willState: 148, joyfulState: 110}], // he is die
+        ['id:icelander-5', {staminaState: 98, willState: 160, joyfulState: 110}],
+        // ['id:assasin-5', {staminaState: 0, willState: 148, joyfulState: 110, isOut: true}],
         ['id:merchant-4', {staminaState: 38, willState: 112, joyfulState: 72}],
         ['id:ninja-4', {staminaState: 64, willState: 2, joyfulState: 72}],
       ]
     );
   });
 
+  test ('assasin already out of combat so the last is merchant', () => {
+    skippRound(12)
+    expect (
+      nextRound(flow) //.map(([m]:[Mob])=>[m.uid, m.condition])
+    ).toStrictEqual(
+      "id:merchant-4"
+    );
+  });
+
 });
+
 

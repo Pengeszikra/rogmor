@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`combat flow by automatic fight samurai skill object list is 1`] = `
+exports[`First full combat round samurai skill object list is 1`] = `
 Array [
   Object {
     "doit": 2,

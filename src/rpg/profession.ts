@@ -15,6 +15,7 @@ export interface Condition {
   staminaState: number;
   willState: number;
   joyfulState: number;
+  isOut?: boolean;
 }
 
 export enum Team { PLAYER, GOOD, BAD, UGLY };
