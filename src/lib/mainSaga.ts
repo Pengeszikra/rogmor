@@ -3,8 +3,9 @@ import { ANIMATION_ENDED, ANIMATION_SKIPPED, ENCOUNTER_BEGIN, ENCOUNTER_OUTCOME,
 import { putAction } from '../util/putAction';
 import { Mob, Team, ProfessionKey, mobFactory, traitsFactory } from '../rpg/profession';
 // import { Encounter } from './mainSaga';
-import { improved, dice, pickOne } from '../rpg/rpg';
+import { improved, dice, pickOne, uid } from '../rpg/rpg';
 import { slashParse, SlashObject, getSkillResult, skillReducer, actionOrder} from 'src/rpg/slash';
+import { isCapableToAction } from '../rpg/slash';
 
 const slash = p => p;
 
@@ -56,7 +57,7 @@ export function * mainSaga() {
 };
 
 const makeMob = (lvl:number, prof:ProfessionKey, team:Team = Team.GOOD, avatar) => mobFactory(
-  `${prof} level:${lvl}`, avatar, 1, `id:${prof}-${lvl}`, team, traitsFactory(lvl, prof)
+  `${prof} level:${lvl}`, avatar, 1, uid(), team, traitsFactory(lvl, prof)
 );
 
 const skillForProf:Partial<Record<ProfessionKey, string[]>> = {
@@ -100,14 +101,19 @@ export function * combatZoneSaga() {
       const order = actionOrder(mobList);
       // yield order;
       while (order.length) {
-        const {type} = yield take([HEART_BEAT, ENCOUNTER_OUTCOME]);
+        // const {type} = yield take([HEART_BEAT, ENCOUNTER_OUTCOME]);
+        const [, command] = yield race([
+          delay(222),
+          take([HEART_BEAT, ENCOUNTER_OUTCOME]),
+        ])
         
-        if (type === ENCOUNTER_OUTCOME) {untilCombat = false; break;}
+        if (command?.type === ENCOUNTER_OUTCOME) {untilCombat = false; break;}
 
         const [actor]:OrderOfSeed = order.shift();
         // yield actor.uid; // mob on charge
         const skillList = getSkillObject(actor);
         const [A1] = skillList; // mob always use A1
+        // const currentSkill = pickOne(skillList); // mob always use A1
         const [aiTargetting, skillResult] = getSkillResult(actor, A1, mobList);
         yield putAction(PLAY_FLOW, aiTargetting);
         // yield take(HEART_BEAT);
@@ -115,30 +121,21 @@ export function * combatZoneSaga() {
         // yield take(HEART_BEAT);
         mobList = yield call(skillReducer, mobList, skillResult);
         yield putAction(SET_MOB_LIST, mobList);
+
+        const isTwoTeam = mobList
+          .filter(isCapableToAction)
+          .map(mob => mob.team)
+          .find((item, _, arr) => arr.indexOf(item) !== 0)
+        ;
+        
+        if(!isTwoTeam) {
+          yield take([HEART_BEAT, ENCOUNTER_OUTCOME]);
+          yield putAction(FOCUS_ON, null);
+          untilCombat = false; break;
+        }
       }
     }
 
     yield putAction(SET_MOB_LIST, [])
   }
 }
-
-export function * combatFlowSaga(mobList:Mob[]):any {
-  while (true) {
-    const order = actionOrder(mobList);
-    yield order;
-    while (order.length) {
-      const [actor]:OrderOfSeed = order.shift();
-      yield actor.uid;
-      const skillList = getSkillObject(actor);
-      yield skillList;
-      const [A1] = skillList;
-      const [aiTargetting, skillResult] = getSkillResult(actor, A1, mobList);
-      mobList = skillReducer(mobList, skillResult);
-      yield aiTargetting;
-      yield skillResult;
-    }
-    // yield mobList.map((mob:Mob) => [mob.uid,mob.condition])
-  }
-}
-
-// 55, 110, 110
