@@ -4,10 +4,10 @@ import SingleAdventure from '../components/SingleAdventure';
 import CreateHero from '../components/CreateHero';
 import Head from 'next/head';
 import { Blog } from '../components/Blog';
-import TailwindArea from '../components/TailwindArea';
 import { useSagaReducer } from 'use-saga-reducer';
 import { getDispatchedActions } from 'react-troll';
 import { mainSaga } from '../lib/mainSaga';
+import CombatZone from 'src/components/CombatZone';
 
 const RogmorFrame = () => {
   const [state, dispatch] = useSagaReducer(mainSaga, gameReducer, initialState);
@@ -27,7 +27,7 @@ const RogmorFrame = () => {
         {game === GameMode.ADVENTURE_ON_MAP && <SingleAdventure state={state} army={army} />}
         {game === GameMode.ROLL_CHARACTER && <Blog name={hero?.name} avatar={hero?.avatar} />}
       </MobilFrame>
-      {game === GameMode.ADVENTURE_ON_MAP && <TailwindArea state={state} army={army} />}
+      {game === GameMode.ADVENTURE_ON_MAP && <CombatZone state={state} army={army} />}
     </section>
   );
 }; 

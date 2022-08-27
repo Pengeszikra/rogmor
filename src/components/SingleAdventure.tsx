@@ -13,11 +13,11 @@ const capableOfAction = ({condition:{staminaState, willState, joyfulState}}:Mob)
 
 export default function SingleAdventure({state, army}) {
   const {hero, entities, focus, actionAnim, combatResult} = state as MainState;
-  const {modHero, setGameState, setupEntities, focusOn, fight, skill, talk, playActionAnim, setHero, levelUpHero, setDamageResult} = army;
+  const {modHero, setGameState, setupEntities, focusOn, fight, skill, talk, playActionAnim, setHero, levelUpHero, setDamageResult, encounterBegin} = army;
 
   const mapRef = useRef(null);
 
-  useEffect(() => {
+  useEffect(() => { 
     if (!mapRef.current) return;
     const autoScroll = () => {
       mapRef.current.scrollLeft = 100;
@@ -73,6 +73,7 @@ export default function SingleAdventure({state, army}) {
       const who = Object.values(entities).filter(capableOfAction).find(({coord}) => coord === target );
       if (who) {
         focusOn(who?.uid);
+        encounterBegin();
         return ({coord, ...rest});  
       }
       return ({coord: target, ...rest});

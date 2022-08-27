@@ -192,3 +192,6 @@ Easy compose functionality
 # TDD Test Drive Development
 Under Slash development, the TDD is a great help. Step by step implement the whole action process,
 maybe this code is not the optimum, but looks it is working. And TS also great help to solve this complex process.
+
+Seems it is works fine in reality. This way the whole progress can be followed. And shows some missing feature after the first implementation of `slash` the inner script language.
+

@@ -1,6 +1,7 @@
 import { actionFactory, kebabToCamelCase } from 'react-troll';
 import { physicalStrike, socialTalk, soulSkill } from '../gui/battleSaga';
 import { increaseLevel, Mob } from './profession';
+import { FlowAction } from './slash';
 
 export const [getActionsLookup, action] = actionFactory(kebabToCamelCase);
 
@@ -12,7 +13,7 @@ export enum GameMode {
 export enum CombatOutcome {
   HERO_DIE,
   NPC_DIE,
-  OWER_WITHOUT_LOSS,
+  OVER_WITHOUT_LOSS,
 }
 
 export interface MainState {
@@ -21,30 +22,33 @@ export interface MainState {
   focus: string;
   game: GameMode;
   entities: Record<string, Mob>;
-  flow: any[];
   actionAnim: any;
   combatResult: any;
   damegeResult: any;
   encounterOutcome: any[];
+  mobList: Mob[];
+  flow?: FlowAction;
 }
 
-export const initialState = {
+export const initialState:MainState = {
   round : 0,
   hero: null,
   focus: null,
   game: GameMode.ROLL_CHARACTER,
   entities: {},
-  flow: [],
   actionAnim: null,
   combatResult: null,
   damegeResult: null,
   encounterOutcome: [],
+  mobList: [],
+  flow: null,
 };
 
 export const 
   SET_HERO = action('set-hero'),
   MOD_HERO = action('mod-hero'),
   NEXT_ROUND = action('next-round'),
+  HEART_BEAT = action('heart-beat'),
   SET_GAME_STATE = action('set-game-state'),
   SETUP_ENTITIES = action('setup-entities'),
   MOD_ENTITI = action('mod-entiti'),
@@ -63,16 +67,21 @@ export const
   PLAY_OUTCOME = action("play-outcome"),
   ANIMATION_ENDED = action("animation-ended"),
   ANIMATION_SKIPPED = action("animation-skipped"),
+
+  SET_MOB_LIST = action('set-mob-list'),
+  PLAY_FLOW = action('play-flow'),
+
   PLAY_ACTION_ANIM = action('play-action-anim')
 ;
 
-export const gameReducer = (state, {type, payload}) => {
+export const gameReducer = (state:MainState, {type, payload}) => {
   switch (type) {
     case SET_HERO: return {...state, hero: payload};
     case MOD_HERO: return {...state, hero: payload(state.hero), combatResult:null};
     case NEXT_ROUND: return {...state, round: payload(state.round)};
     case SET_GAME_STATE: return {...state, game:payload};
     case SETUP_ENTITIES: return {...state, entities: payload};
+    case SET_MOB_LIST: return {...state, mobList: payload};
     case MOD_ENTITI: {
       const {entities} = state;
       return entities[payload?.uid] 
@@ -84,6 +93,7 @@ export const gameReducer = (state, {type, payload}) => {
     case SKILL: return useFullCheck(skillRound(state));
     case TALK:  return useFullCheck(talkRound(state));
     case PLAY_ACTION_ANIM: return {...state, actionAnim: payload};
+    case PLAY_FLOW: return {...state, flow: payload};
     case SET_DAMAGE_RESULT: return {...state, damageResult: payload};
 
     case LEVEL_UP_HERO: return {...state, hero: increaseLevel(1)(state.hero)}
@@ -116,7 +126,7 @@ const interactionRound = interaction => ({hero, entities, round, focus, combatRe
     ? CombatOutcome.HERO_DIE
     : npcIsDie
       ? {outcome: CombatOutcome.NPC_DIE, npc: npcMod}
-      : CombatOutcome.OWER_WITHOUT_LOSS
+      : CombatOutcome.OVER_WITHOUT_LOSS
   ;
   return {...rest, hero:hMod, round: round + 1, focus, entities:{...entities, [npcMod.uid]:npcMod}, combatResult: newCombatResult, damageResult};
 };

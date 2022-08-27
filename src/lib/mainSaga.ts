@@ -1,9 +1,10 @@
 import { take, fork, call, all, delay, select, cancel, race } from 'redux-saga/effects';
-import { ANIMATION_ENDED, ANIMATION_SKIPPED, ENCOUNTER_BEGIN, ENCOUNTER_OUTCOME, FIGHT, PLAY_ACTION, PLAY_OUTCOME, SKILL, TALK, USER_ACT } from '../rpg/singlePlayerTroll';
+import { ANIMATION_ENDED, ANIMATION_SKIPPED, ENCOUNTER_BEGIN, ENCOUNTER_OUTCOME, FIGHT, FOCUS_ON, GameMode, HEART_BEAT, MainState, PLAY_ACTION, PLAY_FLOW, PLAY_OUTCOME, SETUP_ENTITIES, SET_GAME_STATE, SET_MOB_LIST, SKILL, TALK, USER_ACT } from '../rpg/singlePlayerTroll';
 import { putAction } from '../util/putAction';
-import { Mob, Team } from '../rpg/profession';
+import { Mob, Team, ProfessionKey, mobFactory, traitsFactory } from '../rpg/profession';
 // import { Encounter } from './mainSaga';
-import { improved } from '../rpg/rpg';
+import { improved, dice, pickOne } from '../rpg/rpg';
+import { slashParse, SlashObject, getSkillResult, skillReducer, actionOrder} from 'src/rpg/slash';
 
 const slash = p => p;
 
@@ -43,55 +44,101 @@ export interface Encounter {
   showTime: Effect[];
 }
 
-export const actionOrder = (mobList:Mob[]) => mobList
-  .map(entiti => [entiti, improved(entiti.ability.reaction + (entiti.condition.staminaState / 10))])
-  .sort(([a, aSpeed],[b, bSpeed]) => aSpeed > bSpeed ? 1 : -1 )
-;
-
-const turnGoesTo = (encounter:Encounter) => {
-  const {mobList} = encounter;
-  const [first] = actionOrder(mobList);
-  return first;
-}
+export type OrderOfSeed = [Mob, number];
 
 export enum Outcome { ENDED };
 export type OutcomeList = Outcome[];
 
 export function * mainSaga() {
-  // yield all([
-  //   fork(encounterRulerSaga),
-  // ]);
+  yield all([
+    fork(combatZoneSaga),
+  ]);
 };
 
-// function * encounterRulerSaga() {
-//   while (true) {
-//     const {payload:encounter} = yield take(ENCOUNTER_BEGIN);
-//     const encounterTask = yield fork(encounterSaga, encounter);
-//     yield take(ENCOUNTER_OUTCOME);
-//     yield cancel(encounterTask);
-//   }
-// }
-// 
-// export function * encounterSaga (encounter:Encounter) {
-//   while(true) {
-//     const [activeMob,speed]:[Mob] = turnGoesTo(encounter);
-//     const {payload:act} = activeMob.team === Team.PLAYER
-//       ? yield take(USER_ACT)
-//       : yield call(npcActSaga, encounter);
-//     ;
-//     const outcome:OutcomeList = yield call(playTurnSaga, encounter);
-//     yield putAction(PLAY_ACTION, act);
-//     yield putAction(PLAY_OUTCOME, outcome);
-//     yield take([ANIMATION_ENDED, ANIMATION_SKIPPED]);
-// 
-//     
-//   }
-// }
+const makeMob = (lvl:number, prof:ProfessionKey, team:Team = Team.GOOD, avatar) => mobFactory(
+  `${prof} level:${lvl}`, avatar, 1, `id:${prof}-${lvl}`, team, traitsFactory(lvl, prof)
+);
 
-export function * npcActSaga(encounter:Encounter) {
-  
+const skillForProf:Partial<Record<ProfessionKey, string[]>> = {
+  'assasin': ['instant target hit-body','fill-3 hit-body power-4','fill-4 target-all hit-soul power-2'],
+  'bishop': ['instant target hit-soul power-2','f-3 tsa heal-2','fill-4 target-all-ally bless-body power-2'],
+  'icelander': ['instant target-all hit-body','fill-3 target-all hit-body','fill-4 target-rnd power-4'],
+  'ninja': ['instant target hit-body power-[2.4]','fill-4 target-all hit-body power-2','fill-2 target hit-body stun-2 power-4'],
+  'samurai': ['instant target hit-body power-2','fill-2 target hit-body power-4','fill-4 target-all hit-body power-2'],
+  'merchant': ['instant target hit-body weak','fill-2 hit-popular power-2','fill-4 target-all bribe-2'],
+};
+
+const getSkillObject = (m:Mob):Partial<SlashObject>[] => skillForProf[m.professionType].map(slashParse);
+
+export function * combatZoneSaga() {
+  while (true) {
+    yield take(ENCOUNTER_BEGIN);
+
+    const {hero}:MainState = yield select();
+
+    const pickProf = () => pickOne(Object.keys(skillForProf))
+
+    const testTeams = [
+      [dice(7) + 2, pickProf(), Team.BAD, dice(100)],
+      [dice(7) + 2, pickProf(), Team.BAD, dice(100)],
+      [dice(7) + 2, pickProf(), Team.BAD, dice(100)],
+
+      [dice(7) + 2, pickProf(), Team.GOOD, dice(100)],
+      [dice(7) + 2, pickProf(), Team.GOOD, hero.avatar],
+      [dice(7) + 2, pickProf(), Team.GOOD, dice(100)],
+    ]
+    
+    const combatSetupMobList = testTeams.map(([lvl, type, team, avatar]:[number, ProfessionKey, Team, number]) => 
+      makeMob(lvl, type, team, avatar)
+    );
+
+    yield putAction(SET_MOB_LIST, combatSetupMobList)
+    let mobList = combatSetupMobList;
+
+    let untilCombat = true;
+    while (untilCombat) {
+      const order = actionOrder(mobList);
+      // yield order;
+      while (order.length) {
+        const {type} = yield take([HEART_BEAT, ENCOUNTER_OUTCOME]);
+        
+        if (type === ENCOUNTER_OUTCOME) {untilCombat = false; break;}
+
+        const [actor]:OrderOfSeed = order.shift();
+        // yield actor.uid; // mob on charge
+        const skillList = getSkillObject(actor);
+        const [A1] = skillList; // mob always use A1
+        const [aiTargetting, skillResult] = getSkillResult(actor, A1, mobList);
+        yield putAction(PLAY_FLOW, aiTargetting);
+        // yield take(HEART_BEAT);
+        yield putAction(PLAY_FLOW, skillResult);
+        // yield take(HEART_BEAT);
+        mobList = yield call(skillReducer, mobList, skillResult);
+        yield putAction(SET_MOB_LIST, mobList);
+      }
+    }
+
+    yield putAction(SET_MOB_LIST, [])
+  }
 }
 
-export function * playTurnSaga(encounter:Encounter) {
-  return [Outcome.ENDED];
+export function * combatFlowSaga(mobList:Mob[]):any {
+  while (true) {
+    const order = actionOrder(mobList);
+    yield order;
+    while (order.length) {
+      const [actor]:OrderOfSeed = order.shift();
+      yield actor.uid;
+      const skillList = getSkillObject(actor);
+      yield skillList;
+      const [A1] = skillList;
+      const [aiTargetting, skillResult] = getSkillResult(actor, A1, mobList);
+      mobList = skillReducer(mobList, skillResult);
+      yield aiTargetting;
+      yield skillResult;
+    }
+    // yield mobList.map((mob:Mob) => [mob.uid,mob.condition])
+  }
 }
+
+// 55, 110, 110
