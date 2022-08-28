@@ -20,9 +20,9 @@ export const EntityCard:FC<IEntityCard> = ({mob, tw="", flow}) => {
   const [isTarget, dmg] = flow?.amount && flow.amount.find(([id]) => id === uid) || [];
 
   const woundColor = {
-    [InteractionKind.STRIKE]: 'bg-orange-400',
-    [InteractionKind.SKILL]: 'bg-yellow-400',
-    [InteractionKind.TALK]: 'bg-blue-400',
+    [InteractionKind.STRIKE]: 'bg-orange-400 bg-opacity-[0.3]',
+    [InteractionKind.SKILL]: 'bg-yellow-400 bg-opacity-[0.3]',
+    [InteractionKind.TALK]: 'bg-blue-400 bg-opacity-[0.3]',
   }?.[flow?.type] || '';
 
   return (

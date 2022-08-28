@@ -80,13 +80,14 @@ export function * combatZoneSaga() {
     const pickProf = () => pickOne(Object.keys(skillForProf))
 
     const testTeams = [
-      [dice(7) + 2, pickProf(), Team.BAD, dice(100)],
-      [dice(7) + 2, pickProf(), Team.BAD, dice(100)],
-      [dice(7) + 2, pickProf(), Team.BAD, dice(100)],
-
-      [dice(7) + 2, pickProf(), Team.GOOD, dice(100)],
-      [dice(7) + 2, pickProf(), Team.GOOD, hero.avatar],
-      [dice(7) + 2, pickProf(), Team.GOOD, dice(100)],
+      [dice(30) + 10, pickProf(), Team.BAD, dice(100)],
+      [dice(30) + 10, pickProf(), Team.BAD, dice(100)],
+      [dice(30) + 10, pickProf(), Team.BAD, dice(100)],
+      [dice(30) + 10, pickProf(), Team.BAD, dice(100)],
+      
+      [dice(20) + 20, pickProf(), Team.GOOD, dice(100)],
+      [dice(20) + 20, pickProf(), Team.GOOD, hero.avatar],
+      [dice(20) + 20, pickProf(), Team.GOOD, dice(100)],
     ]
     
     const combatSetupMobList = testTeams.map(([lvl, type, team, avatar]:[number, ProfessionKey, Team, number]) => 
