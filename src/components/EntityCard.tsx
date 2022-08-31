@@ -20,9 +20,9 @@ export const EntityCard:FC<IEntityCard> = ({mob, tw="", flow}) => {
   const [isTarget, dmg] = flow?.amount && flow.amount.find(([id]) => id === uid) || [];
 
   const woundColor = {
-    [InteractionKind.STRIKE]: 'bg-orange-400 bg-opacity-[0.3]',
-    [InteractionKind.SKILL]: 'bg-yellow-400 bg-opacity-[0.3]',
-    [InteractionKind.TALK]: 'bg-blue-400 bg-opacity-[0.3]',
+    [InteractionKind.STRIKE]: 'bg-orange-400',
+    [InteractionKind.SKILL]: 'bg-yellow-400',
+    [InteractionKind.TALK]: 'bg-blue-400',
   }?.[flow?.type] || '';
 
   return (
@@ -41,7 +41,7 @@ export const EntityCard:FC<IEntityCard> = ({mob, tw="", flow}) => {
         
       </section>
       {!!isTarget && (
-        <figure className={`fading-to-top text-red-600 ${woundColor} transition  rounded-full p-8 absolute text-5xl`}>{dmg}</figure>
+        <figure className={`fading-to-top text-red-600 ${woundColor} transition  rounded-full p-2 absolute text-5xl`}>{dmg}</figure>
       )}
     </figure>
   );

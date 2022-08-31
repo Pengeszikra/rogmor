@@ -1,5 +1,5 @@
 import { Condition, Mob, Team, ProfessionKey } from "./profession";
-import { improved, pickOne } from "./rpg";
+import { improved, pickOne, selectRandomPick } from "./rpg";
 
 
 export const actionOrder = (mobList) => mobList
@@ -92,10 +92,10 @@ export const slashParse:SlashParser = slashSource => slashSource.split(' ')
       case 'weak-2': case 'w-2': return {mul: .7};
       case 'weak-3': case 'w-3': return {mul: .6};
       case 'weak-4': case 'w-4': return {mul: .5};
-      case 'heal': return {doit:Doit.HEAL, mul: 1};
-      case 'heal-2': return {doit:Doit.HEAL, mul: 2};
-      case 'heal-3': return {doit:Doit.HEAL, mul: 3};
-      case 'heal-4': return {doit:Doit.HEAL, mul: 4};
+      case 'heal': return {doit:Doit.HEAL, mul: 1, type: HitType.BODY};
+      case 'heal-2': return {doit:Doit.HEAL, mul: 2, type: HitType.BODY};
+      case 'heal-3': return {doit:Doit.HEAL, mul: 3, type: HitType.BODY};
+      case 'heal-4': return {doit:Doit.HEAL, mul: 4, type: HitType.BODY};
       case 'stun': return {doit: Doit.STUN , mul:1};
       case 'stun-2': return {doit: Doit.STUN , mul:2};
       case 'stun-3': return {doit: Doit.STUN , mul:3};
@@ -150,6 +150,7 @@ export const aiTarget = (actor:Mob, actorSkill:Partial<SlashObject>, mobList:Mob
   
   const {team:actorTeam} = actor;
   const seekEnemy = ({team}) => team !== actorTeam;
+  const seekAlly = ({team}) => team === actorTeam;
   const selectUid = ({uid}) => uid;
   const getAffinity = ({condition:{staminaState, willState, joyfulState}}:Partial<Mob>) => {
     switch(actorSkill?.type) {
@@ -160,7 +161,7 @@ export const aiTarget = (actor:Mob, actorSkill:Partial<SlashObject>, mobList:Mob
     }
   }
   const weakByAffinity = (a:Mob, b:Mob) => getAffinity(a) > getAffinity(b) ? 1 : -1;
-  const matchTarget = (select:Target, type:HitType) => {
+  const matchTarget = (select:Target, type:HitType):TargetMobId[] => {
     switch(select) {
       case Target.SELECTED_ENEMY: return mobList
         .filter(isCapableToAction)
@@ -169,8 +170,29 @@ export const aiTarget = (actor:Mob, actorSkill:Partial<SlashObject>, mobList:Mob
         .map(selectUid)
         .slice(0,1)
       ;
-      case Target.ALL_ENEMY: return mobList.filter(isCapableToAction).filter(seekEnemy).map(selectUid);
-      case Target.RANDOM_ENEMY: return pickOne(mobList.filter(isCapableToAction).filter(seekEnemy));
+      case Target.ALL_ENEMY: return mobList
+        .filter(isCapableToAction)
+        .filter(seekEnemy)
+        .map(selectUid)
+      ;
+      case Target.RANDOM_ENEMY: return mobList
+        .filter(isCapableToAction)
+        .filter(seekEnemy)
+        .filter(selectRandomPick)
+        .map(selectUid)
+      ;
+      case Target.SELECTED_ALLY: return mobList
+        .filter(isCapableToAction)
+        .filter(seekAlly)
+        .sort(weakByAffinity)
+        .map(selectUid)
+        .slice(0,1)
+      ;
+      case Target.ALL_ALLY: return mobList
+        .filter(isCapableToAction)
+        .filter(seekAlly)
+        .map(selectUid)
+      ;
     }
   };
   
@@ -184,8 +206,18 @@ export const aiTarget = (actor:Mob, actorSkill:Partial<SlashObject>, mobList:Mob
   };
 }
 
+export const calcHeal = (actor:Mob, target:Mob, actorSkill:Partial<SlashObject>):AmountItem => {
+  switch(actorSkill?.type) {
+    case HitType.BODY: {
+      const maxHeal = improved(actor.ability.soul / 2 * actorSkill.mul);
+      const heal:number = Math.min(maxHeal, target.ability.stamina - target.condition.staminaState);
+      const healTo:number = target.condition.staminaState + heal;
+      return [target.uid, heal, healTo, {...target.condition, staminaState: healTo}];
+    };
+    default: [target.uid, 0, 0, target.condition]; // TODO
+  }
+}
 export const calcHit = (actor:Mob, target:Mob, actorSkill:Partial<SlashObject>):AmountItem => {
-
   switch(actorSkill?.type) {
     case HitType.BODY: {
       const dmg:number = Math.min(improved(actor.ability.body / 2 * actorSkill.mul), target.condition.staminaState);
@@ -205,7 +237,7 @@ export const calcHit = (actor:Mob, target:Mob, actorSkill:Partial<SlashObject>):
 
     case HitType.REACTION: {
       const dmg:number = Math.min(improved(actor.ability.reaction / 2 * actorSkill.mul), target.condition.staminaState);
-      const left:number = target.condition.staminaState - dmg;
+      const left:number = target.condition.staminaState + dmg;
       return [target.uid, - dmg, left, {...target.condition, staminaState: left}];
     }
   }
@@ -221,10 +253,12 @@ export const checkIsOut = ([tMobId, aCause, aReach, condition]:AmountItem):Amoun
 
 export const calcResult = (actor:Mob, actorSkill:Partial<SlashObject>, mobList:Mob[], targetting:FlowAction):FlowAction => {
   const {doit, type } = actorSkill;
-  const {who, target} = targetting;
+  const {who, target = []} = targetting;
   const amount:AmountItem[] = target
     .map(
-      (enemyId:TargetMobId) => calcHit(actor, mobList.find(({uid}) => uid === enemyId), actorSkill)
+      (enemyId:TargetMobId) => doit === Doit.HIT
+        ? calcHit(actor, mobList.find(({uid}) => uid === enemyId), actorSkill)
+        : calcHeal(actor, mobList.find(({uid}) => uid === enemyId), actorSkill)
     )
     .map(checkIsOut);
   return {
@@ -247,6 +281,7 @@ export const getSkillResult = (actor:Mob, actorSkill:Partial<SlashObject>, mobLi
 
 export const skillReducer = (mobList:Mob[], result:FlowAction):Mob[] => {
   switch (result.doit) {
+    case Doit.HEAL:
     case Doit.HIT: {
       const affectedMobList:Mob[] = result.amount
         .map(([id, dmg, left, condition]) => {

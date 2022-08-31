@@ -61,12 +61,12 @@ const makeMob = (lvl:number, prof:ProfessionKey, team:Team = Team.GOOD, avatar) 
 );
 
 const skillForProf:Partial<Record<ProfessionKey, string[]>> = {
-  'assasin': ['instant target hit-body','fill-3 hit-body power-4','fill-4 target-all hit-soul power-2'],
-  'bishop': ['instant target hit-soul power-2','f-3 tsa heal-2','fill-4 target-all-ally bless-body power-2'],
-  'icelander': ['instant target-all hit-body','fill-3 target-all hit-body','fill-4 target-rnd power-4'],
-  'ninja': ['instant target hit-body power-[2.4]','fill-4 target-all hit-body power-2','fill-2 target hit-body stun-2 power-4'],
+  'assasin': ['instant target-rnd hit-body power-[3]','fill-3 target hit-body power-4','fill-4 target-all hit-soul power-2'],
+  'bishop': ['instant target-ally heal-2', 'instant target hit-soul power-2','fill-3 tsa heal-2','fill-4 target-all-ally heal-1'],
+  'icelander': ['instant target-all hit-body','fill-3 target-all hit-body','fill-4 target hit-body power-4'],
+  'ninja': ['instant target hit-body power-[2.4]','fill-4 target-all hit-body power-2','fill-2 target hit-body power-4'],
   'samurai': ['instant target hit-body power-2','fill-2 target hit-body power-4','fill-4 target-all hit-body power-2'],
-  'merchant': ['instant target hit-body weak','fill-2 hit-popular power-2','fill-4 target-all bribe-2'],
+  'merchant': ['instant target hit-body weak','fill-2 target hit-popular power-2','fill-4 target-all hit-popular'],
 };
 
 const getSkillObject = (m:Mob):Partial<SlashObject>[] => skillForProf[m.professionType].map(slashParse);
@@ -80,7 +80,6 @@ export function * combatZoneSaga() {
     const pickProf = () => pickOne(Object.keys(skillForProf))
 
     const testTeams = [
-      [dice(30) + 10, pickProf(), Team.BAD, dice(100)],
       [dice(30) + 10, pickProf(), Team.BAD, dice(100)],
       [dice(30) + 10, pickProf(), Team.BAD, dice(100)],
       [dice(30) + 10, pickProf(), Team.BAD, dice(100)],
@@ -113,13 +112,12 @@ export function * combatZoneSaga() {
         const [actor]:OrderOfSeed = order.shift();
         // yield actor.uid; // mob on charge
         const skillList = getSkillObject(actor);
-        const [A1] = skillList; // mob always use A1
+        const [currentSkill] = skillList; // mob always use A1
         // const currentSkill = pickOne(skillList); // mob always use A1
-        const [aiTargetting, skillResult] = getSkillResult(actor, A1, mobList);
+        console.log(currentSkill, actor)
+        const [aiTargetting, skillResult] = getSkillResult(actor, currentSkill, mobList);
         yield putAction(PLAY_FLOW, aiTargetting);
-        // yield take(HEART_BEAT);
         yield putAction(PLAY_FLOW, skillResult);
-        // yield take(HEART_BEAT);
         mobList = yield call(skillReducer, mobList, skillResult);
         yield putAction(SET_MOB_LIST, mobList);
 

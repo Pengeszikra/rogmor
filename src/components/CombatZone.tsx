@@ -22,7 +22,7 @@ export default function CombatZone ({state, army}) {
             ))}
           </section>
 
-          <section className='flex gap-4 mx-20'>
+          <section className='flex gap-4'>
             {mobList
               .filter(({team}) => team === Team.GOOD )
               .map(mob => (
