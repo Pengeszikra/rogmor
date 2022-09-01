@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import { FlowAction } from 'src/rpg/slash';
+import { Doit, FlowAction } from 'src/rpg/slash';
 import { InteractionKind } from '../gui/battleSaga';
 import { Mob } from '../rpg/profession';
 import { VerticalValue } from './VerticalValue';
@@ -20,9 +20,9 @@ export const EntityCard:FC<IEntityCard> = ({mob, tw="", flow}) => {
   const [isTarget, dmg] = flow?.amount && flow.amount.find(([id]) => id === uid) || [];
 
   const woundColor = {
-    [InteractionKind.STRIKE]: 'bg-orange-400',
-    [InteractionKind.SKILL]: 'bg-yellow-400',
-    [InteractionKind.TALK]: 'bg-blue-400',
+    [InteractionKind.STRIKE]: dmg < 0 ? 'bg-orange-400' : 'bg-green-400',
+    [InteractionKind.SKILL]: dmg < 0 ? 'bg-yellow-400' : 'bg-green-300',
+    [InteractionKind.TALK]: dmg < 0 ? 'bg-blue-400' : 'bg-green-500',
   }?.[flow?.type] || '';
 
   return (
@@ -41,7 +41,7 @@ export const EntityCard:FC<IEntityCard> = ({mob, tw="", flow}) => {
         
       </section>
       {!!isTarget && (
-        <figure className={`fading-to-top text-red-600 ${woundColor} transition  rounded-full p-2 absolute text-5xl`}>{dmg}</figure>
+        <figure className={`fading-to-top ${ dmg < 0 ? "text-red-600" : "text-green-600" } ${woundColor} transition  rounded-full p-2 absolute text-5xl`}>{dmg}</figure>
       )}
     </figure>
   );
