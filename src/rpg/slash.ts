@@ -92,7 +92,7 @@ export const slashParse:SlashParser = slashSource => slashSource.split(' ')
       case 'weak-2': case 'w-2': return {mul: .7};
       case 'weak-3': case 'w-3': return {mul: .6};
       case 'weak-4': case 'w-4': return {mul: .5};
-      case 'heal': return {doit:Doit.HEAL, mul: 1, type: HitType.BODY};
+      case 'heal': case 'heal-1': return {doit:Doit.HEAL, mul: 1, type: HitType.BODY};
       case 'heal-2': return {doit:Doit.HEAL, mul: 2, type: HitType.BODY};
       case 'heal-3': return {doit:Doit.HEAL, mul: 3, type: HitType.BODY};
       case 'heal-4': return {doit:Doit.HEAL, mul: 4, type: HitType.BODY};
@@ -100,7 +100,7 @@ export const slashParse:SlashParser = slashSource => slashSource.split(' ')
       case 'stun-2': return {doit: Doit.STUN , mul:2};
       case 'stun-3': return {doit: Doit.STUN , mul:3};
       case 'stun-4': return {doit: Doit.STUN , mul:4};
-      case 'bribe': return {doit:Doit.BRIBE, mul: 1};
+      case 'bribe': case 'bribe-1': return {doit:Doit.BRIBE, mul: 1};
       case 'bribe-2': return {doit:Doit.BRIBE, mul: 2};
       case 'bribe-3': return {doit:Doit.BRIBE, mul: 3};
       case 'bribe-4': return {doit:Doit.BRIBE, mul: 4};

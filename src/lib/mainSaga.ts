@@ -62,7 +62,7 @@ const makeMob = (lvl:number, prof:ProfessionKey, team:Team = Team.GOOD, avatar) 
 
 const skillForProf:Partial<Record<ProfessionKey, string[]>> = {
   'assasin': ['instant target-rnd hit-body power-[3]','fill-3 target hit-body power-4','fill-4 target-all hit-soul power-2'],
-  'bishop': ['instant target-ally heal-2', 'instant target hit-soul power-2','fill-3 tsa heal-2','fill-4 target-all-ally heal-1'],
+  'bishop': ['instant target-ally heal', 'instant target hit-soul power-2','fill-3 tsa heal-2','fill-4 target-all-ally heal-1'],
   'icelander': ['instant target-all hit-body','fill-3 target-all hit-body','fill-4 target hit-body power-4'],
   'ninja': ['instant target hit-body power-[2.4]','fill-4 target-all hit-body power-2','fill-2 target hit-body power-4'],
   'samurai': ['instant target hit-body power-2','fill-2 target hit-body power-4','fill-4 target-all hit-body power-2'],
@@ -103,7 +103,7 @@ export function * combatZoneSaga() {
       while (order.length) {
         // const {type} = yield take([HEART_BEAT, ENCOUNTER_OUTCOME]);
         const [, command] = yield race([
-          delay(222),
+          delay(111),
           take([HEART_BEAT, ENCOUNTER_OUTCOME]),
         ])
         

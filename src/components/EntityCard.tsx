@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useCallback} from 'react';
 import { Doit, FlowAction } from 'src/rpg/slash';
 import { InteractionKind } from '../gui/battleSaga';
 import { Mob } from '../rpg/profession';
@@ -24,6 +24,10 @@ export const EntityCard:FC<IEntityCard> = ({mob, tw="", flow}) => {
     [InteractionKind.SKILL]: dmg < 0 ? 'bg-yellow-400' : 'bg-green-300',
     [InteractionKind.TALK]: dmg < 0 ? 'bg-blue-400' : 'bg-green-500',
   }?.[flow?.type] || '';
+
+  const stream = useCallback(() => {
+    return []
+  }, [isTarget, flow])
 
   return (
     <figure className={`flex gap-0 w-32 h-64 rounded-3xl justify-center flex-wrap items-center shadow-lg ${tw} ${flow?.who === mob.uid ? "brightness-150" : ""}`} style={{opacity: isOut ? ".2" : "1"}}>

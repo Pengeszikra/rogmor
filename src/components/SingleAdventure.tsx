@@ -11,6 +11,8 @@ import { generateName } from "../rpg/generateName";
 
 const capableOfAction = ({condition:{staminaState, willState, joyfulState}}:Mob) => staminaState && willState && joyfulState;
 
+const HERO_STARTING_COORD = 6005;
+
 export default function SingleAdventure({state, army}) {
   const {hero, entities, focus, actionAnim, combatResult} = state as MainState;
   const {modHero, setGameState, setupEntities, focusOn, fight, skill, talk, playActionAnim, setHero, levelUpHero, setDamageResult, encounterBegin} = army;
@@ -33,7 +35,10 @@ export default function SingleAdventure({state, army}) {
 
 
   useEffect( () => {
-    const area = [...dryLand].sort(shuffle);
+    const area = dryLand
+      .filter(coord => coord !== HERO_STARTING_COORD)
+      .sort(shuffle)
+    ;
     const entitiesArray:Mob[] = area
       .slice(-45)
       .map(coord => mobFactory(
@@ -49,7 +54,7 @@ export default function SingleAdventure({state, army}) {
 
     setupEntities(entitiesLookup);
 
-    modHero(h => ({...h, coord: area[0]}));
+    modHero(h => ({...h, coord: HERO_STARTING_COORD}));
   }, []);
 
   useEffect(() => {
@@ -110,11 +115,11 @@ export default function SingleAdventure({state, army}) {
     {!entities[focus] && (
       <section className="m-4 grid grid-cols-3 gap-2">
         <div></div>
-        <button className="rounded-lg p-2 text-lg bg-sky-600" onClick={ _ => modHero(moveHero(-1000))}>up</button>
+        <button className="rounded-lg p-2 text-lg bg-sky-600" onClick={ _ => modHero(moveHero(-1000))}>north</button>
         <div></div>
-        <button className="rounded-lg p-2 text-lg bg-sky-600" onClick={ _ => modHero(moveHero(   -1))}>left</button>
-        <button className="rounded-lg p-2 text-lg bg-sky-600" onClick={ _ => modHero(moveHero( 1000))}>down</button>
-        <button className="rounded-lg p-2 text-lg bg-sky-600" onClick={ _ => modHero(moveHero(    1))}>right</button>
+        <button className="rounded-lg p-2 text-lg bg-sky-600" onClick={ _ => modHero(moveHero(   -1))}>west</button>
+        <button className="rounded-lg p-2 text-lg bg-sky-600" onClick={ _ => modHero(moveHero( 1000))}>south</button>
+        <button className="rounded-lg p-2 text-lg bg-sky-600" onClick={ _ => modHero(moveHero(    1))}>east</button>
       </section>
     )}
 
