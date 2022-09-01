@@ -1,8 +1,13 @@
-import React, {FC, useCallback} from 'react';
+import React, {FC, useCallback, useState, useEffect} from 'react';
 import { Doit, FlowAction } from 'src/rpg/slash';
 import { InteractionKind } from '../gui/battleSaga';
 import { Mob } from '../rpg/profession';
 import { VerticalValue } from './VerticalValue';
+import { uid as uidFactory } from '../rpg/rpg';
+
+export const DamageAnimation = ({dmg, woundColor}) => (
+  <figure className={`fading-to-top ${ dmg < 0 ? "text-red-600" : "text-green-600" } ${woundColor} transition  rounded-full p-2 absolute text-5xl`}>{dmg}</figure>
+);
 
 export interface IEntityCard {
   mob:Mob;
@@ -19,14 +24,19 @@ export const EntityCard:FC<IEntityCard> = ({mob, tw="", flow}) => {
 
   const [isTarget, dmg] = flow?.amount && flow.amount.find(([id]) => id === uid) || [];
 
+  const [stream, setStream] = useState([]);
+
   const woundColor = {
     [InteractionKind.STRIKE]: dmg < 0 ? 'bg-orange-400' : 'bg-green-400',
     [InteractionKind.SKILL]: dmg < 0 ? 'bg-yellow-400' : 'bg-green-300',
     [InteractionKind.TALK]: dmg < 0 ? 'bg-blue-400' : 'bg-green-500',
   }?.[flow?.type] || '';
 
-  const stream = useCallback(() => {
-    return []
+  useEffect(() => {
+    if (isTarget) {
+      setStream(str => [...str, {dmg, woundColor, key:uidFactory()}])
+    }
+    // return () => setStream([]);
   }, [isTarget, flow])
 
   return (
@@ -37,16 +47,15 @@ export const EntityCard:FC<IEntityCard> = ({mob, tw="", flow}) => {
           <span>{level}</span>
         </div>
       </section>
-      <div className='text-white p-2 text-lg'>{title}</div>
+      <div className='text-white p-2 text-lg'>{title} {stream.length}</div>
       <section className='flex gap-2 w-max m-4 items-end justify-end'>
         <VerticalValue tw='bg-rose-900' value={staminaState/stamina}/>
         <VerticalValue tw='bg-yellow-200' value={willState/will} />
         <VerticalValue tw='bg-emerald-900' value={joyfulState/joyful} />
         
       </section>
-      {!!isTarget && (
-        <figure className={`fading-to-top ${ dmg < 0 ? "text-red-600" : "text-green-600" } ${woundColor} transition  rounded-full p-2 absolute text-5xl`}>{dmg}</figure>
-      )}
+      {/* {!!isTarget && <DamageAnimation dmg={dmg} woundColor={woundColor} />} */}
+      {stream.map(({key, dmg, woundColor}) => <DamageAnimation key={key} dmg={dmg} woundColor={woundColor} />)}
     </figure>
   );
 };

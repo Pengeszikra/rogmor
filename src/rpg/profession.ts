@@ -43,7 +43,7 @@ export type ProfessionKey =
   'shaman' |'thief' |'rouge' |'cavalier' |'pirate' |'inquisitor' |'icelander' |'heretic' |
   'nomad' |'bard' |'warlock' |'monk' |'druid' |'illusionist' |'wardancer' |'runeSmith' |
   'merchant' |'explorer' |'templar' |'spy' |'nun' |'mercenary' |'duelist' |'beastmaster' |
-  'sorcerer' |'archer' |'psionic' |'alchemist' |'enginer' |'antiPaladin' |'chaosKnigh' |
+  'sorcerer' |'archer' |'psionic' |'alchemist' |'enginer' |'antiPaladin' |'chaosKnight' |
   'chief' |'maruder' |'rich' |'shapechanger' 
 
 export type ProfessionLookup = Record<ProfessionKey, Ability>; 
@@ -104,7 +104,7 @@ export const professionLookup:ProfessionLookup = {
     alchemist:    { title:'Alchemist',    body: 3, reaction: 5, soul: 7, popular: 2, stamina: 35, will: 70, joyful: 40 },
     enginer:      { title:'Enginer',      body: 3, reaction: 5, soul: 4, popular: 4, stamina: 35, will: 65, joyful: 40 },
     antiPaladin:  { title:'Anti Paladin', body: 7, reaction: 3, soul: 1, popular: 5, stamina: 60, will: 60, joyful: 10 },
-    chaosKnigh:   { title:'Chaos Knigh',  body: 7, reaction: 4, soul: 6, popular: 1, stamina: 50, will: 60, joyful: 10 },
+    chaosKnight:  { title:'Chaos Knight', body: 7, reaction: 4, soul: 6, popular: 1, stamina: 50, will: 60, joyful: 10 },
     chief:        { title:'Chief',        body: 5, reaction: 5, soul: 4, popular: 7, stamina: 55, will: 60, joyful: 40 },
     maruder:      { title:'Maruder',      body: 7, reaction: 4, soul: 2, popular: 4, stamina: 60, will: 40, joyful: 40 },
     rich:         { title:'Rich',         body: 3, reaction: 4, soul: 3, popular: 8, stamina: 30, will: 70, joyful: 30 },
