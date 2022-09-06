@@ -195,3 +195,6 @@ maybe this code is not the optimum, but looks it is working. And TS also great h
 
 Seems it is works fine in reality. This way the whole progress can be followed. And shows some missing feature after the first implementation of `slash` the inner script language.
 
+## Design note by Samsung galaxy S6lite tablet
+
+![design note by samsung s6lite tablet](./src/_documents/rogmor-s6-design.png)
