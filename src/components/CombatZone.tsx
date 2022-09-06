@@ -14,7 +14,7 @@ export default function CombatZone ({state, army}) {
     <section className="absolute top-0 left-0 overflow-hidden --pointer-events-none grid justify-center w-screen items-center my-12">
       {mobList && mobList.length > 0 && (
         <main className="grid justify-center">
-          <section className='scale-[0.6] grid gap-4'>
+          <section className='scale-[0.6] grid gap-16'>
             <section className='flex gap-4'>
               {mobList
                 .filter(({team}) => team === Team.BAD )

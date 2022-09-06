@@ -61,12 +61,12 @@ const makeMob = (lvl:number, prof:ProfessionKey, team:Team = Team.GOOD, avatar) 
 );
 
 const skillForProf:Partial<Record<ProfessionKey, string[]>> = {
-  'chaosKnight': ['instant target-rnd hit-body power-3','fill-3 target hit-body power-4','fill-4 target-all hit-soul power-2'],
+  'chaosKnight': ['instant target-rnd hit-soul power-3','fill-3 target hit-body power-4','fill-4 target-all hit-soul power-2'],
   'bishop': ['instant target-ally heal', 'instant target hit-soul power-2','fill-3 tsa heal-2','fill-4 target-all-ally heal-1'],
   'icelander': ['instant target-all hit-body','fill-3 target-all hit-body','fill-4 target hit-body power-4'],
   'ninja': ['instant target hit-body power-[2.4]','fill-4 target-all hit-body power-2','fill-2 target hit-body power-4'],
   'samurai': ['instant target hit-body power-2','fill-2 target hit-body power-4','fill-4 target-all hit-body power-2'],
-  'merchant': ['instant target hit-body weak','fill-2 target hit-popular power-2','fill-4 target-all hit-popular'],
+  'merchant': ['instant target hit-popular','fill-2 target hit-popular power-2','fill-4 target-all hit-popular'],
 };
 
 const getSkillObject = (m:Mob):Partial<SlashObject>[] => skillForProf[m.professionType].map(slashParse);

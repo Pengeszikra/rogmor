@@ -1,12 +1,12 @@
 import React, {FC, useCallback, useState, useEffect} from 'react';
-import { Doit, FlowAction } from 'src/rpg/slash';
+import { Doit, FlowAction, HitType } from 'src/rpg/slash';
 import { InteractionKind } from '../gui/battleSaga';
 import { Mob } from '../rpg/profession';
 import { VerticalValue } from './VerticalValue';
 import { uid as uidFactory } from '../rpg/rpg';
 
 export const DamageAnimation = ({dmg, woundColor}) => (
-  <figure className={`fading-to-top ${ dmg < 0 ? "text-red-600" : "text-green-600" } ${woundColor} transition  rounded-full p-2 absolute text-5xl`}>{dmg}</figure>
+  <figure className={`fading-to-top text-white ${woundColor} transition  rounded-full p-3 absolute text-3xl`}>{dmg}</figure>
 );
 
 export interface IEntityCard {
@@ -27,14 +27,14 @@ export const EntityCard:FC<IEntityCard> = ({mob, tw="", flow}) => {
   const [stream, setStream] = useState([]);
 
   const woundColor = {
-    [InteractionKind.STRIKE]: dmg < 0 ? 'bg-orange-400' : 'bg-green-400',
-    [InteractionKind.SKILL]: dmg < 0 ? 'bg-yellow-400' : 'bg-green-300',
-    [InteractionKind.TALK]: dmg < 0 ? 'bg-blue-400' : 'bg-green-500',
+    [HitType.BODY]: dmg < 0 ? 'bg-rose-800' : 'bg-green-800',
+    [HitType.SOUL]: dmg < 0 ? 'bg-yellow-600' : 'bg-green-800',
+    [HitType.POPULAR]: dmg < 0 ? 'bg-sky-800' : 'bg-green-800',
   }?.[flow?.type] || '';
 
   useEffect(() => {
     if (isTarget) {
-      setStream(str => [...str, {dmg, woundColor, key:uidFactory()}])
+      setStream(str => [...str, {dmg, woundColor, key:uidFactory()}].slice(-5))
     }
     // return () => setStream([]);
   }, [isTarget, flow])
@@ -47,7 +47,7 @@ export const EntityCard:FC<IEntityCard> = ({mob, tw="", flow}) => {
           <span>{level}</span>
         </div>
       </section>
-      <div className='text-white p-2 text-lg'>{title} {stream.length}</div>
+      <div className='text-white p-2 text-lg'>{title}</div>
       <section className='flex gap-2 w-max m-4 items-end justify-end'>
         <VerticalValue tw='bg-rose-900' value={staminaState/stamina}/>
         <VerticalValue tw='bg-yellow-200' value={willState/will} />
