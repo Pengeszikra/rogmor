@@ -28,11 +28,11 @@ Array [
 exports[`Level Up to fighter 2 1`] = `
 Object {
   "ability": Object {
+    "aura": 6,
     "body": 7,
     "focus": 22,
     "morale": 20,
-    "presence": 6,
-    "reaction": 6,
+    "reflex": 6,
     "soul": 5,
     "stamina": 26,
     "title": "Fighter",
@@ -55,11 +55,11 @@ Object {
 exports[`Personalize lvl 1 fighter 1`] = `
 Object {
   "ability": Object {
+    "aura": 2,
     "body": 3,
     "focus": 7,
     "morale": 6,
-    "presence": 2,
-    "reaction": 2,
+    "reflex": 2,
     "soul": 2,
     "stamina": 8,
     "title": "Fighter",
@@ -107,11 +107,11 @@ Array [
 exports[`create lvl 1 fighter 1`] = `
 Object {
   "ability": Object {
+    "aura": 2,
     "body": 3,
     "focus": 7,
     "morale": 6,
-    "presence": 2,
-    "reaction": 2,
+    "reflex": 2,
     "soul": 2,
     "stamina": 8,
     "title": "Fighter",

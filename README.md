@@ -28,13 +28,13 @@ Question is: what is the minimal requirement for usable mobil mmorpg ?
 ```js
 export function * fightSaga(a, b, fallenOne = p => p) {
   yield `\n`;
-  yield `${a.name} - ${a.profession} : ${a.level} : ${a.reaction}`;
+  yield `${a.name} - ${a.profession} : ${a.level} : ${a.reflex}`;
   yield 'vs.';
-  yield `${b.name} - ${b.profession} : ${b.level} : ${b.reaction}`;
+  yield `${b.name} - ${b.profession} : ${b.level} : ${b.reflex}`;
   yield '-'.repeat(20);
-  yield `${a.reaction} : ${b.reaction}`;
-  const astart = improved(a.reaction) 
-  const bstart = improved(b.reaction)
+  yield `${a.reflex} : ${b.reflex}`;
+  const astart = improved(a.reflex) 
+  const bstart = improved(b.reflex)
   const [atk, def] = astart > bstart ? [a, b] : [b, a];
   yield `Attacker is: ${atk.name} ${astart} vs ${bstart}`;
   let round = 1;
@@ -63,11 +63,11 @@ export function * fightSaga(a, b, fallenOne = p => p) {
 
     > `body` : It is physic of character including strength.
 
-    > `reaction` : It is the reaction capability including first thinking and the reflex.
+    > `reflex` : It is the reflex capability including first thinking and the reflex.
 
     > `soul` : Spiritual harmony, logical thinking and wisdom.
 
-    > `presence` : This is the character social and communication.
+    > `aura` : This is the character social and communication.
 
     > `stamina` : This is the stamina and Longevity. if value reduced to 0 then hero unable to do anything.
 
@@ -175,7 +175,7 @@ Easy compose functionality
 
     fill-2
     target-ally-all
-    reaction-shield-4
+    reflex-shield-4
 
     instant # this means ready for use instant
     fill-4

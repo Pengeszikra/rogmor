@@ -7,7 +7,7 @@ export const actionOrder = (mobList) => mobList
   .map(mob => [mob, 
     improved(
       (
-        mob.ability.reaction 
+        mob.ability.reflex 
       + (mob.condition.staminaState / 10)
       + (mob.condition.focusState / 10)
       ) / mob.level
@@ -27,8 +27,8 @@ export enum Target {
 export enum HitType {
   BODY = 1, 
   SOUL = 2, 
-  PRESENCE = 4,
-  REACTION = 8,
+  AURA = 4,
+  REFLEX = 8,
 }
 
 export interface SlashObject {
@@ -81,7 +81,7 @@ export const slashParse:SlashParser = slashSource => slashSource.split(' ')
       case 'target-all-ally': case 'taa': return {select: Target.ALL_ALLY};
       case 'hit-body': case 'hb': return {doit:Doit.HIT, type: HitType.BODY, mul: 1};
       case 'hit-soul': case 'hs': return {doit:Doit.HIT, type: HitType.SOUL, mul: 1};
-      case 'hit-presence': case 'hp': return {doit:Doit.HIT, type: HitType.PRESENCE, mul: 1};
+      case 'hit-aura': case 'hp': return {doit:Doit.HIT, type: HitType.AURA, mul: 1};
       case 'hit-combat': case 'hc': return {doit:Doit.HIT, type: HitType.BODY | HitType.SOUL, mul: 1};
       case 'power': case 'power-1': case 'p-1': return {mul: 1};
       case 'power-2': case 'p-2': return {mul: 2};
@@ -106,12 +106,12 @@ export const slashParse:SlashParser = slashSource => slashSource.split(' ')
       case 'bribe-4': return {doit:Doit.BRIBE, mul: 4};
       case 'bless-body': return {doit:Doit.BLESS, mul:1, type: HitType.BODY};
       case 'bless-soul': return {doit:Doit.BLESS, mul:1, type: HitType.SOUL};
-      case 'bless-presence': return {doit:Doit.BLESS, mul:1, type: HitType.PRESENCE};
+      case 'bless-aura': return {doit:Doit.BLESS, mul:1, type: HitType.AURA};
       case 'ressurection': return {doit:Doit.RESSURECT};
       case 'shield-body': return {doit:Doit.SHIELD, type: HitType.BODY, mul: 1};
       case 'shield-soul': return {doit:Doit.SHIELD, type: HitType.SOUL, mul: 1};
-      case 'shield-presence': return {doit:Doit.SHIELD, type: HitType.PRESENCE, mul: 1};
-      case 'shield-reaction': return {doit:Doit.SHIELD, type: HitType.REACTION, mul: 1};
+      case 'shield-aura': return {doit:Doit.SHIELD, type: HitType.AURA, mul: 1};
+      case 'shield-reflex': return {doit:Doit.SHIELD, type: HitType.REFLEX, mul: 1};
       case 'score-1': case 's-1': return {score:1};
       case 'score-2': case 's-2': return {score:2};
       case 'score-3': case 's-3': return {score:3};
@@ -156,8 +156,8 @@ export const aiTarget = (actor:Mob, actorSkill:Partial<SlashObject>, mobList:Mob
     switch(actorSkill?.type) {
       case HitType.BODY: return staminaState;
       case HitType.SOUL: return focusState;
-      case HitType.PRESENCE: return moraleState;
-      case HitType.REACTION: return staminaState + focusState;
+      case HitType.AURA: return moraleState;
+      case HitType.REFLEX: return staminaState + focusState;
     }
   }
   const weakByAffinity = (a:Mob, b:Mob) => getAffinity(a) > getAffinity(b) ? 1 : -1;
@@ -229,14 +229,14 @@ export const calcHit = (actor:Mob, target:Mob, actorSkill:Partial<SlashObject>):
       const left:number = target.condition.focusState - dmg;
       return [target.uid, - dmg, left, {...target.condition, focusState: left}];
     }
-    case HitType.PRESENCE: {
-      const dmg:number = Math.min(improved(actor.ability.presence / 2 * actorSkill.mul), target.condition.moraleState);
+    case HitType.AURA: {
+      const dmg:number = Math.min(improved(actor.ability.aura / 2 * actorSkill.mul), target.condition.moraleState);
       const left:number = target.condition.moraleState - dmg;
       return [target.uid, - dmg, left, {...target.condition, moraleState: left}];
     }
 
-    case HitType.REACTION: {
-      const dmg:number = Math.min(improved(actor.ability.reaction / 2 * actorSkill.mul), target.condition.staminaState);
+    case HitType.REFLEX: {
+      const dmg:number = Math.min(improved(actor.ability.reflex / 2 * actorSkill.mul), target.condition.staminaState);
       const left:number = target.condition.staminaState + dmg;
       return [target.uid, - dmg, left, {...target.condition, staminaState: left}];
     }

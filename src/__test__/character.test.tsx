@@ -13,7 +13,7 @@ const fighterMob:Mob = {...fighter1Trait,
 const actionOrder = (mobList:Mob[]) => mobList
   .map(mob => [mob, improved(
       (
-        mob.ability.reaction 
+        mob.ability.reflex 
       + (mob.condition.staminaState / 10)
       + (mob.condition.focusState / 10)
       ) / mob.level

@@ -3,7 +3,7 @@ import React from 'react';
 import { FaceSprite } from './setOfGuiElements';
 
 export default ({hero, children, color = 'white', ...props}) => {
-  const {avatar, name, profession, level, physique, reaction, soul, stamina, focus, staminaState, focusState, morale, moraleState } = hero;
+  const {avatar, name, profession, level, physique, reflex, soul, stamina, focus, staminaState, focusState, morale, moraleState } = hero;
 
   return (
     <section className="hero-line" {...props}>

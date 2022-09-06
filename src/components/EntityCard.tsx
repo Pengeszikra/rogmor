@@ -29,7 +29,7 @@ export const EntityCard:FC<IEntityCard> = ({mob, tw="", flow}) => {
   const woundColor = {
     [HitType.BODY]: dmg < 0 ? 'bg-rose-800' : 'bg-green-800',
     [HitType.SOUL]: dmg < 0 ? 'bg-yellow-600' : 'bg-green-800',
-    [HitType.PRESENCE]: dmg < 0 ? 'bg-sky-800' : 'bg-green-800',
+    [HitType.AURA]: dmg < 0 ? 'bg-sky-800' : 'bg-green-800',
   }?.[flow?.type] || '';
 
   useEffect(() => {

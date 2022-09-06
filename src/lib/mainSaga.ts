@@ -66,7 +66,7 @@ const skillForProf:Partial<Record<ProfessionKey, string[]>> = {
   'icelander': ['instant target-all hit-body','fill-3 target-all hit-body','fill-4 target hit-body power-4'],
   'ninja': ['instant target hit-body power-[2.4]','fill-4 target-all hit-body power-2','fill-2 target hit-body power-4'],
   'samurai': ['instant target hit-body power-2','fill-2 target hit-body power-4','fill-4 target-all hit-body power-2'],
-  'merchant': ['instant target hit-presence','fill-2 target hit-presence power-2','fill-4 target-all hit-presence'],
+  'merchant': ['instant target hit-aura','fill-2 target hit-aura power-2','fill-4 target-all hit-aura'],
 };
 
 const getSkillObject = (m:Mob):Partial<SlashObject>[] => skillForProf[m.professionType].map(slashParse);

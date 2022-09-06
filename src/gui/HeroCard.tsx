@@ -21,7 +21,7 @@ export const MultiProcessBar = ({process = [1,1,1], ...props}) => {
 export default ({hero, ...props}) => {
   const {
     avatar, name, level, 
-    ability:{body, soul, reaction, presence, stamina, focus, morale, title}, 
+    ability:{body, soul, reflex, aura, stamina, focus, morale, title}, 
     condition:{staminaState, focusState, moraleState}
   } = hero as Mob;
 
@@ -38,12 +38,12 @@ export default ({hero, ...props}) => {
       <span className='text-lg leading-4'>{name} the {title}</span>
       <pre className='leading-[1em] text-[1.15em] m-2'>{`
 
-        level: ${level}
+      level: ${level}
 
-        body: ${padAlign(body)} stamina: ${padAlign(stamina)}
-        soul: ${padAlign(soul)}   focus: ${padAlign(focus)}
-    presence: ${padAlign(presence)}  morale: ${padAlign(morale)}
-    reaction: ${padAlign(reaction)}
+      body: ${padAlign(body)} stamina: ${padAlign(stamina)}
+      soul: ${padAlign(soul)}   focus: ${padAlign(focus)}
+      aura: ${padAlign(aura)}  morale: ${padAlign(morale)}
+     reflex: ${padAlign(reflex)}
       `}
       </pre>
     </section>

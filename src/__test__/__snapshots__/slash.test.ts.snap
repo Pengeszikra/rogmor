@@ -31,11 +31,11 @@ Object {
   "mobList": Array [
     Object {
       "ability": Object {
+        "aura": 18,
         "body": 28,
         "focus": 160,
         "morale": 110,
-        "presence": 18,
-        "reaction": 25,
+        "reflex": 25,
         "soul": 25,
         "stamina": 123,
         "title": "Icelander",
@@ -55,11 +55,11 @@ Object {
     },
     Object {
       "ability": Object {
+        "aura": 41,
         "body": 26,
         "focus": 228,
         "morale": 156,
-        "presence": 41,
-        "reaction": 30,
+        "reflex": 30,
         "soul": 34,
         "stamina": 174,
         "title": "Bishop",
@@ -79,11 +79,11 @@ Object {
     },
     Object {
       "ability": Object {
+        "aura": 18,
         "body": 23,
         "focus": 148,
         "morale": 110,
-        "presence": 18,
-        "reaction": 28,
+        "reflex": 28,
         "soul": 13,
         "stamina": 123,
         "title": "Assasin",
@@ -103,11 +103,11 @@ Object {
     },
     Object {
       "ability": Object {
+        "aura": 13,
         "body": 14,
         "focus": 80,
         "morale": 72,
-        "presence": 13,
-        "reaction": 21,
+        "reflex": 21,
         "soul": 13,
         "stamina": 96,
         "title": "Ninja",
@@ -127,11 +127,11 @@ Object {
     },
     Object {
       "ability": Object {
+        "aura": 39,
         "body": 43,
         "focus": 284,
         "morale": 210,
-        "presence": 39,
-        "reaction": 48,
+        "reflex": 48,
         "soul": 34,
         "stamina": 357,
         "title": "Samurai",
@@ -151,11 +151,11 @@ Object {
     },
     Object {
       "ability": Object {
+        "aura": 18,
         "body": 13,
         "focus": 112,
         "morale": 72,
-        "presence": 18,
-        "reaction": 13,
+        "reflex": 13,
         "soul": 18,
         "stamina": 96,
         "title": "Merchant",
@@ -180,11 +180,11 @@ Object {
 exports[`samurai lvl 5 1`] = `
 Object {
   "ability": Object {
+    "aura": 23,
     "body": 25,
     "focus": 148,
     "morale": 110,
-    "presence": 23,
-    "reaction": 28,
+    "reflex": 28,
     "soul": 20,
     "stamina": 185,
     "title": "Samurai",
