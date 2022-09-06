@@ -7,10 +7,10 @@ export const typeDefs = gql`
     body: Int,
     reaction: Int,
     soul: Int,
-    popular: Int,
+    presence: Int,
     stamina: Int,
-    will: Int,
-    joyful: Int,
+    focus: Int,
+    morale: Int,
     sum: Int,
   }
 

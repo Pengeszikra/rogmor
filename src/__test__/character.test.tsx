@@ -15,7 +15,7 @@ const actionOrder = (mobList:Mob[]) => mobList
       (
         mob.ability.reaction 
       + (mob.condition.staminaState / 10)
-      + (mob.condition.willState / 10)
+      + (mob.condition.focusState / 10)
       ) / mob.level
     )])
   .sort(([a, aSpeed],[b, bSpeed]) => aSpeed > bSpeed ? -1 : 1 )

@@ -104,18 +104,18 @@ export const gameReducer = (state:MainState, {type, payload}) => {
 const lostFocus = s => s
 
 const useFullCheck = ({focus, entities, ...rest}) => {
-  const {condition:{staminaState, willState, joyfulState}} = entities[focus] as Mob;
+  const {condition:{staminaState, focusState, moraleState}} = entities[focus] as Mob;
   return staminaState > 0 
-      && willState > 0 
-      && joyfulState > 0
+      && focusState > 0 
+      && moraleState > 0
         ? {focus, entities, ...rest} 
         : {focus: null, entities, ...rest}; 
 };
 
 const checkIsLive = ({condition}:Mob) => (
      condition.staminaState > 0 
-  && condition.willState > 0 
-  && condition.joyfulState > 0
+  && condition.focusState > 0 
+  && condition.moraleState > 0
 );
 
 const interactionRound = interaction => ({hero, entities, round, focus, combatResult, ...rest}) => {

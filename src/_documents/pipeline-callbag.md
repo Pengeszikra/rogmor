@@ -6,7 +6,7 @@ game on react stack, maybe PWA output, easy as possible.
 ## Next goal:
 reworking this project to ```typescript``` and ```nextjs``` builded by ```webpack```
 
-This is the next iteration of my dreams because it will be realised as nextjs project. Rogmor development started bye a stackblitz application in next step is made of react application until now but now we will go into the server.
+This is the next iteration of my dreams because it focus be realised as nextjs project. Rogmor development started bye a stackblitz application in next step is made of react application until now but now we focus go into the server.
 
 ![compact view of development](./src/documents/start-moment-of-nextjs.png)
 compact view of development
@@ -79,16 +79,16 @@ export function * fightSaga(a, b, fallenOne = p => p) {
 
     > soul       : Spiritual harmony logical thinking and wisdom.
 
-    > popular    : This is the character social and communication.
+    > presence    : This is the character social and communication.
 
     > stamina    : This is the stamina and Longevity. if value reduced to 0 then hero unable to do anything.
 
-    > will  : Hero  will. If value reduce to 0 then hero is fall down.
+    > focus  : Hero  focus. If value reduce to 0 then hero is fall down.
 
     > merry      : This is the fossil energy very helpful at communication situation.
 
 
-This program will be refact to the nextjs I hope with that step I reach my goal to single typescript MMORPG will be a reachable goal.
+This program focus be refact to the nextjs I hope with that step I reach my goal to single typescript MMORPG focus be a reachable goal.
 
 # Mistakes
 

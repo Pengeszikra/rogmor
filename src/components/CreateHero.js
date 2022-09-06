@@ -19,7 +19,7 @@ export default function CreateHero({state, army}) {
     0,
     uid(),
     Team.PLAYER,
-    traitsFactory(rnd(4)+2)
+    traitsFactory(rnd(4)+5)
   ));
   const handleLetsAdventure = () => {
     setGameState(GameMode.ADVENTURE_ON_MAP);
@@ -34,7 +34,7 @@ export default function CreateHero({state, army}) {
       <p>Welcome young <strong>adventurer</strong>!</p>
       <p>You are stepp into another dimension, called: <strong>Rogmor</strong> and ther is a lot of opportunity to fullfill your dreams, at first stepp is choice your character.</p>
       <p>Don't afraid there is no worst choice, and you can learn something different.</p>
-      <p>Rogmor under chaotic statement at moment so prophecy talkimng about a skillfull hero, who <strong>will be restor odrer and peace</strong> to this land.</p>
+      <p>Rogmor under chaotic statement at moment so prophecy talkimng about a skillfull hero, who <strong>focus be restor odrer and peace</strong> to this land.</p>
       <br/>
       <p>version: {version}</p>
     </article>

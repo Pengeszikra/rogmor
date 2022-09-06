@@ -21,11 +21,11 @@ main abilities:
   - Body
   - Soul
   - Reaction
-  - Popular
+  - Presence
 
 main properities:
   - Stamina
-  - will
+  - focus
   - Joyful
 
 profession

@@ -9,7 +9,7 @@ import { CombatOutcome, GameMode, MainState } from "../rpg/singlePlayerTroll";
 import { mobFactory, professionList, traitsFactory, Team, Mob } from "../rpg/profession";
 import { generateName } from "../rpg/generateName";
 
-const capableOfAction = ({condition:{staminaState, willState, joyfulState}}:Mob) => staminaState && willState && joyfulState;
+const capableOfAction = ({condition:{staminaState, focusState, moraleState}}:Mob) => staminaState && focusState && moraleState;
 
 const HERO_STARTING_COORD = 6005;
 

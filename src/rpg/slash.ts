@@ -9,7 +9,7 @@ export const actionOrder = (mobList) => mobList
       (
         mob.ability.reaction 
       + (mob.condition.staminaState / 10)
-      + (mob.condition.willState / 10)
+      + (mob.condition.focusState / 10)
       ) / mob.level
     )])
   .sort(([a, aSpeed],[b, bSpeed]) => aSpeed > bSpeed ? -1 : 1 )
@@ -27,7 +27,7 @@ export enum Target {
 export enum HitType {
   BODY = 1, 
   SOUL = 2, 
-  POPULAR = 4,
+  PRESENCE = 4,
   REACTION = 8,
 }
 
@@ -81,7 +81,7 @@ export const slashParse:SlashParser = slashSource => slashSource.split(' ')
       case 'target-all-ally': case 'taa': return {select: Target.ALL_ALLY};
       case 'hit-body': case 'hb': return {doit:Doit.HIT, type: HitType.BODY, mul: 1};
       case 'hit-soul': case 'hs': return {doit:Doit.HIT, type: HitType.SOUL, mul: 1};
-      case 'hit-popular': case 'hp': return {doit:Doit.HIT, type: HitType.POPULAR, mul: 1};
+      case 'hit-presence': case 'hp': return {doit:Doit.HIT, type: HitType.PRESENCE, mul: 1};
       case 'hit-combat': case 'hc': return {doit:Doit.HIT, type: HitType.BODY | HitType.SOUL, mul: 1};
       case 'power': case 'power-1': case 'p-1': return {mul: 1};
       case 'power-2': case 'p-2': return {mul: 2};
@@ -106,11 +106,11 @@ export const slashParse:SlashParser = slashSource => slashSource.split(' ')
       case 'bribe-4': return {doit:Doit.BRIBE, mul: 4};
       case 'bless-body': return {doit:Doit.BLESS, mul:1, type: HitType.BODY};
       case 'bless-soul': return {doit:Doit.BLESS, mul:1, type: HitType.SOUL};
-      case 'bless-popular': return {doit:Doit.BLESS, mul:1, type: HitType.POPULAR};
+      case 'bless-presence': return {doit:Doit.BLESS, mul:1, type: HitType.PRESENCE};
       case 'ressurection': return {doit:Doit.RESSURECT};
       case 'shield-body': return {doit:Doit.SHIELD, type: HitType.BODY, mul: 1};
       case 'shield-soul': return {doit:Doit.SHIELD, type: HitType.SOUL, mul: 1};
-      case 'shield-popular': return {doit:Doit.SHIELD, type: HitType.POPULAR, mul: 1};
+      case 'shield-presence': return {doit:Doit.SHIELD, type: HitType.PRESENCE, mul: 1};
       case 'shield-reaction': return {doit:Doit.SHIELD, type: HitType.REACTION, mul: 1};
       case 'score-1': case 's-1': return {score:1};
       case 'score-2': case 's-2': return {score:2};
@@ -152,12 +152,12 @@ export const aiTarget = (actor:Mob, actorSkill:Partial<SlashObject>, mobList:Mob
   const seekEnemy = ({team}) => team !== actorTeam;
   const seekAlly = ({team}) => team === actorTeam;
   const selectUid = ({uid}) => uid;
-  const getAffinity = ({condition:{staminaState, willState, joyfulState}}:Partial<Mob>) => {
+  const getAffinity = ({condition:{staminaState, focusState, moraleState}}:Partial<Mob>) => {
     switch(actorSkill?.type) {
       case HitType.BODY: return staminaState;
-      case HitType.SOUL: return willState;
-      case HitType.POPULAR: return joyfulState;
-      case HitType.REACTION: return staminaState + willState;
+      case HitType.SOUL: return focusState;
+      case HitType.PRESENCE: return moraleState;
+      case HitType.REACTION: return staminaState + focusState;
     }
   }
   const weakByAffinity = (a:Mob, b:Mob) => getAffinity(a) > getAffinity(b) ? 1 : -1;
@@ -225,14 +225,14 @@ export const calcHit = (actor:Mob, target:Mob, actorSkill:Partial<SlashObject>):
       return [target.uid, - dmg, left, {...target.condition, staminaState: left}];
     };
     case HitType.SOUL: {
-      const dmg:number = Math.min(improved(actor.ability.soul / 2 * actorSkill.mul), target.condition.willState);
-      const left:number = target.condition.willState - dmg;
-      return [target.uid, - dmg, left, {...target.condition, willState: left}];
+      const dmg:number = Math.min(improved(actor.ability.soul / 2 * actorSkill.mul), target.condition.focusState);
+      const left:number = target.condition.focusState - dmg;
+      return [target.uid, - dmg, left, {...target.condition, focusState: left}];
     }
-    case HitType.POPULAR: {
-      const dmg:number = Math.min(improved(actor.ability.popular / 2 * actorSkill.mul), target.condition.joyfulState);
-      const left:number = target.condition.joyfulState - dmg;
-      return [target.uid, - dmg, left, {...target.condition, joyfulState: left}];
+    case HitType.PRESENCE: {
+      const dmg:number = Math.min(improved(actor.ability.presence / 2 * actorSkill.mul), target.condition.moraleState);
+      const left:number = target.condition.moraleState - dmg;
+      return [target.uid, - dmg, left, {...target.condition, moraleState: left}];
     }
 
     case HitType.REACTION: {
@@ -245,8 +245,8 @@ export const calcHit = (actor:Mob, target:Mob, actorSkill:Partial<SlashObject>):
 
 export const checkIsOut = ([tMobId, aCause, aReach, condition]:AmountItem):AmountItem => 
      condition.staminaState > 0
-  && condition.willState > 0
-  && condition.joyfulState > 0
+  && condition.focusState > 0
+  && condition.moraleState > 0
     ? [tMobId, aCause, aReach, condition]
     : [tMobId, aCause, aReach, {...condition, isOut:true}]
 ;

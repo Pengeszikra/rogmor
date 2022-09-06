@@ -14,7 +14,7 @@ const skillForProf:Partial<Record<ProfessionKey, string[]>> = {
   'icelander': ['instant target-all hit-body','fill-3 target-all hit-body','fill-4 target-rnd power-4'],
   'ninja': ['instant target hit-body power-[2.4]','fill-4 target-all hit-body power-2','fill-2 target hit-body stun-2 power-4'],
   'samurai': ['instant target hit-body power-2','fill-2 target hit-body power-4','fill-4 target-all hit-body power-2'],
-  'merchant': ['instant target hit-body weak','fill-2 hit-popular power-2','fill-4 target-all bribe-2'],
+  'merchant': ['instant target hit-body weak','fill-2 hit-presence power-2','fill-4 target-all bribe-2'],
 };
 
 const getSkillObject = (m:Mob):Partial<SlashObject>[] => skillForProf[m.professionType].map(slashParse);
@@ -114,12 +114,12 @@ describe ('First full combat round', () => {
       nextRound(flow).map(([m]:[Mob])=>[m.uid, m.condition])
     ).toStrictEqual(
       [
-        ['id:samurai-7', {staminaState: 357, willState: 284, joyfulState: 210}],
-        ['id:bishop-6', {staminaState: 174, willState: 228, joyfulState: 156}],
-        ['id:icelander-5', {staminaState: 123, willState: 160, joyfulState: 110}],
-        ['id:assasin-5', {staminaState: 123, willState: 148, joyfulState: 110}],
-        ['id:ninja-4', {staminaState: 96, willState: 80, joyfulState: 72}],
-        ['id:merchant-4', {staminaState: 96, willState: 112, joyfulState: 72}],
+        ['id:samurai-7', {staminaState: 357, focusState: 284, moraleState: 210}],
+        ['id:bishop-6', {staminaState: 174, focusState: 228, moraleState: 156}],
+        ['id:icelander-5', {staminaState: 123, focusState: 160, moraleState: 110}],
+        ['id:assasin-5', {staminaState: 123, focusState: 148, moraleState: 110}],
+        ['id:ninja-4', {staminaState: 96, focusState: 80, moraleState: 72}],
+        ['id:merchant-4', {staminaState: 96, focusState: 112, moraleState: 72}],
       ]
     );
   })
@@ -150,7 +150,7 @@ describe ('First full combat round', () => {
         doit: Doit.HIT,
         type: HitType.BODY,
         target: ['id:assasin-5'],
-        amount: [['id:assasin-5', -49, 74, {staminaState: 74, joyfulState: 110, willState: 148}]],
+        amount: [['id:assasin-5', -49, 74, {staminaState: 74, moraleState: 110, focusState: 148}]],
       } as FlowAction
     )
   });
@@ -180,7 +180,7 @@ describe ('First full combat round', () => {
         doit: Doit.HIT,
         type: HitType.SOUL,
         target: ['id:ninja-4'],
-        amount: [['id:ninja-4', -39, 41, {staminaState: 96, joyfulState: 72, willState: 41}]],
+        amount: [['id:ninja-4', -39, 41, {staminaState: 96, moraleState: 72, focusState: 41}]],
       } as FlowAction
     )
   });
@@ -217,9 +217,9 @@ describe ('First full combat round', () => {
           'id:merchant-4',
         ],
         amount: [
-          ['id:ninja-4', -16, 80, {staminaState: 80, joyfulState: 72, willState: 41}],
-          ['id:samurai-7', -16, 341, {staminaState: 341, joyfulState: 210, willState: 284}], 
-          ['id:merchant-4', -16, 80, {staminaState: 80, joyfulState: 72, willState: 112}],
+          ['id:ninja-4', -16, 80, {staminaState: 80, moraleState: 72, focusState: 41}],
+          ['id:samurai-7', -16, 341, {staminaState: 341, moraleState: 210, focusState: 284}], 
+          ['id:merchant-4', -16, 80, {staminaState: 80, moraleState: 72, focusState: 112}],
         ],
       } as FlowAction
     )
@@ -231,12 +231,12 @@ describe ('First full combat round', () => {
       nextRound(flow).map(([m]:[Mob])=>[m.uid, m.condition])
     ).toStrictEqual(
       [
-        ['id:samurai-7', {staminaState: 341, willState: 284, joyfulState: 210}],
-        ['id:bishop-6', {staminaState: 174, willState: 228, joyfulState: 156}],
-        ['id:icelander-5', {staminaState: 123, willState: 160, joyfulState: 110}],
-        ['id:assasin-5', {staminaState: 49, willState: 148, joyfulState: 110}],
-        ['id:ninja-4', {staminaState: 80, willState: 41, joyfulState: 72}],
-        ['id:merchant-4', {staminaState: 67, willState: 112, joyfulState: 72}],
+        ['id:samurai-7', {staminaState: 341, focusState: 284, moraleState: 210}],
+        ['id:bishop-6', {staminaState: 174, focusState: 228, moraleState: 156}],
+        ['id:icelander-5', {staminaState: 123, focusState: 160, moraleState: 110}],
+        ['id:assasin-5', {staminaState: 49, focusState: 148, moraleState: 110}],
+        ['id:ninja-4', {staminaState: 80, focusState: 41, moraleState: 72}],
+        ['id:merchant-4', {staminaState: 67, focusState: 112, moraleState: 72}],
       ]
     );
   });
@@ -251,7 +251,7 @@ describe ('First full combat round', () => {
         doit: Doit.HIT,
         type: HitType.BODY,
         target: ['id:assasin-5'],
-        amount: [['id:assasin-5', -49, 0, {staminaState: 0, joyfulState: 110, willState: 148, isOut: true}]],
+        amount: [['id:assasin-5', -49, 0, {staminaState: 0, moraleState: 110, focusState: 148, isOut: true}]],
       } as FlowAction
 
     );
@@ -264,12 +264,12 @@ describe ('First full combat round', () => {
       nextRound(flow).map(([m]:[Mob])=>[m.uid, m.condition])
     ).toStrictEqual(
       [
-        ['id:samurai-7', {staminaState: 325, willState: 284, joyfulState: 210}],
-        ['id:bishop-6', {staminaState: 174, willState: 228, joyfulState: 156}],
-        ['id:icelander-5', {staminaState: 98, willState: 160, joyfulState: 110}],
-        // ['id:assasin-5', {staminaState: 0, willState: 148, joyfulState: 110, isOut: true}],
-        ['id:merchant-4', {staminaState: 38, willState: 112, joyfulState: 72}],
-        ['id:ninja-4', {staminaState: 64, willState: 2, joyfulState: 72}],
+        ['id:samurai-7', {staminaState: 325, focusState: 284, moraleState: 210}],
+        ['id:bishop-6', {staminaState: 174, focusState: 228, moraleState: 156}],
+        ['id:icelander-5', {staminaState: 98, focusState: 160, moraleState: 110}],
+        // ['id:assasin-5', {staminaState: 0, focusState: 148, moraleState: 110, isOut: true}],
+        ['id:merchant-4', {staminaState: 38, focusState: 112, moraleState: 72}],
+        ['id:ninja-4', {staminaState: 64, focusState: 2, moraleState: 72}],
       ]
     );
   });

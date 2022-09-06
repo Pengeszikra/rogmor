@@ -21,23 +21,29 @@ export const MultiProcessBar = ({process = [1,1,1], ...props}) => {
 export default ({hero, ...props}) => {
   const {
     avatar, name, level, 
-    ability:{body, soul, reaction, popular, stamina, will, joyful, title}, 
-    condition:{staminaState, willState, joyfulState}
+    ability:{body, soul, reaction, presence, stamina, focus, morale, title}, 
+    condition:{staminaState, focusState, moraleState}
   } = hero as Mob;
+
+  const maxLength = [focus, morale, stamina]
+    .map((n:number) => n.toString().length)
+    .reduce((col:number, val:number) => val > col ? val : col, 3)
+  ;
+
+  const padAlign = (n:number) => n.toString().padStart(maxLength, ' ');
 
   return (
     <section className='gui gui-storyw' {...props}>
       <figure className='face-sprite' data-face={avatar} />
       <span className='text-lg leading-4'>{name} the {title}</span>
       <pre className='leading-[1em] text-[1.15em] m-2'>{`
-        Level: ${level}
-         Body: ${body}
-         Soul: ${soul}
-     Reaction: ${reaction}
-      Popular: ${popular}
-      Stamina: ${stamina}
-         Will: ${will}
-       Joyful: ${joyful}
+
+        level: ${level}
+
+        body: ${padAlign(body)} stamina: ${padAlign(stamina)}
+        soul: ${padAlign(soul)}   focus: ${padAlign(focus)}
+    presence: ${padAlign(presence)}  morale: ${padAlign(morale)}
+    reaction: ${padAlign(reaction)}
       `}
       </pre>
     </section>

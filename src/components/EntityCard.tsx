@@ -18,8 +18,8 @@ export const EntityCard:FC<IEntityCard> = ({mob, tw="", flow}) => {
 
   const {
     avatar, level, uid,
-    ability:{stamina, will, joyful, title}, 
-    condition:{staminaState, willState, joyfulState, isOut}
+    ability:{stamina, focus, morale, title}, 
+    condition:{staminaState, focusState, moraleState, isOut}
   } = mob as Mob;
 
   const [isTarget, dmg] = flow?.amount && flow.amount.find(([id]) => id === uid) || [];
@@ -29,7 +29,7 @@ export const EntityCard:FC<IEntityCard> = ({mob, tw="", flow}) => {
   const woundColor = {
     [HitType.BODY]: dmg < 0 ? 'bg-rose-800' : 'bg-green-800',
     [HitType.SOUL]: dmg < 0 ? 'bg-yellow-600' : 'bg-green-800',
-    [HitType.POPULAR]: dmg < 0 ? 'bg-sky-800' : 'bg-green-800',
+    [HitType.PRESENCE]: dmg < 0 ? 'bg-sky-800' : 'bg-green-800',
   }?.[flow?.type] || '';
 
   useEffect(() => {
@@ -50,8 +50,8 @@ export const EntityCard:FC<IEntityCard> = ({mob, tw="", flow}) => {
       <div className='text-white p-2 text-lg'>{title}</div>
       <section className='flex gap-2 w-max m-4 items-end justify-end'>
         <VerticalValue tw='bg-rose-900' value={staminaState/stamina}/>
-        <VerticalValue tw='bg-yellow-200' value={willState/will} />
-        <VerticalValue tw='bg-emerald-900' value={joyfulState/joyful} />
+        <VerticalValue tw='bg-yellow-200' value={focusState/focus} />
+        <VerticalValue tw='bg-emerald-900' value={moraleState/morale} />
         
       </section>
       {/* {!!isTarget && <DamageAnimation dmg={dmg} woundColor={woundColor} />} */}

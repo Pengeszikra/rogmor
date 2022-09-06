@@ -28,23 +28,23 @@ export const soulSkill = (a:Mob, b:Mob, round:number) => {
   const [atk, def] = astart > bstart ? [a, b] : [b, a];
   let [striker, target] = round % 2 ? [atk, def] : [def, atk];
   let dmg = improved(striker.ability.soul / 2);
-  target.condition.willState -= Math.min(dmg, target.condition.willState);
+  target.condition.focusState -= Math.min(dmg, target.condition.focusState);
   return [a, b, {dmg, striker, target, kind: InteractionKind.SKILL}];
 }
 
 export const socialTalk = (a:Mob, b:Mob, round:number) => {
-  const astart = improved(a.ability.popular + a.ability.reaction) 
-  const bstart = improved(b.ability.popular + b.ability.reaction)
+  const astart = improved(a.ability.presence + a.ability.reaction) 
+  const bstart = improved(b.ability.presence + b.ability.reaction)
   const [atk, def] = astart > bstart ? [a, b] : [b, a];
   let [striker, target] = round % 2 ? [atk, def] : [def, atk];
-  let dmg = improved(striker.ability.popular / 2);
-  target.condition.joyfulState -= Math.min(dmg, target.condition.joyfulState);
+  let dmg = improved(striker.ability.presence / 2);
+  target.condition.moraleState -= Math.min(dmg, target.condition.moraleState);
   return [a, b, {dmg, striker, target, kind: InteractionKind.TALK}];
 }
 
 export const strikeDamage = ({ability}, imp = improved) => imp(ability.body / 2);
 export const mentalDamage = ({ability}, imp = improved) => imp(ability.soul / 2);
-export const persuasion   = ({popular}, imp = improved) => imp(popular / 2);
+export const persuasion   = ({presence}, imp = improved) => imp(presence / 2);
 export const strikeOrder = (imp = improved) => (...entities) => entities
   .map(entiti => [entiti, imp(entiti.ability.reaction + (entiti.condition.staminaState / 10))])
   .sort(([a, aQuick],[b, bQuick]) => aQuick > bQuick ? 1 : -1 );

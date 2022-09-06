@@ -7,7 +7,7 @@ KIRO editor maded by Rust, my question is why do not able to use OS cursor movem
 
 Hello this code maded by Kiro
 
-The linux navigation sometime will be confusing. May I can fork this application or work as contributor.
+The linux navigation sometime focus be confusing. May I can fork this application or work as contributor.
 My drawing application inside of VS code is one of my really awesome idea, because all HTML based drawing application is too heavyweight.
 But as Max mentioned to find a good name is essencal!
 
