@@ -22,6 +22,7 @@ export enum Target {
   RANDOM_ALLY,
   SELECTED_ALLY,
   ALL_ALLY,
+  SELF,
 }
 
 export enum HitType {
@@ -44,6 +45,8 @@ export interface SlashObject {
 
 export type SlashParser = (source:string) => Partial<SlashObject>;
 
+export type SlashImprovedParser = (source:string) => Partial<SlashObject>[];
+
 const slashCustomParse:SlashParser = command => {
   const baseCommand = command.split('-[')[0];
   const numeric = command.match(/-\[([\d|\.]+)\]/)?.[1];
@@ -63,7 +66,13 @@ const slashCustomParse:SlashParser = command => {
   return {_ERROR_:command};
 }
 
-export const slashParse:SlashParser = slashSource => slashSource.split(' ')
+export const slashImprovedParser:SlashImprovedParser = slashSource => slashSource
+  .split(';')
+  .map(source => slashParse(source))
+;
+
+export const slashParse:SlashParser = slashSource => slashSource
+  .split(' ')
   .map(command => {
     switch (command) {
       case 'instant': case 'i': return {fill:0};
@@ -73,7 +82,8 @@ export const slashParse:SlashParser = slashSource => slashSource.split(' ')
       case 'fill-4': case 'f-4': return {fill:4};
       case 'fill-5': case 'f-5': return {fill:5};
       case 'fill-6': case 'f-6': return {fill:6};
-      case 'target': case 'tse': return {select: Target.SELECTED_ENEMY};
+      case 'target': case 'tse': return {select: Target.SELF};
+      case 'target-self': case 'tsf': return {select: Target.SELECTED_ENEMY};
       case 'target-all': case 'tae': return {select: Target.ALL_ENEMY};
       case 'target-rnd': case 'tre': return {select: Target.RANDOM_ENEMY};
       case 'target-rnd-ally': case 'tra': return {select: Target.RANDOM_ALLY};
@@ -144,6 +154,12 @@ export interface FlowAction {
   amount?: AmountItem[];
 }
 
+export interface ComplexFlow {
+  
+  stream: FlowAction[];
+  
+} 
+
 export const isCapableToAction = (m:Mob):boolean => !m?.condition?.isOut;
 
 export const aiTarget = (actor:Mob, actorSkill:Partial<SlashObject>, mobList:Mob[]):FlowAction => {
@@ -193,6 +209,7 @@ export const aiTarget = (actor:Mob, actorSkill:Partial<SlashObject>, mobList:Mob
         .filter(seekAlly)
         .map(selectUid)
       ;
+      case Target.SELF: return [actor.uid];
     }
   };
   

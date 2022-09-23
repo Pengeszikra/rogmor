@@ -61,19 +61,19 @@ export function * fightSaga(a, b, fallenOne = p => p) {
 
 ### character attributes
 
-    > `body` : It is physic of character including strength.
+  `body` : It is physic of character including strength.
 
-    > `reflex` : It is the reflex capability including first thinking and the reflex.
+  `reflex` : It is the reflex capability including first thinking and the reflex.
 
-    > `soul` : Spiritual harmony, logical thinking and wisdom.
+  `soul` : Spiritual harmony, logical thinking and wisdom.
 
-    > `aura` : This is the character social and communication.
+  `aura` : This is the character presence, social and impact to other.
 
-    > `stamina` : This is the stamina and Longevity. if value reduced to 0 then hero unable to do anything.
+  `stamina` : This is the stamina and Longevity. if value reduced to 0 then hero unable to do anything.
 
-    > `focus` : Hero  focus. If value reduce to 0 then hero is fall down.
+  `focus` : Hero mind stability. If value reduce to 0 then hero is fall down.
 
-    > `morale` : This is the fossil energy very helpful at communication situation.
+  `morale` : This is the fossil energy very helpful at any social interaction.
 
 
 This program focus be refact to the nextjs I hope with that step I reach my goal to single typescript MMORPG focus be a reachable goal.
@@ -199,4 +199,4 @@ Seems it is works fine in reality. This way the whole progress can be followed. 
 
 ## Design note by Samsung galaxy S6lite tablet
 
-![design note by samsung s6lite tablet](./src/_documents/rogmor-s6-design.png)
+![design note by samsung s6lite tablet](./src/_documents/rogmor-s6-design.png) 

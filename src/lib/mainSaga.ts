@@ -2,12 +2,13 @@ import { take, fork, call, all, delay, select, cancel, race } from 'redux-saga/e
 import { ANIMATION_ENDED, ANIMATION_SKIPPED, ENCOUNTER_BEGIN, ENCOUNTER_OUTCOME, FIGHT, FOCUS_ON, GameMode, HEART_BEAT, MainState, PLAY_ACTION, PLAY_FLOW, PLAY_OUTCOME, SETUP_ENTITIES, SET_GAME_STATE, SET_MOB_LIST, SKILL, TALK, USER_ACT } from '../rpg/singlePlayerTroll';
 import { putAction } from '../util/putAction';
 import { Mob, Team, ProfessionKey, mobFactory, traitsFactory } from '../rpg/profession';
-// import { Encounter } from './mainSaga';
 import { improved, dice, pickOne, uid } from '../rpg/rpg';
-import { slashParse, SlashObject, getSkillResult, skillReducer, actionOrder} from 'src/rpg/slash';
+import { slashParse, slashImprovedParser, SlashObject, getSkillResult, skillReducer, actionOrder} from 'src/rpg/slash';
 import { isCapableToAction } from '../rpg/slash';
 
 const slash = p => p;
+
+const BATTLE_SPEED = 444;
 
 // export enum Phase {PREPARE, CHOICE, RESULT}
 
@@ -61,15 +62,15 @@ const makeMob = (lvl:number, prof:ProfessionKey, team:Team = Team.GOOD, avatar) 
 );
 
 const skillForProf:Partial<Record<ProfessionKey, string[]>> = {
-  'chaosKnight': ['instant target-rnd hit-soul power-3','fill-3 target hit-body power-4','fill-4 target-all hit-soul power-2'],
-  'bishop': ['instant target-ally heal', 'instant target hit-soul power-2','fill-3 tsa heal-2','fill-4 target-all-ally heal-1'],
+  'chaosKnight': ['instant target-rnd hit-soul power-1; instant target-rnd hit-body power-1; instant target-rnd hit-aura power-1','fill-3 target hit-body power-4','fill-4 target-all hit-soul power-2'],
+  'bishop': ['instant target-ally heal; instant target-rnd hit-body', 'instant target hit-soul power-2','fill-3 tsa heal-2','fill-4 target-all-ally heal-1'],
   'icelander': ['instant target-all hit-body','fill-3 target-all hit-body','fill-4 target hit-body power-4'],
   'ninja': ['instant target hit-body power-[2.4]','fill-4 target-all hit-body power-2','fill-2 target hit-body power-4'],
   'samurai': ['instant target hit-body power-2','fill-2 target hit-body power-4','fill-4 target-all hit-body power-2'],
-  'merchant': ['instant target hit-aura','fill-2 target hit-aura power-2','fill-4 target-all hit-aura'],
+  'merchant': ['instant target hit-aura; instant target-rnd hit-soul power-2','fill-2 target hit-aura power-2','fill-4 target-all hit-aura'],
 };
 
-const getSkillObject = (m:Mob):Partial<SlashObject>[] => skillForProf[m.professionType].map(slashParse);
+const getSkillObject = (m:Mob):Partial<SlashObject>[][] => skillForProf[m.professionType].map(slashImprovedParser);
 
 export function * combatZoneSaga() {
   while (true) {
@@ -96,30 +97,30 @@ export function * combatZoneSaga() {
     yield putAction(SET_MOB_LIST, combatSetupMobList)
     let mobList = combatSetupMobList;
 
-    let untilCombat = true;
-    while (untilCombat) {
+    combat_is_over:
+    while (true) {
       const order = actionOrder(mobList);
-      // yield order;
+
       while (order.length) {
-        // const {type} = yield take([HEART_BEAT, ENCOUNTER_OUTCOME]);
         const [, command] = yield race([
-          delay(222),
+          delay(BATTLE_SPEED),
           take([HEART_BEAT, ENCOUNTER_OUTCOME]),
         ])
-        
-        if (command?.type === ENCOUNTER_OUTCOME) {untilCombat = false; break;}
+
+        if (command?.type === ENCOUNTER_OUTCOME) break combat_is_over;
 
         const [actor]:OrderOfSeed = order.shift();
-        // yield actor.uid; // mob on charge
         const skillList = getSkillObject(actor);
         const [currentSkill] = skillList; // mob always use A1
-        // const currentSkill = pickOne(skillList); // mob always use A1
         console.log(currentSkill, actor)
-        const [aiTargetting, skillResult] = getSkillResult(actor, currentSkill, mobList);
-        yield putAction(PLAY_FLOW, aiTargetting);
-        yield putAction(PLAY_FLOW, skillResult);
-        mobList = yield call(skillReducer, mobList, skillResult);
-        yield putAction(SET_MOB_LIST, mobList);
+
+        for (const skill of currentSkill) {
+          const [aiTargetting, skillResult] = getSkillResult(actor, skill, mobList);
+          yield putAction(PLAY_FLOW, aiTargetting);
+          yield putAction(PLAY_FLOW, skillResult);
+          mobList = yield call(skillReducer, mobList, skillResult);
+          yield putAction(SET_MOB_LIST, mobList);
+        }
 
         const isTwoTeam = mobList
           .filter(isCapableToAction)
@@ -130,7 +131,7 @@ export function * combatZoneSaga() {
         if(!isTwoTeam) {
           yield take([HEART_BEAT, ENCOUNTER_OUTCOME]);
           yield putAction(FOCUS_ON, null);
-          untilCombat = false; break;
+          break combat_is_over;
         }
       }
     }
