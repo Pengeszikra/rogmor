@@ -1,5 +1,5 @@
 import { take, fork, call, all, delay, select, cancel, race } from 'redux-saga/effects';
-import { ANIMATION_ENDED, ANIMATION_SKIPPED, ENCOUNTER_BEGIN, ENCOUNTER_OUTCOME, FIGHT, FOCUS_ON, GameMode, HEART_BEAT, MainState, PLAY_ACTION, PLAY_FLOW, PLAY_OUTCOME, SETUP_ENTITIES, SET_GAME_STATE, SET_MOB_LIST, SKILL, TALK, USER_ACT } from '../rpg/singlePlayerTroll';
+import { ANIMATION_ENDED, ANIMATION_SKIPPED, ENCOUNTER_BEGIN, ENCOUNTER_OUTCOME, FIGHT, FOCUS_ON, GameMode, HEART_BEAT, MainState, PLAY_ACTION, PLAY_FLOW, PLAY_OUTCOME, SETUP_ENTITIES, SET_AUTO_FIGHT, SET_GAME_STATE, SET_MOB_LIST, SKILL, TALK, USER_ACT, USE_SKILL } from '../rpg/singlePlayerTroll';
 import { putAction } from '../util/putAction';
 import { Mob, Team, ProfessionKey, mobFactory, traitsFactory } from '../rpg/profession';
 import { improved, dice, pickOne, uid } from '../rpg/rpg';
@@ -9,8 +9,6 @@ import { isCapableToAction } from '../rpg/slash';
 const slash = p => p;
 
 const BATTLE_SPEED = 222;
-
-// export enum Phase {PREPARE, CHOICE, RESULT}
 
 export interface Effect {
   id: string;
@@ -63,7 +61,7 @@ const makeMob = (lvl:number, prof:ProfessionKey, team:Team = Team.GOOD, avatar) 
 
 const skillForProf:Partial<Record<ProfessionKey, string[]>> = {
   'chaosKnight': ['instant target-rnd hit-soul power-1; instant target-rnd hit-body power-1; instant target-rnd hit-aura power-1','fill-3 target hit-body power-4','fill-4 target-all hit-soul power-2'],
-  'bishop': ['instant target-ally heal; instant target-rnd hit-body', 'instant target hit-soul power-2','fill-3 tsa heal-2','fill-4 target-all-ally heal-1'],
+  'bishop': ['instant target-ally heal; instant target-rnd hit-body', 'instant target hit-soul power-2','fill-3 tsa heal-2','fill-4 target-all-ally heal-3'],
   'icelander': ['instant target-all hit-body','fill-3 target-all hit-body','fill-4 target hit-body power-4'],
   'ninja': ['instant target hit-body power-[2.4]','fill-4 target-all hit-body power-2','fill-2 target hit-body power-4'],
   'samurai': ['instant target hit-body power-2','fill-2 target hit-body power-4','fill-4 target-all hit-body power-2'],
@@ -102,9 +100,13 @@ export function * combatZoneSaga() {
 
       while (order.length) {
         const [actor]:OrderOfSeed = order.shift();
+        yield putAction(PLAY_FLOW, {who: actor.uid});
         const skillList = getSkillObject(actor);
-        const [subList] = skillList; // mob always use A1
-        // console.log(subList, actor);
+
+        // mob always use A1
+        const {isAutoFight} = yield select();
+        const subList= yield call(userChiceTheSkillSaga, skillList, actor, isAutoFight)
+        console.log(subList, actor);
 
         _NextActor_: while (true) {
           if (subList.length < 1) break _NextActor_;
@@ -135,11 +137,14 @@ export function * combatZoneSaga() {
             break _CombatIsOver_;
           }
         }
-
       }
-
     }
-
     yield putAction(SET_MOB_LIST, [])
   }
+}
+
+function * userChiceTheSkillSaga(skillList:Partial<SlashObject>[][], actor:Mob, isAutoFight: boolean) {
+  if (actor.team !== Team.GOOD || isAutoFight) return skillList.at(0)
+  const {payload: skillIndex} = yield take([USE_SKILL, SET_AUTO_FIGHT]);
+  return skillList.at(skillIndex);
 }

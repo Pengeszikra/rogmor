@@ -28,6 +28,7 @@ export interface MainState {
   encounterOutcome: any[];
   mobList: Mob[];
   flow?: FlowAction;
+  isAutoFight: boolean;
 }
 
 export const initialState:MainState = {
@@ -42,6 +43,7 @@ export const initialState:MainState = {
   encounterOutcome: [],
   mobList: [],
   flow: null,
+  isAutoFight: false,
 };
 
 export const 
@@ -49,7 +51,9 @@ export const
   MOD_HERO = action('mod-hero'),
   NEXT_ROUND = action('next-round'),
   HEART_BEAT = action('heart-beat'),
+  USE_SKILL = action('use-skill'),
   SET_GAME_STATE = action('set-game-state'),
+  SET_AUTO_FIGHT = action('set-auto-fight'),
   SETUP_ENTITIES = action('setup-entities'),
   MOD_ENTITI = action('mod-entiti'),
   ADD_ENTITI = action('add-entiti'),
@@ -95,6 +99,7 @@ export const gameReducer = (state:MainState, {type, payload}) => {
     case PLAY_ACTION_ANIM: return {...state, actionAnim: payload};
     case PLAY_FLOW: return {...state, flow: payload};
     case SET_DAMAGE_RESULT: return {...state, damageResult: payload};
+    case SET_AUTO_FIGHT: return {...state, isAutoFight: payload};
 
     case LEVEL_UP_HERO: return {...state, hero: increaseLevel(1)(state.hero)}
     default: return state;

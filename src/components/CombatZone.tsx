@@ -7,8 +7,8 @@ export const PlaceOfMob = () => (<div className='w-32' />);
 
 export default function CombatZone ({state, army}) {
 
-  const {hero, focus, entities, flow, mobList} = state as MainState;
-  const {focusOn, fight, skill, talk, encounterOutcome, heartBeat} = army;
+  const {hero, focus, entities, flow, mobList, isAutoFight} = state as MainState;
+  const {focusOn, fight, skill, talk, encounterOutcome, useSkill, setAutoFight} = army;
   
   return (
     <section className="absolute top-0 left-0 overflow-hidden --pointer-events-none grid justify-center w-screen items-center my-12">
@@ -34,11 +34,13 @@ export default function CombatZone ({state, army}) {
 
           <section className="m-4">
             <section className="w-96 grid grid-cols-3 gap-2 p-4">
-              <button className="rounded-lg p-2 text-lg text-white bg-sky-600 grayscale-[.7]" onClick={heartBeat}>Fight</button>
-              <button className="rounded-lg p-2 text-lg text-white bg-sky-600 grayscale-[.7]" onClick={heartBeat}>Skill</button>
-              <button className="rounded-lg p-2 text-lg text-white bg-sky-600 grayscale-[.7]" onClick={heartBeat}>Talk</button>
+              <button className="rounded-lg p-2 text-lg text-white bg-sky-600 grayscale-[.7]" onClick={() => useSkill(0)}>Alfa</button>
+              <button className="rounded-lg p-2 text-lg text-white bg-sky-600 grayscale-[.7]" onClick={() => useSkill(1)}>Beta</button>
+              <button className="rounded-lg p-2 text-lg text-white bg-sky-600 grayscale-[.7]" onClick={() => useSkill(2)}>Delta</button>
+            </section>
+            <section className="w-96 grid grid-cols-3 gap-2 p-4">
+              <button className="rounded-lg p-2 text-lg text-white bg-sky-700 grayscale-[.7]" onClick={() => setAutoFight(!isAutoFight)}>Auto: {isAutoFight ? "on" : "off"}</button>
               <div />
-            <div />
               <button className="rounded-lg p-2 text-lg text-white bg-sky-700 grayscale-[.7]" onClick={() => {focusOn(null); encounterOutcome()}}>Escape</button>
             </section>
           </section>
