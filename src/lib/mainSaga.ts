@@ -8,7 +8,7 @@ import { isCapableToAction } from '../rpg/slash';
 
 const slash = p => p;
 
-const BATTLE_SPEED = 444;
+const BATTLE_SPEED = 222;
 
 // export enum Phase {PREPARE, CHOICE, RESULT}
 
@@ -97,43 +97,47 @@ export function * combatZoneSaga() {
     yield putAction(SET_MOB_LIST, combatSetupMobList)
     let mobList = combatSetupMobList;
 
-    combat_is_over:
-    while (true) {
+    _CombatIsOver_: while (true) {
       const order = actionOrder(mobList);
 
       while (order.length) {
-        const [, command] = yield race([
-          delay(BATTLE_SPEED),
-          take([HEART_BEAT, ENCOUNTER_OUTCOME]),
-        ])
-
-        if (command?.type === ENCOUNTER_OUTCOME) break combat_is_over;
-
         const [actor]:OrderOfSeed = order.shift();
         const skillList = getSkillObject(actor);
-        const [currentSkill] = skillList; // mob always use A1
-        console.log(currentSkill, actor)
+        const [subList] = skillList; // mob always use A1
+        // console.log(subList, actor);
 
-        for (const skill of currentSkill) {
+        _NextActor_: while (true) {
+          if (subList.length < 1) break _NextActor_;
+
+          const [, command] = yield race([
+            delay(BATTLE_SPEED),
+            take([HEART_BEAT, ENCOUNTER_OUTCOME]),
+          ])
+
+          if (command?.type === ENCOUNTER_OUTCOME) break _CombatIsOver_;
+
+          const skill = subList.shift();
           const [aiTargetting, skillResult] = getSkillResult(actor, skill, mobList);
           yield putAction(PLAY_FLOW, aiTargetting);
           yield putAction(PLAY_FLOW, skillResult);
           mobList = yield call(skillReducer, mobList, skillResult);
           yield putAction(SET_MOB_LIST, mobList);
+
+          const isTwoTeam = mobList
+            .filter(isCapableToAction)
+            .map(mob => mob.team)
+            .find((item, _, arr) => arr.indexOf(item) !== 0)
+          ;
+
+          if(!isTwoTeam) {
+            yield take([HEART_BEAT, ENCOUNTER_OUTCOME]);
+            yield putAction(FOCUS_ON, null);
+            break _CombatIsOver_;
+          }
         }
 
-        const isTwoTeam = mobList
-          .filter(isCapableToAction)
-          .map(mob => mob.team)
-          .find((item, _, arr) => arr.indexOf(item) !== 0)
-        ;
-        
-        if(!isTwoTeam) {
-          yield take([HEART_BEAT, ENCOUNTER_OUTCOME]);
-          yield putAction(FOCUS_ON, null);
-          break combat_is_over;
-        }
       }
+
     }
 
     yield putAction(SET_MOB_LIST, [])
