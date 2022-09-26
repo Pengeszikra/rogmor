@@ -1,5 +1,9 @@
 import { take, fork, call, all, delay, select, cancel, race } from 'redux-saga/effects';
-import { ANIMATION_ENDED, ANIMATION_SKIPPED, ENCOUNTER_BEGIN, ENCOUNTER_OUTCOME, FIGHT, FOCUS_ON, GameMode, HEART_BEAT, MainState, PLAY_ACTION, PLAY_FLOW, PLAY_OUTCOME, SETUP_ENTITIES, SET_AUTO_FIGHT, SET_GAME_STATE, SET_MOB_LIST, SKILL, TALK, USER_ACT, USE_SKILL } from '../rpg/singlePlayerTroll';
+import { 
+  ENCOUNTER_RESULT, ENCOUNTER_BEGIN, ENCOUNTER_OUTCOME, FOCUS_ON, 
+  GameMode, HEART_BEAT, MainState, PLAY_ACTION, PLAY_FLOW, 
+  PLAY_OUTCOME, SETUP_ENTITIES, SET_AUTO_FIGHT, SET_GAME_STATE, 
+  SET_MOB_LIST, USER_ACT, USE_SKILL, LEVEL_UP_HERO } from '../rpg/singlePlayerTroll';
 import { putAction } from '../util/putAction';
 import { Mob, Team, ProfessionKey, mobFactory, traitsFactory } from '../rpg/profession';
 import { improved, dice, pickOne, uid } from '../rpg/rpg';
@@ -20,14 +24,6 @@ export interface Act {
   cooldown: number;
   tick: number;
   script: string;
-}
-
-const exampleAct:Act = {
-  id: '1234',
-  type: 'Strike',
-  cooldown: 1,
-  tick: 0,
-  script: 'select-enemy body-strike',
 }
 
 export interface ActInstance {
@@ -62,7 +58,7 @@ const makeMob = (lvl:number, prof:ProfessionKey, team:Team = Team.GOOD, avatar) 
 const skillForProf:Partial<Record<ProfessionKey, string[]>> = {
   'chaosKnight': ['instant target-rnd hit-soul power-1; instant target-rnd hit-body power-1; instant target-rnd hit-aura power-1','fill-3 target hit-body power-4','fill-4 target-all hit-soul power-2'],
   'bishop': ['instant target-ally heal; instant target-rnd hit-body', 'instant target hit-soul power-2','fill-3 tsa heal-2','fill-4 target-all-ally heal-3'],
-  'icelander': ['instant target-all hit-body','fill-3 target-all hit-body','fill-4 target hit-body power-4'],
+  'icelander': ['instant target-all hit-body','fill-3 target-all hit-body power-2','fill-4 target-rnd hit-body power-4'],
   'ninja': ['instant target hit-body power-[2.4]','fill-4 target-all hit-body power-2','fill-2 target hit-body power-4'],
   'samurai': ['instant target hit-body power-2','fill-2 target hit-body power-4','fill-4 target-all hit-body power-2'],
   'merchant': ['instant target hit-aura; instant target-rnd hit-soul power-2','fill-2 target hit-aura power-2','fill-4 target-all hit-aura'],
@@ -79,13 +75,13 @@ export function * combatZoneSaga() {
     const pickProf = () => pickOne(Object.keys(skillForProf))
 
     const testTeams = [
-      [dice(30) + 10, pickProf(), Team.BAD, dice(100)],
-      [dice(30) + 10, pickProf(), Team.BAD, dice(100)],
-      [dice(30) + 10, pickProf(), Team.BAD, dice(100)],
+      [hero.level, pickProf(), Team.BAD, dice(100)],
+      [hero.level, pickProf(), Team.BAD, dice(100)],
+      [hero.level, pickProf(), Team.BAD, dice(100)],
       
-      [dice(30) + 10, pickProf(), Team.GOOD, dice(100)],
-      [dice(30) + 10, pickProf(), Team.GOOD, hero.avatar],
-      [dice(30) + 10, pickProf(), Team.GOOD, dice(100)],
+      [hero.level, pickProf(), Team.GOOD, dice(100)],
+      [hero.level, hero.professionType, Team.GOOD, hero.avatar],
+      [hero.level, pickProf(), Team.GOOD, dice(100)],
     ]
     
     const combatSetupMobList = testTeams.map(([lvl, type, team, avatar]:[number, ProfessionKey, Team, number]) => 
@@ -106,7 +102,7 @@ export function * combatZoneSaga() {
         // mob always use A1
         const {isAutoFight} = yield select();
         const subList= yield call(userChiceTheSkillSaga, skillList, actor, isAutoFight)
-        console.log(subList, actor);
+        // console.log(subList, actor);
 
         _NextActor_: while (true) {
           if (subList.length < 1) break _NextActor_;
@@ -139,7 +135,7 @@ export function * combatZoneSaga() {
         }
       }
     }
-    yield putAction(SET_MOB_LIST, [])
+    yield call(calculateEncounterResultSaga, mobList);
   }
 }
 
@@ -147,4 +143,10 @@ function * userChiceTheSkillSaga(skillList:Partial<SlashObject>[][], actor:Mob, 
   if (actor.team !== Team.GOOD || isAutoFight) return skillList.at(0)
   const {payload: skillIndex} = yield take([USE_SKILL, SET_AUTO_FIGHT]);
   return skillList.at(skillIndex);
+}
+
+function * calculateEncounterResultSaga(mobList:Mob[]) {
+  yield putAction(SET_MOB_LIST, []);
+  yield putAction(ENCOUNTER_RESULT, mobList);
+  yield putAction(LEVEL_UP_HERO, 1);
 }

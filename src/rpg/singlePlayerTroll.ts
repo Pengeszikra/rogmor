@@ -29,6 +29,7 @@ export interface MainState {
   mobList: Mob[];
   flow?: FlowAction;
   isAutoFight: boolean;
+  encounterResult: any;
 }
 
 export const initialState:MainState = {
@@ -44,6 +45,7 @@ export const initialState:MainState = {
   mobList: [],
   flow: null,
   isAutoFight: false,
+  encounterResult: null,
 };
 
 export const 
@@ -64,8 +66,8 @@ export const
   TALK  = action('talk'),
   ENCOUNTER_BEGIN  = action('encounter-begin'),
   ENCOUNTER_OUTCOME  = action('encounter-outcome'),
+  ENCOUNTER_RESULT  = action('encounter-result'),
   LEVEL_UP_HERO  = action('level-up-hero'),
-  SET_DAMAGE_RESULT  = action('set-damage-result'),
   USER_ACT = action("user-act"),
   PLAY_ACTION = action("play-action"),
   PLAY_OUTCOME = action("play-outcome"),
@@ -78,7 +80,7 @@ export const
   PLAY_ACTION_ANIM = action('play-action-anim')
 ;
 
-export const gameReducer = (state:MainState, {type, payload}) => {
+export const gameReducer = (state:MainState, {type, payload}):MainState => {
   switch (type) {
     case SET_HERO: return {...state, hero: payload};
     case MOD_HERO: return {...state, hero: payload(state.hero), combatResult:null};
@@ -93,12 +95,10 @@ export const gameReducer = (state:MainState, {type, payload}) => {
         : state;
     };
     case FOCUS_ON: return {...state, focus: payload};
-    case FIGHT: return useFullCheck(fightRound(state));
-    case SKILL: return useFullCheck(skillRound(state));
-    case TALK:  return useFullCheck(talkRound(state));
     case PLAY_ACTION_ANIM: return {...state, actionAnim: payload};
     case PLAY_FLOW: return {...state, flow: payload};
-    case SET_DAMAGE_RESULT: return {...state, damageResult: payload};
+    case ENCOUNTER_BEGIN: return {...state, encounterResult: null};
+    case ENCOUNTER_RESULT: return {...state, encounterResult: payload};
     case SET_AUTO_FIGHT: return {...state, isAutoFight: payload};
 
     case LEVEL_UP_HERO: return {...state, hero: increaseLevel(1)(state.hero)}
@@ -107,15 +107,6 @@ export const gameReducer = (state:MainState, {type, payload}) => {
 };
 
 const lostFocus = s => s
-
-const useFullCheck = ({focus, entities, ...rest}) => {
-  const {condition:{staminaState, focusState, moraleState}} = entities[focus] as Mob;
-  return staminaState > 0 
-      && focusState > 0 
-      && moraleState > 0
-        ? {focus, entities, ...rest} 
-        : {focus: null, entities, ...rest}; 
-};
 
 const checkIsLive = ({condition}:Mob) => (
      condition.staminaState > 0 

@@ -1,4 +1,4 @@
-import { rnd, uid } from '../rpg/rpg';
+import { rnd, uid, pickOne } from '../rpg/rpg';
 import HeroCard from '../gui/HeroCard';
 import getConfig from 'next/config';
 
@@ -6,6 +6,7 @@ import { FaceSprite, LoginWindow, Button } from '../gui/setOfGuiElements';
 import { GameMode } from '../rpg/singlePlayerTroll';
 import { mobFactory, Team, traitsFactory } from '../rpg/profession';
 import { generateName } from '../rpg/generateName';
+import { limitedProfessionWithSkills } from '../rpg/limitedProfessionWithSkills';
 
 export default function CreateHero({state, army}) {
   const { hero } = state;
@@ -19,7 +20,7 @@ export default function CreateHero({state, army}) {
     0,
     uid(),
     Team.PLAYER,
-    traitsFactory(rnd(4)+5)
+    traitsFactory(1, pickOne(limitedProfessionWithSkills))
   ));
   const handleLetsAdventure = () => {
     setGameState(GameMode.ADVENTURE_ON_MAP);

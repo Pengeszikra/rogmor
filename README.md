@@ -200,3 +200,77 @@ Seems it is works fine in reality. This way the whole progress can be followed. 
 ## Design note by Samsung galaxy S6lite tablet
 
 ![design note by samsung s6lite tablet](./src/_documents/rogmor-s6-design.png) 
+
+## first interactive auto fight capable combat process saga
+
+```ts
+export function * combatZoneSaga() {
+  while (true) {
+    yield take(ENCOUNTER_BEGIN);
+
+    const {hero}:MainState = yield select();
+
+    const pickProf = () => pickOne(Object.keys(skillForProf))
+
+    const testTeams = yield getTeams();
+    
+    const combatSetupMobList = testTeams.map(
+      ([lvl, type, team, avatar]:[number, ProfessionKey, Team, number]) => 
+        makeMob(lvl, type, team, avatar)
+    );
+
+    yield putAction(SET_MOB_LIST, combatSetupMobList)
+    let mobList = combatSetupMobList;
+
+    _CombatIsOver_: while (true) {
+      const order = actionOrder(mobList);
+
+      while (order.length) {
+        const [actor]:OrderOfSeed = order.shift();
+        yield putAction(PLAY_FLOW, {who: actor.uid});
+        const skillList = getSkillObject(actor);
+
+        const {isAutoFight} = yield select();
+        const subList= yield call(userChiceTheSkillSaga, skillList, actor, isAutoFight)
+
+        _NextActor_: while (true) {
+          if (subList.length < 1) break _NextActor_;
+
+          const [, command] = yield race([
+            delay(BATTLE_SPEED),
+            take([HEART_BEAT, ENCOUNTER_OUTCOME]),
+          ])
+
+          if (command?.type === ENCOUNTER_OUTCOME) break _CombatIsOver_;
+
+          const skill = subList.shift();
+          const [aiTargetting, skillResult] = getSkillResult(actor, skill, mobList);
+          yield putAction(PLAY_FLOW, aiTargetting);
+          yield putAction(PLAY_FLOW, skillResult);
+          mobList = yield call(skillReducer, mobList, skillResult);
+          yield putAction(SET_MOB_LIST, mobList);
+
+          const isTwoTeam = mobList
+            .filter(isCapableToAction)
+            .map(mob => mob.team)
+            .find((item, _, arr) => arr.indexOf(item) !== 0)
+          ;
+
+          if(!isTwoTeam) {
+            yield take([HEART_BEAT, ENCOUNTER_OUTCOME]);
+            yield putAction(FOCUS_ON, null);
+            break _CombatIsOver_;
+          }
+        }
+      }
+    }
+    yield putAction(SET_MOB_LIST, [])
+  }
+}
+
+function * userChiceTheSkillSaga(skillList:Partial<SlashObject>[][], actor:Mob, isAutoFight: boolean) {
+  if (actor.team !== Team.GOOD || isAutoFight) return skillList.at(0)
+  const {payload: skillIndex} = yield take([USE_SKILL, SET_AUTO_FIGHT]);
+  return skillList.at(skillIndex);
+}
+```

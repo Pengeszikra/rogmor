@@ -15,7 +15,7 @@ const HERO_STARTING_COORD = 6005;
 
 export default function SingleAdventure({state, army}) {
   const {hero, entities, focus, actionAnim, combatResult} = state as MainState;
-  const {modHero, setGameState, setupEntities, focusOn, fight, skill, talk, playActionAnim, setHero, levelUpHero, setDamageResult, encounterBegin} = army;
+  const {modHero, setGameState, setupEntities, focusOn, playActionAnim, setHero, levelUpHero, encounterBegin} = army;
 
   const mapRef = useRef(null);
 
@@ -73,7 +73,6 @@ export default function SingleAdventure({state, army}) {
   const moveHero = direction => ({coord, ...rest}) => {
     const target = coord + direction;
     focusOn(null);
-    setDamageResult(null);
     if (dryLand.includes(target)) {
       const who = Object.values(entities).filter(capableOfAction).find(({coord}) => coord === target );
       if (who) {
