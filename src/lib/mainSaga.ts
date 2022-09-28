@@ -54,7 +54,7 @@ export function * combatZoneSaga() {
     _CombatIsOver_: while (true) {
       const order = actionOrder(mobList);
 
-      while (order.length) {d
+      while (order.length) {
         const [actor]:OrderOfSeed = order.shift();
         yield putAction(PLAY_FLOW, {who: actor.uid});
         const skillList = getSkillObject(actor);
