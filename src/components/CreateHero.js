@@ -7,6 +7,8 @@ import { GameMode } from '../rpg/singlePlayerTroll';
 import { mobFactory, Team, traitsFactory } from '../rpg/profession';
 import { generateName } from '../rpg/generateName';
 import { limitedProfessionWithSkills } from '../rpg/limitedProfessionWithSkills';
+import { MainState } from 'src/rpg/singlePlayerTroll';
+import { skillForProf } from 'src/rpg/limitedProfessionWithSkills';
 
 export default function CreateHero({state, army}) {
   const { hero } = state;
@@ -22,10 +24,16 @@ export default function CreateHero({state, army}) {
     Team.PLAYER,
     traitsFactory(1, pickOne(limitedProfessionWithSkills))
   ));
+  
   const handleLetsAdventure = () => {
     setGameState(GameMode.ADVENTURE_ON_MAP);
     return;
   };
+
+  const heroSkillDescription = (hero)
+    ? skillForProf[hero.professionType]
+    : []
+  ;
 
   return (<>
     <LoginWindow style={{margin:'0 auto'}}>
@@ -42,6 +50,7 @@ export default function CreateHero({state, army}) {
 
     <button className="bg-sky-800 hover:bg-sky-600 p-2 text-lg rounded-lg w-full my-4" onClick={handleRollHero}>Roll your character</button>
     {hero && <HeroCard hero={hero} style={{fontSize:17}}/>}
+    {hero && (<section>{heroSkillDescription.map((descript, index) => <p className='m-2'><span className="text-sky-500">{["Alfa","Beta","Gamma","Delta","Epsilon"][index]}: </span>{descript}</p>)}</section>)}
     {hero && (
       <section className="my-4">
         <figure className="face-sprite absolute left-8 z-20 scale-150" data-face={hero.avatar} />

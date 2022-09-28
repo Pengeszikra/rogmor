@@ -1,49 +1,18 @@
 import { take, fork, call, all, delay, select, cancel, race } from 'redux-saga/effects';
 import { 
   ENCOUNTER_RESULT, ENCOUNTER_BEGIN, ENCOUNTER_OUTCOME, FOCUS_ON, 
-  GameMode, HEART_BEAT, MainState, PLAY_ACTION, PLAY_FLOW, 
-  PLAY_OUTCOME, SETUP_ENTITIES, SET_AUTO_FIGHT, SET_GAME_STATE, 
-  SET_MOB_LIST, USER_ACT, USE_SKILL, LEVEL_UP_HERO } from '../rpg/singlePlayerTroll';
+  HEART_BEAT, MainState, PLAY_FLOW, SET_AUTO_FIGHT, 
+  SET_MOB_LIST, USE_SKILL, LEVEL_UP_HERO } from '../rpg/singlePlayerTroll';
 import { putAction } from '../util/putAction';
 import { Mob, Team, ProfessionKey, mobFactory, traitsFactory } from '../rpg/profession';
 import { improved, dice, pickOne, uid } from '../rpg/rpg';
-import { slashParse, slashImprovedParser, SlashObject, getSkillResult, skillReducer, actionOrder} from 'src/rpg/slash';
-import { isCapableToAction } from '../rpg/slash';
+import { isCapableToAction, slashImprovedParser, SlashObject, getSkillResult, skillReducer, actionOrder} from '../rpg/slash';
+import { OrderOfSeed } from '../rpg/definitions'
+import { skillForProf } from '../rpg/limitedProfessionWithSkills';
 
 const slash = p => p;
 
 const BATTLE_SPEED = 222;
-
-export interface Effect {
-  id: string;
-  type: string;
-}
-export interface Act {
-  id: string;
-  type: string;
-  cooldown: number;
-  tick: number;
-  script: string;
-}
-
-export interface ActInstance {
-  act: Act;
-  actor: Mob;
-  targetList: Mob[];
-  timestamp?: number;
-}
-
-export interface Encounter {
-  mobList: Mob[];
-  actList: ActInstance[];
-  targetList: Mob[];
-  showTime: Effect[];
-}
-
-export type OrderOfSeed = [Mob, number];
-
-export enum Outcome { ENDED };
-export type OutcomeList = Outcome[];
 
 export function * mainSaga() {
   yield all([
@@ -54,15 +23,6 @@ export function * mainSaga() {
 const makeMob = (lvl:number, prof:ProfessionKey, team:Team = Team.GOOD, avatar) => mobFactory(
   `${prof} level:${lvl}`, avatar, 1, uid(), team, traitsFactory(lvl, prof)
 );
-
-const skillForProf:Partial<Record<ProfessionKey, string[]>> = {
-  'chaosKnight': ['instant target-rnd hit-soul power-1; instant target-rnd hit-body power-1; instant target-rnd hit-aura power-1','fill-3 target hit-body power-4','fill-4 target-all hit-soul power-2'],
-  'bishop': ['instant target-ally heal; instant target-rnd hit-body', 'instant target hit-soul power-2','fill-3 tsa heal-2','fill-4 target-all-ally heal-3'],
-  'icelander': ['instant target-all hit-body','fill-3 target-all hit-body power-2','fill-4 target-rnd hit-body power-4'],
-  'ninja': ['instant target hit-body power-[2.4]','fill-4 target-all hit-body power-2','fill-2 target hit-body power-4'],
-  'samurai': ['instant target hit-body power-2','fill-2 target hit-body power-4','fill-4 target-all hit-body power-2'],
-  'merchant': ['instant target hit-aura; instant target-rnd hit-soul power-2','fill-2 target hit-aura power-2','fill-4 target-all hit-aura'],
-};
 
 const getSkillObject = (m:Mob):Partial<SlashObject>[][] => skillForProf[m.professionType].map(slashImprovedParser);
 
@@ -94,15 +54,15 @@ export function * combatZoneSaga() {
     _CombatIsOver_: while (true) {
       const order = actionOrder(mobList);
 
-      while (order.length) {
+      while (order.length) {d
         const [actor]:OrderOfSeed = order.shift();
         yield putAction(PLAY_FLOW, {who: actor.uid});
         const skillList = getSkillObject(actor);
 
         // mob always use A1
         const {isAutoFight} = yield select();
-        const subList= yield call(userChiceTheSkillSaga, skillList, actor, isAutoFight)
-        // console.log(subList, actor);
+        const subList = yield call(userChiceTheSkillSaga, skillList, actor, isAutoFight)
+        if (subList === null) break _CombatIsOver_;
 
         _NextActor_: while (true) {
           if (subList.length < 1) break _NextActor_;
@@ -128,7 +88,6 @@ export function * combatZoneSaga() {
           ;
 
           if(!isTwoTeam) {
-            yield take([HEART_BEAT, ENCOUNTER_OUTCOME]);
             yield putAction(FOCUS_ON, null);
             break _CombatIsOver_;
           }
@@ -141,12 +100,22 @@ export function * combatZoneSaga() {
 
 function * userChiceTheSkillSaga(skillList:Partial<SlashObject>[][], actor:Mob, isAutoFight: boolean) {
   if (actor.team !== Team.GOOD || isAutoFight) return skillList.at(0)
-  const {payload: skillIndex} = yield take([USE_SKILL, SET_AUTO_FIGHT]);
-  return skillList.at(skillIndex);
+  const {payload: skillIndex, type} = yield take([USE_SKILL, SET_AUTO_FIGHT, ENCOUNTER_OUTCOME]); // TODO really bad solution!
+  return (type !== ENCOUNTER_OUTCOME)
+    ? skillList.at(skillIndex)
+    : null
+  ;
 }
 
 function * calculateEncounterResultSaga(mobList:Mob[]) {
+  // const {hero} = yield select();
   yield putAction(SET_MOB_LIST, []);
-  yield putAction(ENCOUNTER_RESULT, mobList);
+  const survivors = mobList.filter(isCapableToAction);
+  const heroTeams = survivors.filter(mob => mob.team === Team.GOOD)
+
+  yield putAction(
+    ENCOUNTER_RESULT, 
+    survivors.length - heroTeams.length
+  );
   yield putAction(LEVEL_UP_HERO, 1);
 }
