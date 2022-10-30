@@ -6,4 +6,4 @@ export const resolvers = {
       .map(([id, prof]) => ({id, ...prof, sum: prof.body + prof.reflex + prof.soul + prof.aura}))
     ,
   }
-};
+}; 

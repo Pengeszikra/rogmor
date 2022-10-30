@@ -92,7 +92,11 @@ export const slashParse:SlashParser = slashSource => slashSource
       case 'hit-body': case 'hb': return {doit:Doit.HIT, type: HitType.BODY, mul: 1};
       case 'hit-soul': case 'hs': return {doit:Doit.HIT, type: HitType.SOUL, mul: 1};
       case 'hit-aura': case 'hp': return {doit:Doit.HIT, type: HitType.AURA, mul: 1};
-      case 'hit-combat': case 'hc': return {doit:Doit.HIT, type: HitType.BODY | HitType.SOUL, mul: 1};
+      case 'hit-combat': case 'hc': return {doit:Doit.DRAIN, type: HitType.BODY | HitType.SOUL, mul: 1};
+      case 'drain-body': case 'hb': return {doit:Doit.DRAIN, type: HitType.BODY, mul: 1};
+      case 'drain-soul': case 'hs': return {doit:Doit.DRAIN, type: HitType.SOUL, mul: 1};
+      case 'drain-aura': case 'hp': return {doit:Doit.DRAIN, type: HitType.AURA, mul: 1};
+      case 'drain-combat': case 'hc': return {doit:Doit.HIT, type: HitType.BODY | HitType.SOUL, mul: 1};
       case 'power': case 'power-1': case 'p-1': return {mul: 1};
       case 'power-2': case 'p-2': return {mul: 2};
       case 'power-3': case 'p-3': return {mul: 3};
@@ -135,7 +139,7 @@ export const slashParse:SlashParser = slashSource => slashSource
 ;
 
 export enum Doit {
-  SELECT, TARGET, HIT, HEAL, BLESS, RESSURECT, SHIELD, STUN, DIE, BRIBE,
+  SELECT, TARGET, HIT, HEAL, BLESS, RESSURECT, SHIELD, STUN, DIE, BRIBE, DRAIN,
 }
 
 export type TargetMobId = string;

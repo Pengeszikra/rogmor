@@ -61,7 +61,7 @@ export function * combatZoneSaga() {
 
         // mob always use A1
         const {isAutoFight} = yield select();
-        const subList = yield call(userChiceTheSkillSaga, skillList, actor, isAutoFight)
+        const subList = yield call(userChoiceTheSkillSaga, skillList, actor, isAutoFight)
         if (subList === null) break _CombatIsOver_;
 
         _NextActor_: while (true) {
@@ -98,7 +98,7 @@ export function * combatZoneSaga() {
   }
 }
 
-function * userChiceTheSkillSaga(skillList:Partial<SlashObject>[][], actor:Mob, isAutoFight: boolean) {
+function * userChoiceTheSkillSaga(skillList:Partial<SlashObject>[][], actor:Mob, isAutoFight: boolean) {
   if (actor.team !== Team.GOOD || isAutoFight) return skillList.at(0)
   const {payload: skillIndex, type} = yield take([USE_SKILL, SET_AUTO_FIGHT, ENCOUNTER_OUTCOME]); // TODO really bad solution!
   return (type !== ENCOUNTER_OUTCOME)
