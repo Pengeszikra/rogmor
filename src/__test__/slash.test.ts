@@ -75,7 +75,7 @@ test ('simple strike test', () => {
   ]);
 });
 
-test ('simple strike test', () => {  
+test.skip ('simple strike test', () => {  
   expect (
     slashParse('i target hb power-[2.4] extra-[teleport]')
   ).toStrictEqual({

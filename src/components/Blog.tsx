@@ -13,7 +13,7 @@ interface Message {
   name?: string;
   avatar?: string;
 }
-
+ 
 export interface IBlogWriter {
   name: string;
   avatar: string;
@@ -38,16 +38,23 @@ export const Blog:FC<IBlogWriter> = ({name, avatar}) => {
       .then(setList)
   }, []);
   
-  const sendMessageToSocket = () => {
-    if (message && avatar && name) {
-      setMessage("");
-      fetch(`/api/blog?name=${name}&avatar=${avatar}&msg=${message}`)
+  const sendMessageToSocket = async () => {
+    if (!message || !avatar || !name) return;
+    setMessage("");
+    const [,msg] = message.match(/^:: (.*)/) ?? [];
+
+    await fetch(`/api/blog?name=${name}&avatar=${avatar}&msg=${msg ?? message}`)
+      .then(r => r.json())
+      .then(setList);
+
+    if (msg) {
+      const answer = await fetch(`api/ai?seek=${encodeURIComponent(msg)}`).then(r => r.text());
+
+      await fetch(`/api/blog?name=Sage&avatar=${21}&msg=${answer}`)
         .then(r => r.json())
-        .then((result) => {
-          setList(result);
-        });
-    };
-  }
+        .then(setList);
+    }
+  };
 
   return name ? (
     <section>
@@ -67,7 +74,7 @@ export const Blog:FC<IBlogWriter> = ({name, avatar}) => {
                     <span className='text-xl text-sky-500'>{post.name}</span>
                   </section>
                 )}
-                <p className='p-2 whitespace-normal text-base'>{post.msg}</p>
+                <p className='p-2 whitespace-normal text-base'>{(post.msg ?? "").replaceAll('"','').split('\\n').map((line, idx) => <p key={idx}>{line}</p>)}</p>
               </div>
             )
           )

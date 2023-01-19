@@ -1,5 +1,4 @@
 import { actionFactory, kebabToCamelCase } from 'react-troll';
-import { physicalStrike, socialTalk, soulSkill } from '../gui/battleSaga';
 import { increaseLevel, Mob } from './profession';
 import { FlowAction } from './slash';
 
@@ -113,20 +112,3 @@ const checkIsLive = ({condition}:Mob) => (
   && condition.focusState > 0 
   && condition.moraleState > 0
 );
-
-const interactionRound = interaction => ({hero, entities, round, focus, combatResult, ...rest}) => {
-  const [hMod, npcMod, damageResult] = interaction(hero, entities[focus], round);
-  const heroIsDie = !checkIsLive(hMod);
-  const npcIsDie = !checkIsLive(npcMod);
-  const newCombatResult = heroIsDie
-    ? CombatOutcome.HERO_DIE
-    : npcIsDie
-      ? {outcome: CombatOutcome.NPC_DIE, npc: npcMod}
-      : CombatOutcome.OVER_WITHOUT_LOSS
-  ;
-  return {...rest, hero:hMod, round: round + 1, focus, entities:{...entities, [npcMod.uid]:npcMod}, combatResult: newCombatResult, damageResult};
-};
-
-const fightRound = interactionRound(physicalStrike);
-const skillRound = interactionRound(soulSkill);
-const  talkRound = interactionRound(socialTalk);

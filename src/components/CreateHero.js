@@ -50,7 +50,7 @@ export default function CreateHero({state, army}) {
 
     <button className="bg-sky-800 hover:bg-sky-600 p-2 text-lg rounded-lg w-full my-4" onClick={handleRollHero}>Roll your character</button>
     {hero && <HeroCard hero={hero} style={{fontSize:17}}/>}
-    {hero && (<section>{heroSkillDescription.map((descript, index) => <p className='m-2'><span className="text-sky-500">{["Alfa","Beta","Gamma","Delta","Epsilon"][index]}: </span>{descript}</p>)}</section>)}
+    {hero && (<section>{heroSkillDescription.map((descript, index) => <p className='m-2' key={index}><span className="text-sky-500">{["Alfa","Beta","Gamma","Delta","Epsilon"][index]}: </span>{descript}</p>)}</section>)}
     {hero && (
       <section className="my-4">
         <figure className="face-sprite absolute left-8 z-20 scale-150" data-face={hero.avatar} />
