@@ -274,3 +274,9 @@ function * userChiceTheSkillSaga(skillList:Partial<SlashObject>[][], actor:Mob, 
   return skillList.at(skillIndex);
 }
 ```
+
+# AI content creation slowly take a place
+
+![Design Something](./src/_documents/rogmor-design-something.png)
+
+Image generation with [DALL-E](https://platform.openai.com/docs/guides/images) AI api endpoints

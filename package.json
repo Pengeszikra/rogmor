@@ -1,6 +1,6 @@
 {
   "name": "rogmor",
-  "version": "0.3.95",
+  "version": "0.3.97",
   "private": true,
   "dependencies": {
     "apollo-server-micro": "^3.10.0",
