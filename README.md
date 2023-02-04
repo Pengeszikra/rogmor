@@ -275,8 +275,24 @@ function * userChiceTheSkillSaga(skillList:Partial<SlashObject>[][], actor:Mob, 
 }
 ```
 
+## Five Times Seven
+
+My imagine is I made whole game on gird 5 x 7, so this is fine for vertical mobile setup. With this single css attribute I can setup the size of item.
+
+> Goal is: really fast and easy UI module in react.
+
+```css
+ .container {
+   display: grid;
+   grid: repeat( 7, 7em) / repeat( 5, 5em);  
+ } 
+ .item { gridArea: 4 / 1 / 7 / 6; }
+```
+
 # AI content creation slowly take a place
 
 ![Design Something](./src/_documents/rogmor-design-something.png)
 
 Image generation with [DALL-E](https://platform.openai.com/docs/guides/images) AI api endpoints
+
+# AI Explore the whole world, and meanwhile write down every details about places.
