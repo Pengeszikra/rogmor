@@ -24,7 +24,7 @@ export default () => {
       <div className='grid'>
         <input className="bg-black text-white m-2 text-center p-1 rounded-md border-sky-800 border" type="text" placeholder='prompt' value={seek} onChange={e => setSeek(e.target.value)} />
         <section className='grid grid-cols-2'>
-          <input className="bg-black text-white m-2 text-center p-1 rounded-md border-sky-800 border" type="number" value={n} onChange={e => setN(+ e.target.value)} />
+          <input className="bg-black text-white m-2 text-center p-1 rounded-md border-sky-800 border" type="number" value={n} min={1} max={8} onChange={e => setN(+ e.target.value)} />
           <select className="bg-black text-white m-2 text-center p-1 rounded-md border-sky-800 border" value={size} onChange={e => setSize(e.target.value)}>
             <option value="256x256">256x256</option>
             <option value="512x512">512x512</option>
@@ -32,7 +32,8 @@ export default () => {
           </select>
         </section>
   
-        <button className='bg-sky-800 hover:bg-sky-600 m-2 p-2 rounded-md' onClick={getImage}>Get Image</button>
+        {/* <button className='bg-sky-800 hover:bg-sky-600 m-2 p-2 rounded-md' onClick={getImage} >Get Image</button> */}
+        <a className='bg-sky-800 hover:bg-sky-600 m-2 p-4 rounded-md text-center text-lg' href={`/`} target='_blank' >Back to play</a>
         
 
       

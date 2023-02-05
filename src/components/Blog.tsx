@@ -1,5 +1,6 @@
 import { useState, useEffect, FC } from 'react';
 import { FaceSprite } from '../gui/setOfGuiElements';
+import ReactMarkdown from 'react-markdown';
 
 interface InputEvent {
   target: {
@@ -41,19 +42,35 @@ export const Blog:FC<IBlogWriter> = ({name, avatar}) => {
   const sendMessageToSocket = async () => {
     if (!message || !avatar || !name) return;
     setMessage("");
-    const [,msg] = message.match(/^:: (.*)/) ?? [];
+    const [,ask] = message.match(/^:: (.*)/) ?? [];
+    const [,pic] = message.match(/^.. (.*)/) ?? [];
 
-    await fetch(`/api/blog?name=${name}&avatar=${avatar}&msg=${msg ?? message}`)
+    await fetch(`/api/blog?name=${name}&avatar=${avatar}&msg=${ask ?? pic ?? message}`)
       .then(r => r.json())
       .then(setList);
 
-    if (msg) {
-      const answer = await fetch(`api/ai?seek=${encodeURIComponent(msg)}`).then(r => r.text());
+    if (ask) {
+      // const answer = await fetch(`api/ai?seek=${encodeURIComponent(ask)}`).then(r => r.text());
+      const answer = await fetch(`api/ai?seek=${encodeURIComponent(ask)}`).then(r => r.json());
 
-      await fetch(`/api/blog?name=Sage&avatar=${21}&msg=${answer}`)
+      console.log(answer);
+
+      await fetch(`/api/blog?name=Sage&avatar=${21}&msg=${JSON.stringify(answer)}`)
         .then(r => r.json())
         .then(setList);
     }
+
+//     if (pic) {
+//        const {data} = await fetch(`/api/ai-image?seek=${pic} paint&n=${1}&size=${'256x256'}`).then(r => r.json());
+//        console.log(data);
+// 
+//       if (data?.[0]?.url) {
+//         await fetch(`/api/blog?name=Oraculum&avatar=${22}&msg=![${pic}](${data[0].url})`)
+//           .then(r => r.json())
+//           .then(setList);
+//       }
+// 
+//     }
   };
 
   return name ? (
@@ -75,6 +92,8 @@ export const Blog:FC<IBlogWriter> = ({name, avatar}) => {
                   </section>
                 )}
                 <p className='p-2 whitespace-normal text-base'>{(post.msg ?? "").replaceAll('"','').split('\\n').map((line, idx) => <p key={idx}>{line}</p>)}</p>
+                {/* <pre className='p-2 whitespace-normal text-base'>{JSON.stringify(post.msg, null, 2)}</pre> */}
+
               </div>
             )
           )
