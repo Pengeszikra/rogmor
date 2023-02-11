@@ -3,6 +3,13 @@
 I founded my old RPG graphic on my desktop, so my plan is create some RPG 
 game on react stack, maybe PWA output, easy as possible.
 
+## AI improvements 
+( - - this README is very organic, updated time to time, very sensitive of development process - - )
+
+In this year - 2023 - the AI ... chatGPT give me many idea about how can I help to improve my developing process, I post basic things about in this post:
+
+[Using ChatGPT for Complex Fantasy Story and Programming Creation](https://dev.to/pengeszikra/using-chatgpt-for-complex-fantasy-story-and-programming-creation-5go5)
+
 ## Next goal:
 reworking this project to ```typescript``` and ```nextjs``` builded by ```SWC```
 
@@ -296,3 +303,32 @@ My imagine is I made whole game on gird 5 x 7, so this is fine for vertical mobi
 Image generation with [DALL-E](https://platform.openai.com/docs/guides/images) AI api endpoints
 
 # AI Explore the whole world, and meanwhile write down every details about places.
+
+## chatGPT fetch
+
+```js
+const getHeader = key => new Headers({
+  'Authorization': `Bearer ${key}`, 
+  'Content-Type': 'application/json'
+});
+// get from :: https://platform.openai.com/account/api-keys
+const headers = getHeader('< YOUR-API-KEY >')
+const ai = seek => fetch(
+  "https://api.openai.com/v1/completions",
+  {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({
+      "model": "text-davinci-003",
+      "prompt": seek,
+      "max_tokens": 2000,
+      "temperature": 1.0
+    })
+  }
+)
+  .then(res => res.json())
+  .then(res => res.choices[0].text)
+  .then(console.log)
+  .catch(console.error)
+;
+```
