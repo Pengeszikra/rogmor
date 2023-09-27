@@ -5,6 +5,7 @@
   "dependencies": {
     "apollo-server-micro": "^3.10.0",
     "crypto-js": "^4.1.1",
+    "dream-api": "^1.0.9",
     "graphql": "^16.5.0",
     "micro": "^9.4.1",
     "micro-cors": "^0.1.1",
@@ -29,12 +30,14 @@
   },
   "devDependencies": {
     "@babel/core": "^7.18.2",
+    "@cypress/snapshot": "^2.1.7",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@types/node": "17.0.42",
     "@types/react": "18.0.12",
     "@types/react-dom": "18.0.5",
     "autoprefixer": "^10.4.7",
+    "cypress": "^12.10.0",
     "eslint": "^8.17.0",
     "eslint-config-next": "12.1.6",
     "eslint-plugin-react": "^7.20.0",

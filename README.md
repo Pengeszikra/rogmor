@@ -332,3 +332,18 @@ const ai = seek => fetch(
   .catch(console.error)
 ;
 ```
+
+# dream.ai api
+
+```js
+
+const token = await Dream.signUp(['csakracsongor@gmail.com','tapad4Pacal','csakracs'])
+
+{
+  "kind": "identitytoolkit#SignupNewUserResponse",
+  "idToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjE2ZGE4NmU4MWJkNTllMGE4Y2YzNTgwNTJiYjUzYjUzYjE4MzA3NzMiLCJ0eXAiOiJKV1QifQ.eyJwcm92aWRlcl9pZCI6ImFub255bW91cyIsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9wYWludC1wcm9kIiwiYXVkIjoicGFpbnQtcHJvZCIsImF1dGhfdGltZSI6MTY4MjExMzAzNiwidXNlcl9pZCI6IjFqa256dFl3aTZXMmVoNTY1UjhUMDJDdUxaNjIiLCJzdWIiOiIxamtuenRZd2k2VzJlaDU2NVI4VDAyQ3VMWjYyIiwiaWF0IjoxNjgyMTEzMDM2LCJleHAiOjE2ODIxMTY2MzYsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnt9LCJzaWduX2luX3Byb3ZpZGVyIjoiYW5vbnltb3VzIn19.VOylVp7klkdOd4uP10TucrbZ9xGzPAXBoiXa-OMEkLpMwPi0XGcuVoud1q4lq2I41frV0aCHHSSd8ykSjD3heAUfuUnTszXC_i529ymojJKqzcaAOZGYSvj08ucNymFmPwKGHNPJF3rFVRt4Bv_fpjN1g2EjwHoS7cfNSyFFTj0VfMajL_gxeBTJcDASf1HcTLVMYK7qszcYEbIiSVOw4SfjxmvWF10AajTE3RAz1VXUZiK4_oozsbbWuICQICxc3eSK4L8W4s2ROGPA7Sz9nwSxmkEEvOqwplQj8GcFv0JZrnA2HBUE-EI8PWk7qfHskQB_90vU4ymePqyoN4YTxA",
+  "refreshToken": "APJWN8chQ1d5WrL0JGsFvD_nNreSzee41-YhXvMNDjxQDh-IbEUxh-F2kWNUWP4igIGxM7ANw21HV0EkLEdUBgeBWzMj_AO9zjpw2La5DcKt7oOyCOvOwyric7UCxrz3wGMJi_VXnZ_3H4xCAIodo2BRxVXR6jCIOkSjNEWB63UWjgq7SFF3uQI",
+  "expiresIn": "3600",
+  "localId": "1jknztYwi6W2eh565R8T02CuLZ62"
+}
+```

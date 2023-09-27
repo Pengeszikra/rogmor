@@ -33,7 +33,6 @@ export default function SingleAdventure({state, army}) {
     setTimeout(_ => playActionAnim(null) , 330);
   };
 
-
   useEffect( () => {
     const area = dryLand
       .filter(coord => coord !== HERO_STARTING_COORD)
@@ -78,7 +77,7 @@ export default function SingleAdventure({state, army}) {
       if (who) {
         focusOn(who?.uid);
         encounterBegin();
-        return ({coord, ...rest});  
+        return ({coord, ...rest});
       }
       return ({coord: target, ...rest});
     }

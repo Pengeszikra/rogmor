@@ -77,7 +77,7 @@ export const Blog:FC<IBlogWriter> = ({name, avatar}) => {
     <section>
         <div className="m-2 flex gap-2 text-lg font-mono">
           <input onChange={handleChangeMessage} className="p-2 w-64 bg-black text-white focus:outline-0 text-2xl font-sans" type="text" value={message} /> 
-          <button onClick={sendMessageToSocket} className="p-2">send</button>
+          <button onClick={sendMessageToSocket} className="send-btn p-2">send</button>
         </div>
 
         <div style={{width:'100%'}}>{list
