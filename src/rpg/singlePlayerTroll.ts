@@ -1,8 +1,6 @@
-import { actionFactory, kebabToCamelCase } from 'react-troll';
 import { increaseLevel, Mob } from './profession';
 import { FlowAction } from './slash';
-
-export const [getActionsLookup, action] = actionFactory(kebabToCamelCase);
+import { Labels, TypedActionMap } from 'react-state-factory';
 
 export enum GameMode {
   ROLL_CHARACTER,
@@ -47,60 +45,88 @@ export const initialState:MainState = {
   encounterResult: null,
 };
 
-export const 
-  SET_HERO = action('set-hero'),
-  MOD_HERO = action('mod-hero'),
-  NEXT_ROUND = action('next-round'),
-  HEART_BEAT = action('heart-beat'),
-  USE_SKILL = action('use-skill'),
-  SET_GAME_STATE = action('set-game-state'),
-  SET_AUTO_FIGHT = action('set-auto-fight'),
-  SETUP_ENTITIES = action('setup-entities'),
-  MOD_ENTITI = action('mod-entiti'),
-  ADD_ENTITI = action('add-entiti'),
-  REMOVE_ENTITI = action('remove-entiti'),
-  FOCUS_ON = action('focus-on'),
-  FIGHT = action('fight'),
-  SKILL = action('skill'),
-  TALK  = action('talk'),
-  ENCOUNTER_BEGIN  = action('encounter-begin'),
-  ENCOUNTER_OUTCOME  = action('encounter-outcome'),
-  ENCOUNTER_RESULT  = action('encounter-result'),
-  LEVEL_UP_HERO  = action('level-up-hero'),
-  USER_ACT = action("user-act"),
-  PLAY_ACTION = action("play-action"),
-  PLAY_OUTCOME = action("play-outcome"),
-  ANIMATION_ENDED = action("animation-ended"),
-  ANIMATION_SKIPPED = action("animation-skipped"),
+export type ActionsMap = 
+  | { type: "SET_HERO", payload: any }
+  | { type: "MOD_HERO", payload: any }
+  | { type: "NEXT_ROUND", payload: any }
+  | { type: "HEART_BEAT", payload: any }
+  | { type: "USE_SKILL", payload: any }
+  | { type: "SET_GAME_STATE", payload: any }
+  | { type: "SET_AUTO_FIGHT", payload: any }
+  | { type: "SETUP_ENTITIES", payload: any }
+  | { type: "MOD_ENTITI", payload: any }
+  | { type: "ADD_ENTITI", payload: any }
+  | { type: "REMOVE_ENTITI", payload: any }
+  | { type: "FOCUS_ON", payload: any }
+  | { type: "FIGHT", payload: any }
+  | { type: "SKILL", payload: any }
+  | { type: "TALK", payload: any }
+  | { type: "ENCOUNTER_BEGIN", payload: any }
+  | { type: "ENCOUNTER_OUTCOME", payload: any }
+  | { type: "ENCOUNTER_RESULT", payload: any }
+  | { type: "LEVEL_UP_HERO", payload: any }
+  | { type: "USER_ACT", payload: any }
+  | { type: "PLAY_ACTION", payload: any }
+  | { type: "PLAY_OUTCOME", payload: any }
+  | { type: "ANIMATION_ENDED", payload: any }
+  | { type: "ANIMATION_SKIPPED", payload: any }
+  | { type: "SET_MOB_LIST", payload: any }
+  | { type: "PLAY_FLOW", payload: any }
+  | { type: "PLAY_ACTION_ANIM", payload: any }
 
-  SET_MOB_LIST = action('set-mob-list'),
-  PLAY_FLOW = action('play-flow'),
+export const labels:Labels<ActionsMap> = {
+  SET_HERO: 'SET_HERO',
+  MOD_HERO: 'MOD_HERO',
+  NEXT_ROUND: 'NEXT_ROUND',
+  HEART_BEAT: 'HEART_BEAT',
+  USE_SKILL: 'USE_SKILL',
+  SET_GAME_STATE: 'SET_GAME_STATE',
+  SET_AUTO_FIGHT: 'SET_AUTO_FIGHT',
+  SETUP_ENTITIES: 'SETUP_ENTITIES',
+  MOD_ENTITI: 'MOD_ENTITI',
+  ADD_ENTITI: 'ADD_ENTITI',
+  REMOVE_ENTITI: 'REMOVE_ENTITI',
+  FOCUS_ON: 'FOCUS_ON',
+  FIGHT: 'FIGHT',
+  SKILL: 'SKILL',
+  TALK: 'TALK',
+  ENCOUNTER_BEGIN: 'ENCOUNTER_BEGIN',
+  ENCOUNTER_OUTCOME: 'ENCOUNTER_OUTCOME',
+  ENCOUNTER_RESULT: 'ENCOUNTER_RESULT',
+  LEVEL_UP_HERO: 'LEVEL_UP_HERO',
+  USER_ACT: 'USER_ACT',
+  PLAY_ACTION: 'PLAY_ACTION',
+  PLAY_OUTCOME: 'PLAY_OUTCOME',
+  ANIMATION_ENDED: 'ANIMATION_ENDED',
+  ANIMATION_SKIPPED: 'ANIMATION_SKIPPED',
+  SET_MOB_LIST: 'SET_MOB_LIST',
+  PLAY_FLOW: 'PLAY_FLOW',
+  PLAY_ACTION_ANIM: 'PLAY_ACTION_ANIM'
+}
 
-  PLAY_ACTION_ANIM = action('play-action-anim')
-;
 
 export const gameReducer = (state:MainState, {type, payload}):MainState => {
   switch (type) {
-    case SET_HERO: return {...state, hero: payload};
-    case MOD_HERO: return {...state, hero: payload(state.hero), combatResult:null};
-    case NEXT_ROUND: return {...state, round: payload(state.round)};
-    case SET_GAME_STATE: return {...state, game:payload};
-    case SETUP_ENTITIES: return {...state, entities: payload};
-    case SET_MOB_LIST: return {...state, mobList: payload};
-    case MOD_ENTITI: {
+    case "SET_HERO": return {...state, hero: payload};
+    case "MOD_HERO": return {...state, hero: payload(state.hero), combatResult:null};
+    case "NEXT_ROUND": return {...state, round: payload(state.round)};
+    case "SET_GAME_STATE": return {...state, game:payload};
+    case "SETUP_ENTITIES": return {...state, entities: payload};
+    case "SET_MOB_LIST": return {...state, mobList: payload};
+    case "MOD_ENTITI": {
       const {entities} = state;
       return entities[payload?.uid] 
         ? {...state, entities: {...entities, [payload?.uid]: payload} }
         : state;
     };
-    case FOCUS_ON: return {...state, focus: payload};
-    case PLAY_ACTION_ANIM: return {...state, actionAnim: payload};
-    case PLAY_FLOW: return {...state, flow: payload};
-    case ENCOUNTER_BEGIN: return {...state, encounterResult: null};
-    case ENCOUNTER_RESULT: return {...state, encounterResult: payload};
-    case SET_AUTO_FIGHT: return {...state, isAutoFight: payload};
+    case "FOCUS_ON": return {...state, focus: payload};
+    case "PLAY_ACTION_ANIM": return {...state, actionAnim: payload};
+    case "PLAY_FLOW": return {...state, flow: payload};
+    case "ENCOUNTER_BEGIN": return {...state, encounterResult: null};
+    case "ENCOUNTER_RESULT": return {...state, encounterResult: payload};
+    case "SET_AUTO_FIGHT": return {...state, isAutoFight: payload};
 
-    case LEVEL_UP_HERO: return {...state, hero: increaseLevel(1)(state.hero)}
+    case "LEVEL_UP_HERO": return {...state, hero: increaseLevel(1)(state.hero)}
     default: return state;
   }
 };
@@ -112,3 +138,11 @@ const checkIsLive = ({condition}:Mob) => (
   && condition.focusState > 0 
   && condition.moraleState > 0
 );
+
+export interface StateArmy {
+  state: MainState;
+  army: TypedActionMap<{
+    type: any;
+    payload: any;
+  }, Labels<ActionsMap>>;
+}

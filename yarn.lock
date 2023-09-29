@@ -5585,6 +5585,11 @@ react-markdown@^8.0.5:
     unist-util-visit "^4.0.0"
     vfile "^5.0.0"
 
+react-state-factory@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/react-state-factory/-/react-state-factory-0.0.9.tgz#8ef8cdb539a8a97206bd5a39f741f882c58077bb"
+  integrity sha512-no/yt/mO59cAnDtg02Tdz/dH4ZCOQHVWIrT4R085UsBqd828m/Be19OlM3evPicAjh0gwg1jsfDLG/vuCo5LZg==
+
 react-troll@^0.0.4:
   version "0.0.4"
   resolved "https://registry.npmjs.org/react-troll/-/react-troll-0.0.4.tgz"
