@@ -15,7 +15,7 @@ reworking this project to ```typescript``` and ```nextjs``` builded by ```SWC```
 
 This is the next iteration of my dreams because it focus be realised as nextjs project. Rogmor development started bye a stackblitz application in next step is made of react application until now but now we focus go into the server.
 
-![compact view of development](./src/_documents/start-moment-of-nextjs.png)
+![compact view of development](./_documents/start-moment-of-nextjs.png)
 compact view of development
 
 [How to make a MMORPG](https://noobtuts.com/articles/how-to-make-a-mmorpg)
@@ -114,7 +114,7 @@ The big question is which database is perfect for this application?
 
 # system design with [arrows](https://arrows.app/#/local/id=o8r9F2OklqH_7JgWSXnt)
 
-![arrows.app](/src/_documents/RogmorTheNextRPG.svg)
+![arrows.app](/_documents/RogmorTheNextRPG.svg)
 
 ```
 MATCH path0 = (Talk)<--(NPC)-->()<--(Story)<--()<--(Hero)-->(Experience)<--(Story)<--(Skillset),
@@ -131,7 +131,7 @@ RETURN path0, path1, path2, path3, path4, path5, path6, path7
 I take few hour to solve the automatic vercel deployment from my gith repo.
 On Build & Development Settings drop down you can select nextjs instead of try output library set to `.next/`
 
-![nextjs to vercel build setup](./src/_documents/vercel-nextjs-buildset-as-nextjs.png)
+![nextjs to vercel build setup](./_documents/vercel-nextjs-buildset-as-nextjs.png)
 
 ```tsx
 export function * encounterSaga() {
@@ -196,7 +196,7 @@ Easy compose functionality
     soul-heal-4
 ```
 
-![Slash controlled fight](./src/_documents/rogmor-action-I.gif)
+![Slash controlled fight](./_documents/rogmor-action-I.gif)
 
 # TDD Test Drive Development
 Under Slash development, the TDD is a great help. Step by step implement the whole action process,
@@ -206,7 +206,7 @@ Seems it is works fine in reality. This way the whole progress can be followed. 
 
 ## Design note by Samsung galaxy S6lite tablet
 
-![design note by samsung s6lite tablet](./src/_documents/rogmor-s6-design.png) 
+![design note by samsung s6lite tablet](./_documents/rogmor-s6-design.png) 
 
 ## first interactive auto fight capable combat process saga
 
@@ -298,7 +298,7 @@ My imagine is I made whole game on gird 5 x 7, so this is fine for vertical mobi
 
 # AI content creation slowly take a place
 
-![Design Something](./src/_documents/rogmor-design-something.png)
+![Design Something](./_documents/rogmor-design-something.png)
 
 Image generation with [DALL-E](https://platform.openai.com/docs/guides/images) AI api endpoints
 
@@ -331,19 +331,4 @@ const ai = seek => fetch(
   .then(console.log)
   .catch(console.error)
 ;
-```
-
-# dream.ai api
-
-```js
-
-const token = await Dream.signUp(['csakracsongor@gmail.com','tapad4Pacal','csakracs'])
-
-{
-  "kind": "identitytoolkit#SignupNewUserResponse",
-  "idToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjE2ZGE4NmU4MWJkNTllMGE4Y2YzNTgwNTJiYjUzYjUzYjE4MzA3NzMiLCJ0eXAiOiJKV1QifQ.eyJwcm92aWRlcl9pZCI6ImFub255bW91cyIsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9wYWludC1wcm9kIiwiYXVkIjoicGFpbnQtcHJvZCIsImF1dGhfdGltZSI6MTY4MjExMzAzNiwidXNlcl9pZCI6IjFqa256dFl3aTZXMmVoNTY1UjhUMDJDdUxaNjIiLCJzdWIiOiIxamtuenRZd2k2VzJlaDU2NVI4VDAyQ3VMWjYyIiwiaWF0IjoxNjgyMTEzMDM2LCJleHAiOjE2ODIxMTY2MzYsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnt9LCJzaWduX2luX3Byb3ZpZGVyIjoiYW5vbnltb3VzIn19.VOylVp7klkdOd4uP10TucrbZ9xGzPAXBoiXa-OMEkLpMwPi0XGcuVoud1q4lq2I41frV0aCHHSSd8ykSjD3heAUfuUnTszXC_i529ymojJKqzcaAOZGYSvj08ucNymFmPwKGHNPJF3rFVRt4Bv_fpjN1g2EjwHoS7cfNSyFFTj0VfMajL_gxeBTJcDASf1HcTLVMYK7qszcYEbIiSVOw4SfjxmvWF10AajTE3RAz1VXUZiK4_oozsbbWuICQICxc3eSK4L8W4s2ROGPA7Sz9nwSxmkEEvOqwplQj8GcFv0JZrnA2HBUE-EI8PWk7qfHskQB_90vU4ymePqyoN4YTxA",
-  "refreshToken": "APJWN8chQ1d5WrL0JGsFvD_nNreSzee41-YhXvMNDjxQDh-IbEUxh-F2kWNUWP4igIGxM7ANw21HV0EkLEdUBgeBWzMj_AO9zjpw2La5DcKt7oOyCOvOwyric7UCxrz3wGMJi_VXnZ_3H4xCAIodo2BRxVXR6jCIOkSjNEWB63UWjgq7SFF3uQI",
-  "expiresIn": "3600",
-  "localId": "1jknztYwi6W2eh565R8T02CuLZ62"
-}
 ```
