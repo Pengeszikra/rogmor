@@ -114,7 +114,7 @@ The big question is which database is perfect for this application?
 
 # system design with [arrows](https://arrows.app/#/local/id=o8r9F2OklqH_7JgWSXnt)
 
-![arrows.app](/_documents/RogmorTheNextRPG.svg)
+![arrows.app](/documents/RogmorTheNextRPG.svg)
 
 ```
 MATCH path0 = (Talk)<--(NPC)-->()<--(Story)<--()<--(Hero)-->(Experience)<--(Story)<--(Skillset),
