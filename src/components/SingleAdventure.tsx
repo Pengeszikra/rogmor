@@ -1,11 +1,11 @@
-import {  useEffect, useRef } from "react";
+import {  FC, useEffect, useRef } from "react";
 
 import { dryLand, coordToStyle } from "../rpg/rogmorMap";
 import {  rnd, shuffle, uid, pickOne } from "../rpg/rpg";
 
 import HeroCard from "../gui/HeroCard";
 import { FaceSprite } from "../gui/setOfGuiElements";
-import { CombatOutcome, GameMode, MainState } from "../rpg/singlePlayerTroll";
+import { CombatOutcome, GameMode, MainState, StateArmy } from "../rpg/singlePlayerTroll";
 import { mobFactory, professionList, traitsFactory, Team, Mob } from "../rpg/profession";
 import { generateName } from "../rpg/generateName";
 
@@ -13,9 +13,9 @@ const capableOfAction = ({condition:{staminaState, focusState, moraleState}}:Mob
 
 const HERO_STARTING_COORD = 6005;
 
-export default function SingleAdventure({state, army}) {
+export const SingleAdventure:FC<StateArmy> = ({state, army}) => {
   const {hero, entities, focus, actionAnim, combatResult} = state as MainState;
-  const {modHero, setGameState, setupEntities, focusOn, playActionAnim, setHero, levelUpHero, encounterBegin} = army;
+  const {MOD_HERO, SET_GAME_STATE, SETUP_ENTITIES, FOCUS_ON, PLAY_ACTION_ANIM, SET_HERO, LEVEL_UP_HERO, ENCOUNTER_BEGIN} = army;
 
   const mapRef = useRef(null);
 
@@ -29,8 +29,8 @@ export default function SingleAdventure({state, army}) {
   }, [mapRef, hero?.coord])
 
   const playAnim = anim => {
-    playActionAnim(anim);
-    setTimeout(_ => playActionAnim(null) , 330);
+    PLAY_ACTION_ANIM(anim);
+    setTimeout(_ => PLAY_ACTION_ANIM(null) , 330);
   };
 
   useEffect( () => {
@@ -51,32 +51,32 @@ export default function SingleAdventure({state, army}) {
 
     const entitiesLookup:Record<string, Mob> = Object.fromEntries(entitiesArray.map(mob => [mob.uid, mob]));
 
-    setupEntities(entitiesLookup);
+    SETUP_ENTITIES(entitiesLookup);
 
-    modHero(h => ({...h, coord: HERO_STARTING_COORD}));
+    MOD_HERO(h => ({...h, coord: HERO_STARTING_COORD}));
   }, []);
 
   useEffect(() => {
     if (combatResult === CombatOutcome.HERO_DIE) {
-      setHero(null);
-      setGameState(GameMode.ROLL_CHARACTER);
+      SET_HERO(null);
+      SET_GAME_STATE(GameMode.ROLL_CHARACTER);
     }
 
     if (combatResult?.outcome === CombatOutcome.NPC_DIE) {
-      levelUpHero();
+      LEVEL_UP_HERO(null);
     }
   }, [combatResult]);
 
-  const infoAbout = npc => () => focusOn(npc.uid);
-  const handleToStart = () => setGameState(GameMode.ROLL_CHARACTER)
+  const infoAbout = npc => () => FOCUS_ON(npc.uid);
+  const handleToStart = () => SET_GAME_STATE(GameMode.ROLL_CHARACTER)
   const moveHero = direction => ({coord, ...rest}) => {
     const target = coord + direction;
-    focusOn(null);
+    FOCUS_ON(null);
     if (dryLand.includes(target)) {
       const who = Object.values(entities).filter(capableOfAction).find(({coord}) => coord === target );
       if (who) {
-        focusOn(who?.uid);
-        encounterBegin();
+        FOCUS_ON(who?.uid);
+        ENCOUNTER_BEGIN(null);
         return ({coord, ...rest});
       }
       return ({coord: target, ...rest});
@@ -105,7 +105,7 @@ export default function SingleAdventure({state, army}) {
           <FaceSprite 
             data-face={hero?.avatar} 
             style={coordToStyle(hero.coord)} 
-            onClick={() => focusOn(null)}
+            onClick={() => FOCUS_ON(null)}
           />
         )}
       </div>
@@ -113,11 +113,11 @@ export default function SingleAdventure({state, army}) {
     {!entities[focus] && (
       <section className="m-4 grid grid-cols-3 gap-2">
         <div></div>
-        <button className="rounded-lg p-2 text-lg bg-sky-600" onClick={ _ => modHero(moveHero(-1000))}>north</button>
+        <button className="rounded-lg p-2 text-lg bg-sky-600" onClick={ _ => MOD_HERO(moveHero(-1000))}>north</button>
         <div></div>
-        <button className="rounded-lg p-2 text-lg bg-sky-600" onClick={ _ => modHero(moveHero(   -1))}>west</button>
-        <button className="rounded-lg p-2 text-lg bg-sky-600" onClick={ _ => modHero(moveHero( 1000))}>south</button>
-        <button className="rounded-lg p-2 text-lg bg-sky-600" onClick={ _ => modHero(moveHero(    1))}>east</button>
+        <button className="rounded-lg p-2 text-lg bg-sky-600" onClick={ _ => MOD_HERO(moveHero(   -1))}>west</button>
+        <button className="rounded-lg p-2 text-lg bg-sky-600" onClick={ _ => MOD_HERO(moveHero( 1000))}>south</button>
+        <button className="rounded-lg p-2 text-lg bg-sky-600" onClick={ _ => MOD_HERO(moveHero(    1))}>east</button>
       </section>
     )}
 

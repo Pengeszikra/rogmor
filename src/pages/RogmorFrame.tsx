@@ -1,12 +1,17 @@
 import { MobilFrame } from '../gui/MobilFrame';
 import { GameMode, gameReducer, initialState, labels } from '../rpg/singlePlayerTroll';
-import SingleAdventure from '../components/SingleAdventure';
+import { SingleAdventure } from '../components/SingleAdventure';
 import { CreateHero } from '../components/CreateHero';
 import Head from 'next/head';
 import { Blog } from '../components/Blog';
 import { mainSaga } from '../lib/mainSaga';
 import CombatZone from 'src/components/CombatZone';
-import { useSagaFactory, useStateFactory } from 'react-state-factory';
+import { typedPutActionMapFactory, useSagaFactory, useStateFactory } from 'react-state-factory';
+
+function * saga() {
+  const put = typedPutActionMapFactory(labels);
+  yield put.TALK("hello");
+}
 
 const RogmorFrame = () => {
   const [state, army] = useStateFactory(gameReducer, initialState, labels);
