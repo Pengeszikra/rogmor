@@ -46,3 +46,18 @@ This program already contain 680 LOC so is not big, as expected this complexity.
 `kiro` looks worth terminal 
 
 
+## raid altok
+
+(https://link.plrm.zone/app/hvzh1)
+
+### names:
+
+irdatlan.imre irdatlanimre@gmail.com worek..768
+
+letollak.laca 
+
+ordas.oliver
+
+peter.fencer@proton.me week3nd-787
+
+Here's my install link for Raid: Shadow Legends. Get it through this link and both of us will get some free stuff to boost us along! https://link.plrm.zone/app/hvzh1

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Team } from 'src/rpg/profession';
-import { MainState } from 'src/rpg/singlePlayerTroll';
+import { MainState } from 'src/rpg/singlePlayerFactory';
 import { EntityCard } from './EntityCard'; 
 
 export const PlaceOfMob = () => (<div className='w-32' />); 

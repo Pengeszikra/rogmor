@@ -5,7 +5,11 @@ import {  rnd, shuffle, uid, pickOne } from "../rpg/rpg";
 
 import HeroCard from "../gui/HeroCard";
 import { FaceSprite } from "../gui/setOfGuiElements";
+<<<<<<< Updated upstream
 import { CombatOutcome, GameMode, MainState } from "../rpg/singlePlayerTroll";
+=======
+import { CombatOutcome, GameMode, MainState, StateArmy } from "../rpg/singlePlayerFactory";
+>>>>>>> Stashed changes
 import { mobFactory, professionList, traitsFactory, Team, Mob } from "../rpg/profession";
 import { generateName } from "../rpg/generateName";
 

@@ -3,7 +3,11 @@ import HeroCard from '../gui/HeroCard';
 import getConfig from 'next/config';
 
 import { FaceSprite, LoginWindow, Button } from '../gui/setOfGuiElements';
+<<<<<<< Updated upstream:src/components/CreateHero.js
 import { GameMode } from '../rpg/singlePlayerTroll';
+=======
+import { GameMode, StateArmy } from '../rpg/singlePlayerFactory';
+>>>>>>> Stashed changes:src/components/CreateHero.tsx
 import { mobFactory, Team, traitsFactory } from '../rpg/profession';
 import { generateName } from '../rpg/generateName';
 import { limitedProfessionWithSkills } from '../rpg/limitedProfessionWithSkills';

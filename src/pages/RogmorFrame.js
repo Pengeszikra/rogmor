@@ -1,18 +1,25 @@
 import { MobilFrame } from '../gui/MobilFrame';
-import { GameMode, gameReducer, getActionsLookup, initialState } from '../rpg/singlePlayerTroll';
-import SingleAdventure from '../components/SingleAdventure';
-import CreateHero from '../components/CreateHero';
+import { GameMode, MainState, gameReducer, initialState, labels } from '../rpg/singlePlayerFactory';
+import { SingleAdventure } from '../components/SingleAdventure';
+import { CreateHero } from '../components/CreateHero';
 import Head from 'next/head';
 import { Blog } from '../components/Blog';
 import { useSagaReducer } from 'use-saga-reducer';
 import { getDispatchedActions } from 'react-troll';
 import { mainSaga } from '../lib/mainSaga';
 import CombatZone from 'src/components/CombatZone';
+import { GeneratorSaga, typedPutActionMapFactory, useSagaFactory, useStateFactory } from 'react-state-factory';
+import { useEffect } from 'react';
 
 const RogmorFrame = () => {
-  const [state, dispatch] = useSagaReducer(mainSaga, gameReducer, initialState);
-  const army = getDispatchedActions(getActionsLookup(), dispatch);
+  const [state, army] = useStateFactory(gameReducer, initialState, labels);
+  const sagaResult = useSagaFactory(gameReducer, initialState, labels, saga);
   const {game, hero} = state;
+
+  useEffect(() => {
+    console.log(sagaResult)
+    return () => console.log('-clean-');
+  }, [sagaResult]);
 
   return (
     <section className='portal-root m-2'>

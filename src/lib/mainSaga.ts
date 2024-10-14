@@ -1,8 +1,6 @@
+import { Saga } from 'redux-saga';
 import { take, fork, call, all, delay, select, cancel, race } from 'redux-saga/effects';
-import { 
-  ENCOUNTER_RESULT, ENCOUNTER_BEGIN, ENCOUNTER_OUTCOME, FOCUS_ON, 
-  HEART_BEAT, MainState, PLAY_FLOW, SET_AUTO_FIGHT, 
-  SET_MOB_LIST, USE_SKILL, LEVEL_UP_HERO } from '../rpg/singlePlayerTroll';
+import { MainState, labels } from '../rpg/singlePlayerFactory';
 import { putAction } from '../util/putAction';
 import { Mob, Team, ProfessionKey, mobFactory, traitsFactory } from '../rpg/profession';
 import { improved, dice, pickOne, uid } from '../rpg/rpg';
@@ -14,7 +12,7 @@ const slash = p => p;
 
 const BATTLE_SPEED = 222;
 
-export function * mainSaga() {
+export function * mainSaga () {
   yield all([
     fork(combatZoneSaga),
   ]);
@@ -28,7 +26,7 @@ const getSkillObject = (m:Mob):Partial<SlashObject>[][] => skillForProf[m.profes
 
 export function * combatZoneSaga() {
   while (true) {
-    yield take(ENCOUNTER_BEGIN);
+    yield take(labels.ENCOUNTER_BEGIN);
 
     const {hero}:MainState = yield select();
 
@@ -48,7 +46,7 @@ export function * combatZoneSaga() {
       makeMob(lvl, type, team, avatar)
     );
 
-    yield putAction(SET_MOB_LIST, combatSetupMobList)
+    yield putAction(labels.SET_MOB_LIST, combatSetupMobList)
     let mobList = combatSetupMobList;
 
     _CombatIsOver_: while (true) {
@@ -56,7 +54,7 @@ export function * combatZoneSaga() {
 
       while (order.length) {
         const [actor]:OrderOfSeed = order.shift();
-        yield putAction(PLAY_FLOW, {who: actor.uid});
+        yield putAction(labels.PLAY_FLOW, {who: actor.uid});
         const skillList = getSkillObject(actor);
 
         // mob always use A1
@@ -69,17 +67,17 @@ export function * combatZoneSaga() {
 
           const [, command] = yield race([
             delay(BATTLE_SPEED),
-            take([HEART_BEAT, ENCOUNTER_OUTCOME]),
+            take([labels.HEART_BEAT, labels.ENCOUNTER_OUTCOME]),
           ])
 
-          if (command?.type === ENCOUNTER_OUTCOME) break _CombatIsOver_;
+          if (command?.type === labels.ENCOUNTER_OUTCOME) break _CombatIsOver_;
 
           const skill = subList.shift();
           const [aiTargetting, skillResult] = getSkillResult(actor, skill, mobList);
-          yield putAction(PLAY_FLOW, aiTargetting);
-          yield putAction(PLAY_FLOW, skillResult);
+          yield putAction(labels.PLAY_FLOW, aiTargetting);
+          yield putAction(labels.PLAY_FLOW, skillResult);
           mobList = yield call(skillReducer, mobList, skillResult);
-          yield putAction(SET_MOB_LIST, mobList);
+          yield putAction(labels.SET_MOB_LIST, mobList);
 
           const isTwoTeam = mobList
             .filter(isCapableToAction)
@@ -88,7 +86,7 @@ export function * combatZoneSaga() {
           ;
 
           if(!isTwoTeam) {
-            yield putAction(FOCUS_ON, null);
+            yield putAction(labels.FOCUS_ON, null);
             break _CombatIsOver_;
           }
         }
@@ -100,8 +98,8 @@ export function * combatZoneSaga() {
 
 function * userChoiceTheSkillSaga(skillList:Partial<SlashObject>[][], actor:Mob, isAutoFight: boolean) {
   if (actor.team !== Team.GOOD || isAutoFight) return skillList.at(0)
-  const {payload: skillIndex, type} = yield take([USE_SKILL, SET_AUTO_FIGHT, ENCOUNTER_OUTCOME]); // TODO really bad solution!
-  return (type !== ENCOUNTER_OUTCOME)
+  const {payload: skillIndex, type} = yield take([labels.USE_SKILL, labels.SET_AUTO_FIGHT, labels.ENCOUNTER_OUTCOME]); // TODO really bad solution!
+  return (type !== labels.ENCOUNTER_OUTCOME)
     ? skillList.at(skillIndex)
     : null
   ;
@@ -109,13 +107,13 @@ function * userChoiceTheSkillSaga(skillList:Partial<SlashObject>[][], actor:Mob,
 
 function * calculateEncounterResultSaga(mobList:Mob[]) {
   // const {hero} = yield select();
-  yield putAction(SET_MOB_LIST, []);
+  yield putAction(labels.SET_MOB_LIST, []);
   const survivors = mobList.filter(isCapableToAction);
   const heroTeams = survivors.filter(mob => mob.team === Team.GOOD)
 
   yield putAction(
-    ENCOUNTER_RESULT, 
+    labels.ENCOUNTER_RESULT, 
     survivors.length - heroTeams.length
   );
-  yield putAction(LEVEL_UP_HERO, 1);
+  yield putAction(labels.LEVEL_UP_HERO, 1);
 }
