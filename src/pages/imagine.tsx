@@ -1,9 +1,6 @@
 import { useState } from 'react';
-import { MobilFrame } from 'src/gui/MobilFrame';
-import { select } from 'redux-saga/effects';
-import Dream from 'dream-api';
 
-export default () => {
+const ImaginePage = () => {
   // get image from api
   const [image, setImage] = useState(null); // image url
   const [seek, setSeek] = useState(''); // image url
@@ -12,12 +9,11 @@ export default () => {
   const [debug, trace] = useState({});
 
   const getImage = async () => {
-    // const res = await fetch(`/api/ai-image?seek=${seek}&n=${n}&size=${size}`);
-    // const json = await res.json();
-    // trace(json);
-    // const image = await Dream.generateImage(1, seek);
-    const token = await Dream.signIn(['csakracsongor@gmail.com','ccsongor'])
-    trace(token);
+    const res = await fetch(`/api/ai-image?seek=${encodeURIComponent(seek)}&n=${n}&size=${size}`);
+    const json = await res.json();
+    trace(json);
+    // Note: Dream API integration removed - hardcoded credentials security issue
+    // If needed, implement proper authentication flow with environment variables
   };
 
 
@@ -30,4 +26,6 @@ export default () => {
         <pre>{JSON.stringify(debug,null,2)}</pre>
       </div>
   );
-}
+};
+
+export default ImaginePage;

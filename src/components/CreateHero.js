@@ -1,6 +1,5 @@
 import { rnd, uid, pickOne } from '../rpg/rpg';
 import HeroCard from '../gui/HeroCard';
-import getConfig from 'next/config';
 
 import { FaceSprite, LoginWindow, Button } from '../gui/setOfGuiElements';
 import { GameMode } from '../rpg/singlePlayerTroll';
@@ -10,11 +9,11 @@ import { limitedProfessionWithSkills } from '../rpg/limitedProfessionWithSkills'
 import { MainState } from 'src/rpg/singlePlayerTroll';
 import { skillForProf } from 'src/rpg/limitedProfessionWithSkills';
 
+const version = process.env.NEXT_PUBLIC_VERSION || '0.3.99';
+
 export default function CreateHero({state, army}) {
   const { hero } = state;
   const { setHero, setGameState } = army;
-
-  const { publicRuntimeConfig:{version} } = getConfig();
 
   const handleRollHero = () => setHero(mobFactory(
     generateName(),

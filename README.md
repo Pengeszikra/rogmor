@@ -1,28 +1,61 @@
-# [Rogmor](https://rogmor.vercel.app/) nextjs implemented RPG
-> [at first created on stackblitz](https://stackblitz.com/edit/rogmor)
-I founded my old RPG graphic on my desktop, so my plan is create some RPG 
-game on react stack, maybe PWA output, easy as possible.
+# [Rogmor](https://rogmor.vercel.app/) 
+A minimal MMORPG started a long time ago:
+> [initially created on stackblitz](https://stackblitz.com/edit/rogmor)
 
-## AI improvements 
-( - - this README is very organic, updated time to time, very sensitive of development process - - )
+I found my old RPG graphics on my desktop, so my plan is to create an RPG 
+game on the React stack, maybe with PWA output, as easy as possible.
 
-In this year - 2023 - the AI ... chatGPT give me many idea about how can I help to improve my developing process, I post basic things about in this post:
+## Recent Updates (2026-02-16)
+
+### Security & Dependency Updates
+The project has been modernized with latest dependencies and security fixes:
+
+**Major Version Updates:**
+- ✅ Next.js 14.2 → 15.5.12 (fixes DoS vulnerabilities)
+- ✅ React 18.3 → 19.2.4
+- ✅ TypeScript 4.7 → 5.9.3
+- ✅ MongoDB driver 4.x → 6.x
+- ✅ Node.js requirement: 18+ (previously 16)
+
+**Security Improvements:**
+- ✅ Removed hardcoded credentials and API keys from source code
+- ✅ Added input validation to API routes (`/api/ai`, `/api/ai-image`)
+- ✅ Fixed middleware authentication with proper error handling
+- ✅ Migrated from deprecated `publicRuntimeConfig` to `env` variables
+- ✅ **pnpm audit:** No known vulnerabilities found
+
+**Code Quality:**
+- ✅ ESLint: Switched to `@typescript-eslint` parser
+- ✅ Removed Jest and Cypress test dependencies (cleanup)
+- ✅ Build successfully compiles with no errors
+
+**⚠️ Manual Steps Required:**
+If you're setting up this project, make sure to:
+1. Create `.env.local` file with your API keys (see `.env.local.example` if available)
+2. Never commit API keys or secrets to version control
+3. For production: Use Vercel Environment Variables
+
+## AI Improvements 
+In 2023, AI and ChatGPT gave me many ideas about how to improve my development process. I posted about this here:
+
+**2026 Update:** Modernized with GitHub Copilot CLI
+
 
 [Using ChatGPT for Complex Fantasy Story and Programming Creation](https://dev.to/pengeszikra/using-chatgpt-for-complex-fantasy-story-and-programming-creation-5go5)
 
-## Next goal:
-reworking this project to ```typescript``` and ```nextjs``` builded by ```SWC```
+## Next Goal:
+Reworking this project to **TypeScript** and **Next.js** built with **SWC**.
 
-This is the next iteration of my dreams because it focus be realised as nextjs project. Rogmor development started bye a stackblitz application in next step is made of react application until now but now we focus go into the server.
+This is the next iteration of my vision because it focuses on being realized as a Next.js project. Rogmor development started as a StackBlitz application, then became a React application, and now we're focusing on going into the server side.
 
 ![compact view of development](./_documents/start-moment-of-nextjs.png)
 compact view of development
 
 [How to make a MMORPG](https://noobtuts.com/articles/how-to-make-a-mmorpg)
 
-Question is: what is the minimal requirement for usable mobil mmorpg ?
+Question: What is the minimal requirement for a usable mobile MMORPG?
 
-## step of simplify:
+## Steps to Simplify:
   - 2d images
   - basic interface
   - minimal animation

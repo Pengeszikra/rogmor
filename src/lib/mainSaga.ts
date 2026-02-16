@@ -44,9 +44,10 @@ export function * combatZoneSaga() {
       [hero.level, pickProf(), Team.GOOD, dice(100)],
     ]
     
-    const combatSetupMobList = testTeams.map(([lvl, type, team, avatar]:[number, ProfessionKey, Team, number]) => 
-      makeMob(lvl, type, team, avatar)
-    );
+    const combatSetupMobList = testTeams.map((item: any) => {
+      const [lvl, type, team, avatar] = item as [number, ProfessionKey, Team, number];
+      return makeMob(lvl, type, team, avatar);
+    });
 
     yield putAction(SET_MOB_LIST, combatSetupMobList)
     let mobList = combatSetupMobList;

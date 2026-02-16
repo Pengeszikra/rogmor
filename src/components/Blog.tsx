@@ -1,6 +1,5 @@
 import { useState, useEffect, FC } from 'react';
 import { FaceSprite } from '../gui/setOfGuiElements';
-import ReactMarkdown from 'react-markdown';
 
 interface InputEvent {
   target: {

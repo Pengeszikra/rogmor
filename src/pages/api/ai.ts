@@ -1,33 +1,52 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
-req: NextApiRequest,
+  req: NextApiRequest,
   res: NextApiResponse
 ) {
+  // Input validation
+  if (!req.query?.seek || typeof req.query.seek !== 'string') {
+    return res.status(400).json({msg: "Invalid or missing 'seek' parameter"});
+  }
 
-  if (!req.query?.seek) return res.status(404).json({msg:"- - Seek something? - -"});
+  const seek = req.query.seek.trim();
+  
+  if (!seek || seek.length > 2000) {
+    return res.status(400).json({msg: "Prompt must be between 1 and 2000 characters"});
+  }
 
-  const key = process.env.GPT_3_KEY || '- - -';
+  const key = process.env.GPT_3_KEY;
+  
+  if (!key) {
+    return res.status(500).json({msg: "API key not configured"});
+  }
 
-  const headers = new Headers({
-    'Authorization': `Bearer ${key}`,
-    'Content-Type': 'application/json',
-  });
-
-  fetch(
-    "https://api.openai.com/v1/completions",
-    {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({
-        "model": "text-davinci-003",
-        "prompt": req.query.seek,
-        "max_tokens": 4000,
-        "temperature": 1.0
-      })
+  try {
+    const response = await fetch(
+      "https://api.openai.com/v1/completions",
+      {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${key}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          "model": "text-davinci-003",
+          "prompt": seek,
+          "max_tokens": 4000,
+          "temperature": 1.0
+        })
+      }
+    );
+    
+    const data = await response.json();
+    
+    if (!response.ok) {
+      return res.status(response.status).json({msg: "API request failed", error: data});
     }
-  )
-  .then(r => r.json())
-  .then(msg => res.status(200).json(msg?.choices?.[0]?.text || '- - no answer - -'))
-  .catch(error => res.status(404).json(error))
+    
+    return res.status(200).json(data?.choices?.[0]?.text || '- - no answer - -');
+  } catch (error) {
+    return res.status(500).json({msg: "Internal server error"});
+  }
 }

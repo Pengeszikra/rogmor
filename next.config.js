@@ -4,7 +4,7 @@ module.exports = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  publicRuntimeConfig: {
-    version,
+  env: {
+    NEXT_PUBLIC_VERSION: version,
   },
-}
+};
