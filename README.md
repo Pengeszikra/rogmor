@@ -5,6 +5,40 @@ A minimal MMORPG started a long time ago:
 I found my old RPG graphics on my desktop, so my plan is to create an RPG 
 game on the React stack, maybe with PWA output, as easy as possible.
 
+## analysis
+```text
+Rogmor - Code Architecture & Gameplay Summary
+  Game Type
+  A minimal browser-based MMORPG with turn-based tactical combat, designed mobile-first as a Progressive Web App.
+  Technical Stack
+   - Frontend: Next.js 15 + React 19 + TypeScript
+   - Styling: Tailwind CSS + SCSS
+   - State: Redux-Saga for complex combat orchestration
+   - Backend: GraphQL (Apollo) + MongoDB
+   - Build: Next.js with SWC compiler
+  Architecture
+   src/
+   ├── rpg/          # Game logic (stats, professions, skill parser)
+   ├── gui/          # UI components (hero cards, windows, battle UI)
+   ├── components/   # Page-level components (CombatZone, CreateHero)
+   ├── lib/          # mainSaga.ts (combat engine orchestration)
+   ├── graphql/      # API schema & resolvers
+   └── pages/        # Next.js routes
+  Core Gameplay
+  7 Character Attributes: Body, Reflex, Soul, Aura, Stamina, Focus, Morale
+  Combat Mechanics:
+   - Speed-based turn order (reflex + modifiers)
+   - 3 interaction types: Physical, Soul, Social
+   - Team-based battles (PLAYER vs BAD)
+   - Auto-fight or manual skill selection (3 slots: Alfa/Beta/Delta)
+  Unique Features:
+   - Custom skill language (slash.ts) - Tailwind-like syntax for defining abilities
+   - 50+ character classes with unique stat distributions
+   - Leveling formula: 0.5 × level^4 + (2 × level)
+   - Redux-Saga manages complex combat state flows
+  This is a sophisticated tactical RPG framework emphasizing modularity and extensibility!
+  ```
+
 ## Recent Updates (2026-02-16)
 
 ### Security & Dependency Updates
